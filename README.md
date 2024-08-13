@@ -1,16 +1,20 @@
-# mr_meal
+# Mr. Meal
 
-A new Flutter project.
+Here is the apk download link for the Flutter project:
 
-## Getting Started
+- [Mr meal.apk](https://github.com/Safius-Sifat/Mr-Meal/releases/download/v1.0.0%2B1/app-release.apk)
 
-This project is a starting point for a Flutter application.
+## Preview
 
-A few resources to get you started if this is your first Flutter project:
+<table style="width:100%">
+  <tr>
+    <th>Home Screen (1)</th>
+    <th>Home Screen (2)</th> 
+  </tr>
+  <tr>
+    <td><img src="assets/1.jpg" /></td>
+    <td><img src="assets/2.jpg" /></td>
+</table>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Thanks for letting me have the opportunity. Looking forward to hear from you again.
