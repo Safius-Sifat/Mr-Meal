@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_sizes.dart';
 import '../../constants/constants.dart';
-import '../../utils/size_config.dart';
 
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({super.key});
@@ -9,8 +8,8 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getProportionateScreenHeight(20),
-      width: getProportionateScreenWidth(60),
+      height: 20,
+      width: 60,
       child: ElevatedButton(
         onPressed: () {},
         style: ButtonStyle(
