@@ -2,6 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/authentication/presentation/login_screen.dart';
+import '../features/authentication/presentation/register_screen.dart';
+import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/products/presentation/home_screen.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -9,6 +12,9 @@ import 'scaffold_with_nested_navigation.dart';
 part 'app_router.g.dart';
 
 enum AppRoute {
+  welcome,
+  login,
+  register,
   home,
   order,
   cart,
@@ -27,10 +33,32 @@ final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 @riverpod
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/welcome',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
+      GoRoute(
+          path: '/welcome',
+          name: AppRoute.welcome.name,
+          pageBuilder: (context, state) => const NoTransitionPage(
+                child: WelcomeScreen(),
+              ),
+          routes: [
+            GoRoute(
+              path: 'login',
+              name: AppRoute.login.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: LoginScreen(),
+              ),
+            ),
+            GoRoute(
+              path: 'register',
+              name: AppRoute.register.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: RegisterScreen(),
+              ),
+            ),
+          ]),
       StatefulShellRoute.indexedStack(
         pageBuilder: (context, state, navigationShell) => NoTransitionPage(
           child: ScaffoldWithNestedNavigation(navigationShell: navigationShell),

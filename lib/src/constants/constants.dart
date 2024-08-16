@@ -33,6 +33,13 @@ const String search = 'assets/search.svg';
 const String vegBox = 'assets/package-4.png';
 const String vegetable = 'assets/food-4.png';
 
+// welcome screen
+const String logo = 'assets/logo.png';
+const String welcome = 'assets/welcome.png';
+// login regiser screen
+const String login = 'assets/login_image.png';
+const String google = 'assets/google.png';
+const String guest = 'assets/guest_star.png';
 // colors
 const Color primaryColor = Color(0xFFED1E24);
 const Color secondaryColor = Color(0xFFE7E7E7);
@@ -40,3 +47,8 @@ const Color tertiaryColor = Color(0xFFF2F2F2);
 const Color textColor = Color(0xFF000000);
 const Color textSecondaryColor = Color(0xFF1E1E1E);
 const Color neutralColor = Color(0xFFFFFFFF);
+
+// text field
+const Color textFieldColor = Color(0xFFF3F3F3);
+const Color textFieldBorder = Color(0xFFB2AEAE);
+const Color textFieldHint = Color(0xFF8E8E8E);

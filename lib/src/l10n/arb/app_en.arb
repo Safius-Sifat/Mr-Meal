@@ -1,0 +1,141 @@
+{
+  "@@locale": "en",
+  "appDescription": "Agrimate is a platform that connects farmers with buyers and provides them with the tools to manage their farm.",
+  "appTitle": "Agrimate",
+  "appSlogan": "Every Farmer's friend",
+  "storageError": "Oops, there's a problem accessing local storage.",
+  "email": "Email",
+  "name": "Name",
+  "gender": "Gender",
+  "selectGender": "Select your Gender",
+  "male" : "Male",
+  "female": "Female",
+  "other": "Other",
+  "farmer": "Farmer",
+  "businessman": "Businessman",
+  "profession": "Profession",
+  "selectProfession": "Select your Profession",
+  "welcome": "Welcome to",
+  "selectLanguage": "Select your language",
+  "home": "Home",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Register",
+  "registerAccount": "Register Account",
+  "registerDescription":"Complete your details to create an account and continue",
+  "yes": "Yes",
+  "no": "No",
+  "continueText": "Continue",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "close": "Close",
+  "knowledge": "Knowledge",
+  "market": "Market",
+  "profile": "Profile",
+  "weather": "Weather",
+  "insurance": "Insurance",
+  "blog": "Blog",
+  "videos": "Videos",
+  "noBlog": "No blog available",
+  "noVideo": "No video available",
+  "doLogin": "Login ",
+  "doRegister": "Register",
+  "noAccount": "Don't have an account?",
+  "haveAccount": "Already have an account?",
+  "loginError": "Your email or password is wrong",
+  "emailInUse": "This email is already used. Try signing in .",
+  "passwordWeak": "Your password is too weak.",
+  "forgotPassword": "Forgot password?",
+  "resetPassword": "Reset password",
+  "emailSentText": "We have sent you an Email",
+
+  "resetPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+  "resetPasswordSuccess": "Click on the Password reset link sent to you on {email} to reset your password.\n Then log into your account.",
+  "@resetPasswordSuccess": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "emailNotReceived": "Didn't receive the email?",
+  "sendAgain": "Send again",
+  "emailNotVerified": "Your email is not verified yet. Please verify to continue",
+
+  "resetPasswordError": "Failed to send reset password email. Please try again later.",
+  "emailVerficationLink": "Click on the Email verification link sent to you on {email}\n Then click on next to continue.",
+  "@emailVerficationLink": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "noConnectionError": "Slow or no network connection. Please check your internet settings.",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordVerificationText": "Your password do not match with the confirm password",
+  "passwordVerificationText": "Password must have minimum of 8 characters",
+  "serverError": "Server error occured. Please try again later.",
+  "unknownError": "Something went wrong. Please try again later",
+  "shortPasswordVerificationText": "Password must have minimum of 6 characters",
+  "signIn": "Sign In",
+  "signInStatusError": "Failed to sign in. Please try again later.",
+  "loginWith": "Or Login with Google",
+  "signOut": "Sign Out",
+  "validEmailVerificationText": "Please input a valid email address",
+  "emptyStringVerificationText": "This field cannot be empty",
+  "welcomeUser": "Welcome {userName}",
+  "@welcomeUser": {
+    "placeholders": {
+      "userName": {}
+    }
+  },
+  "profileInfo": "Profile Information",
+  "profileDescription": "Please fill in the following details to complete your profile",
+  "farmerInfo": "Farmer Information",
+  "priceByRegion": "Price by Region",
+  "priceByOutlet": "Price by Outlet",
+  "supermarket": "Supermarket Price",
+  "wholesale": "Wholesale Price",
+  "highEnd": "HighEnd Price",
+  "bestPrice": "Best Price",
+
+  "comingSoon": "Insurance is Coming Soon",
+
+  "today": "Today",
+  "rain": "Rain",
+  "clear": "Clear",
+  "clouds": "Clouds",
+  "dailyForecast": "Daily Forecast",
+  "feelsLike": "Feels like",
+  "humidity": "Humidity",
+  "wind": "Wind",
+  "dailySummary": "Daily Summary ({date})",
+  "@dailySummary": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "retry": "Retry",
+  "weatherError": " Could not fetch current weather data. Please try again later.",
+  "locationServiceError": "Location service is disabled. Please enable location service to view weather data of your location.",
+  "permissionDeniedError": "You have denied permission to access your location. Please enable location access to view weather data of your location.",
+  "permissionDeniedForeverError": "You have permanently denied permission to access your location. This permission is required to view weather data of your location. Please enable location access from your device settings.",
+  "updateAvailable": "Update Available",
+  "downloadSize": "Download size: {size} MB",
+  "@downloadSize": {
+    "placeholders": {
+      "size": {}
+    }
+  },
+  "newVersion": "New Version: {version}",
+  "@newVersion": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "installPermissionDeniedError": "Please enable permission to install the update.",
+  "downloadingUpdate": "Downloading Update...",
+  "downloadUpdate": "Please wait while we download the update",
+  "updateDescription" : "A new version of Agrimate is available. Please update to the latest version.",
+  "update": "UPDATE",
+  "noThanks": "NO THANKS"
+
+}

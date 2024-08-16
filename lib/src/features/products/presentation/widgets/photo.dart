@@ -4,10 +4,18 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../constants/app_sizes.dart';
 
 class Photo extends StatelessWidget {
-  const Photo(this.assetName, {super.key, this.color = Colors.black});
+  const Photo(this.assetName,
+      {super.key,
+      this.color = Colors.black,
+      this.width,
+      this.height,
+      this.fit = BoxFit.cover});
 
   final String assetName;
 
+  final double? width;
+  final double? height;
+  final BoxFit fit;
   final Color color;
   @override
   Widget build(BuildContext context) {
@@ -16,7 +24,9 @@ class Photo extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.p8),
         child: Image.asset(
           assetName,
-          fit: BoxFit.cover,
+          fit: fit,
+          height: height,
+          width: width,
         ),
       );
     } else {
