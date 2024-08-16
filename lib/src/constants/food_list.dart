@@ -1,4 +1,4 @@
-import '../models/food.dart';
+import '../features/products/domain/food.dart';
 import 'constants.dart';
 
 final kFoods = [

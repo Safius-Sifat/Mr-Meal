@@ -1,4 +1,4 @@
-import '../models/package.dart';
+import '../features/products/domain/package.dart';
 import 'constants.dart';
 
 const description = 'This list a wide here range of traditionali Bangladeshi ';

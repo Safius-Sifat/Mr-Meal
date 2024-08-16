@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_sizes.dart';
-import '../../constants/constants.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
 import 'photo.dart';
 
 class NotificationWidget extends StatelessWidget {

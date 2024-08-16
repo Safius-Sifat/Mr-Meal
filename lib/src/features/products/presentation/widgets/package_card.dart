@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../constants/app_sizes.dart';
-import '../../constants/constants.dart';
-import '../../utils/size_config.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
+import '../../../../utils/size_config.dart';
 import 'photo.dart';
 import 'primary_button.dart';
 import 'secondary_button.dart';

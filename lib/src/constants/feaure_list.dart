@@ -1,4 +1,4 @@
-import '../models/features.dart';
+import '../features/products/domain/features.dart';
 import 'constants.dart';
 
 final kfeatures = [

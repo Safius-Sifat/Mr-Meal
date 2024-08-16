@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_sizes.dart';
-import '../constants/constants.dart';
-import '../constants/feaure_list.dart';
-import '../constants/food_list.dart';
-import '../constants/package_list.dart';
-import '../utils/size_config.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
+import '../../../constants/feaure_list.dart';
+import '../../../constants/food_list.dart';
+import '../../../constants/package_list.dart';
+import '../../../utils/size_config.dart';
 import 'widgets/feature_card.dart';
 import 'widgets/food_card.dart';
 import 'widgets/notification_widget.dart';
