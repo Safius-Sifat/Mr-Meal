@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../constants/app_sizes.dart';
+import '../constants/constants.dart';
+import '../features/products/presentation/widgets/photo.dart';
+
 // Stateful navigation based on:
 // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 class ScaffoldWithNestedNavigation extends StatelessWidget {
@@ -24,98 +28,97 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    if (size.width < 450) {
-      return ScaffoldWithNavigationBar(
+    return Scaffold(
         body: navigationShell,
-        currentIndex: navigationShell.currentIndex,
-        onDestinationSelected: _goBranch,
-      );
-    } else {
-      return ScaffoldWithNavigationRail(
-        body: navigationShell,
-        currentIndex: navigationShell.currentIndex,
-        onDestinationSelected: _goBranch,
-      );
-    }
+        bottomNavigationBar:
+            NavBar(pageIndex: navigationShell.currentIndex, onTap: _goBranch));
   }
 }
 
-class ScaffoldWithNavigationBar extends StatelessWidget {
-  const ScaffoldWithNavigationBar({
+class NavBar extends StatelessWidget {
+  final int pageIndex;
+  final void Function(int) onTap;
+
+  const NavBar({
     super.key,
-    required this.body,
-    required this.currentIndex,
-    required this.onDestinationSelected,
+    required this.pageIndex,
+    required this.onTap,
   });
-  final Widget body;
-  final int currentIndex;
-  final ValueChanged<int> onDestinationSelected;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: body,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        destinations: const [
-          // products
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_filled),
-            label: 'Home',
+    return BottomAppBar(
+      color: secondaryColor,
+      elevation: 0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          navItem(
+            home,
+            'Home',
+            pageIndex == 0,
+            onTap: () => onTap(0),
           ),
-          NavigationDestination(
-            icon: Icon(Icons.scanner_outlined),
-            selectedIcon: Icon(Icons.scanner),
-            label: 'Scan',
+          navItem(
+            order,
+            'Order',
+            pageIndex == 1,
+            onTap: () => onTap(1),
+          ),
+          navItem(
+            cart,
+            'Cart',
+            pageIndex == 2,
+            onTap: () => onTap(2),
+          ),
+          navItem(
+            favourite,
+            'Favourite',
+            pageIndex == 3,
+            onTap: () => onTap(3),
+          ),
+          navItem(
+            profile,
+            'Profile',
+            pageIndex == 4,
+            onTap: () => onTap(4),
           ),
         ],
-        onDestinationSelected: onDestinationSelected,
       ),
     );
   }
-}
 
-class ScaffoldWithNavigationRail extends StatelessWidget {
-  const ScaffoldWithNavigationRail({
-    super.key,
-    required this.body,
-    required this.currentIndex,
-    required this.onDestinationSelected,
-  });
-  final Widget body;
-  final int currentIndex;
-  final ValueChanged<int> onDestinationSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          NavigationRail(
-            selectedIndex: currentIndex,
-            onDestinationSelected: onDestinationSelected,
-            labelType: NavigationRailLabelType.all,
-            destinations: const <NavigationRailDestination>[
-              NavigationRailDestination(
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(Icons.home_filled),
-                label: Text('Home'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.scanner_outlined),
-                selectedIcon: Icon(Icons.scanner),
-                label: Text('Scan'),
-              ),
+  Widget navItem(String icon, String name, bool selected,
+      {void Function()? onTap}) {
+    return AnimatedSlide(
+      duration: const Duration(milliseconds: 250),
+      offset: selected ? const Offset(0, -0.25) : Offset.zero,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.p20, vertical: Sizes.p8),
+          decoration: BoxDecoration(
+            color: selected ? primaryColor : Colors.transparent,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(Sizes.p12),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: Sizes.p20,
+                  width: Sizes.p20,
+                  child: Photo(icon,
+                      color: selected ? neutralColor : Colors.black)),
+              gapH4,
+              Text(name,
+                  style:
+                      TextStyle(color: selected ? neutralColor : Colors.black)),
             ],
           ),
-          const VerticalDivider(thickness: 1, width: 1),
-          // This is the main content.
-          Expanded(
-            child: body,
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -19,6 +19,7 @@ class SearchField extends StatelessWidget {
         hintText: 'Search',
         hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: textSecondaryColor,
+              fontSize: Sizes.p16,
             ),
         contentPadding: const EdgeInsets.symmetric(
             horizontal: Sizes.p12, vertical: Sizes.p8),
@@ -33,8 +34,8 @@ class SearchField extends StatelessWidget {
           ],
         ),
         prefixIconConstraints: const BoxConstraints(
-          minWidth: Sizes.p24,
-          minHeight: Sizes.p24,
+          minWidth: Sizes.p16,
+          minHeight: Sizes.p16,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Sizes.p8),

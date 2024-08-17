@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../features/authentication/presentation/login_screen.dart';
 import '../features/authentication/presentation/register_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
+import '../features/cart/presentation/cart_screen.dart';
+import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/home_screen.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -76,24 +78,24 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
             ],
           ),
-          // StatefulShellBranch(navigatorKey: _scanNavigatorKey, routes: [
-          //   GoRoute(
-          //     path: '/order',
-          //     name: AppRoute.order.name,
-          //     pageBuilder: (context, state) => const NoTransitionPage(
-          //       child: OrderScreen(),
-          //     ),
-          //   ),
-          // ]),
-          // StatefulShellBranch(navigatorKey: _scanNavigatorKey, routes: [
-          //   GoRoute(
-          //     path: '/cart',
-          //     name: AppRoute.cart.name,
-          //     pageBuilder: (context, state) => const NoTransitionPage(
-          //       child: CartScreen(),
-          //     ),
-          //   ),
-          // ]),
+          StatefulShellBranch(navigatorKey: _orderNavigatorKey, routes: [
+            GoRoute(
+              path: '/order',
+              name: AppRoute.order.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: OrderScreen(),
+              ),
+            ),
+          ]),
+          StatefulShellBranch(navigatorKey: _cartNavigatorKey, routes: [
+            GoRoute(
+              path: '/cart',
+              name: AppRoute.cart.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: CartScreen(),
+              ),
+            ),
+          ]),
           // StatefulShellBranch(navigatorKey: _scanNavigatorKey, routes: [
           //   GoRoute(
           //     path: '/favourite',

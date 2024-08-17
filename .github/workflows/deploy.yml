@@ -20,7 +20,7 @@ jobs:
           channel: "stable"
           cache: true
       - run: flutter pub get
-      - run: flutter build web -t lib/main_preview.dart --release --base-href=/safius-sifat.github.io/Mr-Meal/
+      - run: flutter build web -t lib/main_preview.dart --release --base-href=/Mr-Meal/
       - run: |
           cd build/web
           git init

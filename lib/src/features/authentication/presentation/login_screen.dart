@@ -128,7 +128,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               gapH16,
               PrimaryButton(
                 text: 'Login'.hardcoded,
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRoute.home.name);
+                },
               ),
               gapH20,
               Row(
