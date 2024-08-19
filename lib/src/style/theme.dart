@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../constants/app_sizes.dart';
 import '../constants/constants.dart';
 
 class MrMealTheme {
@@ -14,17 +15,17 @@ class MrMealTheme {
     ),
     textTheme: TextTheme(
       titleLarge: const TextStyle(
-        fontSize: 12,
+        fontSize: Sizes.p16,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
       titleMedium: const TextStyle(
-        fontSize: 7,
+        fontSize: Sizes.p12,
         fontWeight: FontWeight.w500,
         color: textColor,
       ),
       titleSmall: const TextStyle(
-        fontSize: 9,
+        fontSize: Sizes.p8,
         fontWeight: FontWeight.w300,
         color: textColor,
       ),

@@ -50,40 +50,53 @@ class NavBar extends StatelessWidget {
     return BottomAppBar(
       color: secondaryColor,
       elevation: 0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          navItem(
-            home,
-            'Home',
-            pageIndex == 0,
-            onTap: () => onTap(0),
-          ),
-          navItem(
-            order,
-            'Order',
-            pageIndex == 1,
-            onTap: () => onTap(1),
-          ),
-          navItem(
-            cart,
-            'Cart',
-            pageIndex == 2,
-            onTap: () => onTap(2),
-          ),
-          navItem(
-            favourite,
-            'Favourite',
-            pageIndex == 3,
-            onTap: () => onTap(3),
-          ),
-          navItem(
-            profile,
-            'Profile',
-            pageIndex == 4,
-            onTap: () => onTap(4),
-          ),
-        ],
+      child: SizedBox(
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: navItem(
+                home,
+                'Home',
+                pageIndex == 0,
+                onTap: () => onTap(0),
+              ),
+            ),
+            Expanded(
+              child: navItem(
+                order,
+                'Order',
+                pageIndex == 1,
+                onTap: () => onTap(1),
+              ),
+            ),
+            Expanded(
+              child: navItem(
+                cart,
+                'Cart',
+                pageIndex == 2,
+                onTap: () => onTap(2),
+              ),
+            ),
+            Expanded(
+              child: navItem(
+                favourite,
+                'Favourite',
+                pageIndex == 3,
+                onTap: () => onTap(3),
+              ),
+            ),
+            Expanded(
+              child: navItem(
+                profile,
+                'Profile',
+                pageIndex == 4,
+                onTap: () => onTap(4),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -94,10 +107,12 @@ class NavBar extends StatelessWidget {
       duration: const Duration(milliseconds: 250),
       offset: selected ? const Offset(0, -0.25) : Offset.zero,
       child: InkWell(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(Sizes.p12),
+        ),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.p20, vertical: Sizes.p8),
+          padding: const EdgeInsets.symmetric(vertical: Sizes.p4),
           decoration: BoxDecoration(
             color: selected ? primaryColor : Colors.transparent,
             borderRadius: const BorderRadius.all(

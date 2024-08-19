@@ -10,4 +10,5 @@ final kFoods = [
   Food(name: 'Plain White Rice', image: rice),
   Food(name: 'Basanti Pulao', image: polao),
   Food(name: 'Rice Pudding', image: pudding),
+  Food(name: 'Rice Pudding', image: pudding),
 ];

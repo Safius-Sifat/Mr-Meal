@@ -6,6 +6,7 @@ class SizeConfig {
   static late double screenHeight;
   static late double pixelRatio;
   static double? defaultSize;
+  static bool get isMobile => screenWidth <= 428;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.sizeOf(context);

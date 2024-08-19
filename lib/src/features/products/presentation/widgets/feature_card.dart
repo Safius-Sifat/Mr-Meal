@@ -21,8 +21,8 @@ class FeatureCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: getProportionateScreenWidth(54),
-          height: getProportionateScreenWidth(54),
+          width: getProportionateScreenWidth(Sizes.p48),
+          height: getProportionateScreenWidth(Sizes.p48),
           padding: const EdgeInsets.all(15),
           decoration: const BoxDecoration(
               color: tertiaryColor,

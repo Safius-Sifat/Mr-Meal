@@ -3,53 +3,54 @@ import 'package:flutter/material.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 
-import '../../../../utils/size_config.dart';
+import '../../domain/food.dart';
 import 'photo.dart';
 
 class FoodCard extends StatelessWidget {
   const FoodCard({
     super.key,
-    required this.assetName,
-    required this.name,
+    required this.food,
+    required this.onPressed,
   });
-  final String assetName;
-  final String name;
 
+  final Food food;
+  final void Function() onPressed;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          children: [
-            SizedBox(
-                width: getProportionateScreenWidth(67),
-                height: getProportionateScreenWidth(43),
-                child: Photo(assetName)),
-            Positioned(
-              top: 2,
-              right: 2,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: const BoxDecoration(
-                  color: tertiaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                ),
-                child: const Icon(
-                  Icons.favorite_outline,
-                  color: Colors.black,
-                  size: Sizes.p8,
+    return InkWell(
+      onTap: onPressed,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              AspectRatio(aspectRatio: 1.5, child: Photo(food.image)),
+              Positioned(
+                top: Sizes.p4,
+                right: Sizes.p4,
+                child: Container(
+                  padding: const EdgeInsets.all(Sizes.p4),
+                  decoration: const BoxDecoration(
+                    color: tertiaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
+                  ),
+                  child: const Icon(
+                    Icons.favorite_outline,
+                    color: Colors.black,
+                    size: Sizes.p12,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        gapH4,
-        Text(
-          name,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-      ],
+            ],
+          ),
+          gapH4,
+          Text(
+            food.name,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ],
+      ),
     );
   }
 }

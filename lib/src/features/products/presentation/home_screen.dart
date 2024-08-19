@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/feaure_list.dart';
-import '../../../constants/food_list.dart';
 import '../../../constants/package_list.dart';
 import '../../../utils/size_config.dart';
+import 'food_grid.dart';
 import 'widgets/feature_card.dart';
-import 'widgets/food_card.dart';
 import 'widgets/notification_widget.dart';
 import 'widgets/package_card.dart';
 import 'widgets/photo.dart';
@@ -111,33 +110,62 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               gapH12,
-              Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(Sizes.p8),
-                  decoration: const BoxDecoration(
-                      color: tertiaryColor,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(Sizes.p12)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          // spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ]),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: Sizes.p12,
-                    runSpacing: Sizes.p12,
-                    children: List.generate(8, (index) {
-                      return FoodCard(
-                        name: kFoods[index].name,
-                        assetName: kFoods[index].image,
-                      );
-                    }),
-                  )),
-              gapH16,
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: SizeConfig.isMobile ? 260 : 300,
+                    // padding: const EdgeInsets.all(Sizes.p8),
+                    decoration: const BoxDecoration(
+                        color: tertiaryColor,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(Sizes.p12)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            // spreadRadius: 1,
+                            blurRadius: 8,
+                            offset: Offset(0, 2), // changes position of shadow
+                          ),
+                        ]),
+                    child: const FoodsGrid(),
+                  ),
+                  Positioned(
+                    bottom: -Sizes.p16,
+                    right:
+                        SizeConfig.screenWidth / 2 - Sizes.p96 / 2 - Sizes.p16,
+                    child: Container(
+                      width: Sizes.p96,
+                      padding: const EdgeInsets.all(Sizes.p4),
+                      decoration: const BoxDecoration(
+                          color: tertiaryColor,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(Sizes.p16)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              // spreadRadius: 1,
+                              blurRadius: 2,
+                              offset:
+                                  Offset(0, 2), // changes position of shadow
+                            ),
+                          ]),
+                      child: const Row(
+                        children: [
+                          Text(
+                            'SEE MORE',
+                          ),
+                          gapW4,
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              gapH24,
               SizedBox(
                 width: double.infinity,
                 child: Wrap(
@@ -172,7 +200,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ]),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(4, (index) {
                       return PackageCard(
                         title: kPackages[index].name,
