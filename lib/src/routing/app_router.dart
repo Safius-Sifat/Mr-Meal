@@ -2,12 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../features/authentication/presentation/login_screen.dart';
-import '../features/authentication/presentation/register_screen.dart';
+import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/presentation/login/login_screen.dart';
+import '../features/authentication/presentation/register/register_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/cart_screen.dart';
 import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/home_screen.dart';
+import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
 
@@ -28,16 +30,32 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _orderNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'order');
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
-final _favouriteNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'favourite');
-final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+// final _favouriteNavigatorKey =
+//     GlobalKey<NavigatorState>(debugLabel: 'favourite');
+// final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 
-@riverpod
+@Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/welcome',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
+    redirect: (context, state) {
+      final isLoggedIn = authRepository.currentUser != null;
+      final path = state.uri.path;
+      if (isLoggedIn) {
+        if (path == '/welcome') {
+          return '/';
+        }
+      } else {
+        if (path == '/account' || path == '/order') {
+          return '/welcome';
+        }
+      }
+      return null;
+    },
+    refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
       GoRoute(
           path: '/welcome',

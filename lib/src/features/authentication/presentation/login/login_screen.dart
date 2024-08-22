@@ -1,37 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../common_widgets/primary_button.dart';
-import '../../../constants/app_sizes.dart';
-import '../../../constants/constants.dart';
-import '../../../l10n/string_hardcoded.dart';
-import '../../../routing/app_router.dart';
-import '../../products/presentation/widgets/photo.dart';
+import '../../../../common_widgets/primary_button.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
+import '../../../../l10n/string_hardcoded.dart';
+import '../../../../routing/app_router.dart';
+import '../../../products/presentation/widgets/photo.dart';
+import '../email_password_validators.dart';
+import '../string_validators.dart';
+import 'login_controller.dart';
 
-class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({super.key, this.onSignedIn});
 
+  final VoidCallback? onSignedIn;
   @override
-  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with EmailAndPasswordValidators {
+  final _formKey = GlobalKey<FormState>();
+  final _node = FocusScopeNode();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _phoneController = TextEditingController();
+
+  String get email => _emailController.text;
+  String get password => _passwordController.text;
+// local variable used to apply AutovalidateMode.onUserInteraction and show
+  // error hints only when the form has been submitted
+  var _submitted = false;
+
   @override
   void dispose() {
+    _node.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _phoneController.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit() async {
+    setState(() => _submitted = true);
+    // only submit the form if validation passes
+    if (_formKey.currentState!.validate()) {
+      final controller = ref.read(loginControllerProvider.notifier);
+      final success = await controller.loginWithEmailAndPassword(
+        email,
+        password,
+      );
+      if (context.mounted && success) {
+        widget.onSignedIn?.call();
+        context.goNamed(AppRoute.home.name);
+      }
+    }
+  }
+
+  void _emailEditingComplete() {
+    if (canSubmitEmail(email)) {
+      _node.nextFocus();
+    }
+  }
+
+  void _passwordEditingComplete() {
+    if (!canSubmitEmail(email)) {
+      _node.previousFocus();
+      return;
+    }
+    _submit();
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(loginControllerProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -63,16 +106,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               gapH16,
               TextFormField(
-                textAlign: TextAlign.center,
                 controller: _emailController,
+                textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) =>
+                    !_submitted ? null : emailErrorText(email ?? ''),
+                autocorrect: false,
+                onEditingComplete: _emailEditingComplete,
+                inputFormatters: <TextInputFormatter>[
+                  ValidatorInputFormatter(
+                      editingValidator: EmailEditingRegexValidator()),
+                ],
                 decoration: InputDecoration(
-                  hintText: 'Name, email or username',
+                  hintText: 'Email address',
                   hintStyle: const TextStyle(
                     color: textFieldHint,
                     fontSize: Sizes.p16,
                   ),
+                  enabled: !state.isLoading,
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(color: textFieldColor),
                     borderRadius: BorderRadius.circular(Sizes.p8),
@@ -89,87 +142,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               gapH16,
               TextFormField(
-                textAlign: TextAlign.center,
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Phone number',
-                  hintStyle: const TextStyle(
-                    color: textFieldHint,
-                    fontSize: Sizes.p16,
-                  ),
-                  prefixIcon: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: Sizes.p8),
-                    padding: const EdgeInsets.all(Sizes.p8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Sizes.p8),
-                      color: neutralColor,
-                    ),
-                    child: Text(
-                      '+88',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: Sizes.p12),
-                    ),
-                  ),
-                  prefixIconConstraints: const BoxConstraints(
-                    minHeight: Sizes.p16,
-                    minWidth: Sizes.p16,
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: textFieldColor),
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  filled: true,
-                  fillColor: textFieldColor,
-                ),
-              ),
-              gapH16,
-              TextFormField(
-                textAlign: TextAlign.center,
                 controller: _passwordController,
+                textAlign: TextAlign.center,
                 textInputAction: TextInputAction.done,
                 obscureText: true,
+                autocorrect: false,
+                keyboardType: TextInputType.visiblePassword,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onEditingComplete: _passwordEditingComplete,
+                validator: (password) => !_submitted
+                    ? null
+                    : passwordErrorText(
+                        password ?? '', EmailPasswordSignInFormType.signIn),
                 decoration: InputDecoration(
                   hintText: 'Password',
                   hintStyle: const TextStyle(
                     color: textFieldHint,
                     fontSize: Sizes.p16,
                   ),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: textFieldColor),
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.p8),
-                  ),
-                  filled: true,
-                  fillColor: textFieldColor,
-                ),
-              ),
-              gapH16,
-              TextFormField(
-                textAlign: TextAlign.center,
-                controller: _confirmPasswordController,
-                textInputAction: TextInputAction.done,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Confirm password',
-                  hintStyle: const TextStyle(
-                    color: textFieldHint,
-                    fontSize: Sizes.p16,
-                  ),
+                  enabled: !state.isLoading,
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(color: textFieldColor),
                     borderRadius: BorderRadius.circular(Sizes.p8),
@@ -199,12 +190,65 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                 ],
               ),
-              gapH16,
+              gapH8,
               PrimaryButton(
-                text: 'Sign up'.hardcoded,
-                onPressed: () {},
+                text: 'Login'.hardcoded,
+                isLoading: state.isLoading,
+                onPressed: state.isLoading ? null : _submit,
               ),
               gapH20,
+              Row(
+                children: [
+                  Flexible(
+                    flex: 8,
+                    child: Container(height: 1.5, color: Colors.black),
+                  ),
+                  Flexible(
+                      flex: 2,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: Sizes.p8),
+                        child: Text(
+                          'OR',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontSize: Sizes.p12),
+                        ),
+                      )),
+                  Flexible(
+                    flex: 8,
+                    fit: FlexFit.tight,
+                    child: Container(height: 1.5, color: Colors.black),
+                  )
+                ],
+              ),
+              gapH20,
+              SizedBox(
+                width: double.infinity,
+                height: Sizes.p48,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                          height: Sizes.p20,
+                          width: Sizes.p20,
+                          child: Photo(google)),
+                      gapW8,
+                      Text(
+                        'Sign in with Google'.hardcoded,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontSize: Sizes.p16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              gapH8,
               Row(
                 children: [
                   Checkbox(value: true, onChanged: (value) {}),
@@ -233,17 +277,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Already have an account?'.hardcoded,
+                    Text("Don't have an account?".hardcoded,
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
                             .copyWith(fontSize: Sizes.p16)),
                     TextButton(
                       onPressed: () {
-                        context.goNamed(AppRoute.login.name);
+                        context.goNamed(AppRoute.register.name);
                       },
                       child: Text(
-                        'Sign in'.hardcoded,
+                        'Register now'.hardcoded,
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!
@@ -253,6 +297,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ],
                 ),
               ),
+              gapH8,
+              TextButton.icon(
+                  onPressed: () {},
+                  icon: const SizedBox(
+                    height: Sizes.p16,
+                    width: Sizes.p16,
+                    child: Photo(guest),
+                  ),
+                  label: Text(
+                    'Browse as a guest'.hardcoded,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: Sizes.p16,
+                        ),
+                  ))
             ],
           ),
         )),
