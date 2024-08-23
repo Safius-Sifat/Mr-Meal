@@ -33,6 +33,13 @@ const String search = 'assets/search.svg';
 const String vegBox = 'assets/package-4.png';
 const String vegetable = 'assets/food-4.png';
 
+// category screen
+const String breakfast = 'assets/Breakfast.png';
+const String crisp = 'assets/Crisps.png';
+const String cupcake = 'assets/Cupcake.png';
+const String saleTag = 'assets/Sale tag.png';
+const String turkey = 'assets/Turkey.png';
+
 // welcome screen
 const String logo = 'assets/logo.png';
 const String welcome = 'assets/welcome.png';

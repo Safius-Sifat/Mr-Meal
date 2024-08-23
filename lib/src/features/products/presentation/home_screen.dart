@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/feaure_list.dart';
 import '../../../constants/package_list.dart';
+import '../../../routing/app_router.dart';
 import '../../../utils/size_config.dart';
 import 'food_grid.dart';
 import 'widgets/feature_card.dart';
@@ -40,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
           child: Column(
             children: [
               DecoratedBox(
@@ -133,33 +135,39 @@ class HomeScreen extends StatelessWidget {
                   Positioned(
                     bottom: -Sizes.p16,
                     right:
-                        SizeConfig.screenWidth / 2 - Sizes.p96 / 2 - Sizes.p16,
-                    child: Container(
-                      width: Sizes.p96,
-                      padding: const EdgeInsets.all(Sizes.p4),
-                      decoration: const BoxDecoration(
-                          color: tertiaryColor,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(Sizes.p16)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              // spreadRadius: 1,
-                              blurRadius: 2,
-                              offset:
-                                  Offset(0, 2), // changes position of shadow
+                        SizeConfig.screenWidth / 2 - Sizes.p88 / 2 - Sizes.p8,
+                    child: InkWell(
+                      onTap: () {
+                        context.goNamed(AppRoute.item.name);
+                      },
+                      child: Container(
+                        width: 88,
+                        padding: const EdgeInsets.only(
+                            left: Sizes.p4, top: Sizes.p4, bottom: Sizes.p4),
+                        decoration: const BoxDecoration(
+                            color: tertiaryColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(Sizes.p16)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                // spreadRadius: 1,
+                                blurRadius: 2,
+                                offset:
+                                    Offset(0, 2), // changes position of shadow
+                              ),
+                            ]),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'SEE MORE',
                             ),
-                          ]),
-                      child: const Row(
-                        children: [
-                          Text(
-                            'SEE MORE',
-                          ),
-                          gapW4,
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                          ),
-                        ],
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -176,8 +184,7 @@ class HomeScreen extends StatelessWidget {
                     10,
                     (index) {
                       return FeatureCard(
-                        title: kfeatures[index].title,
-                        assetName: kfeatures[index].image,
+                        feature: kfeatures[index],
                       );
                     },
                   ),
@@ -186,7 +193,7 @@ class HomeScreen extends StatelessWidget {
               gapH12,
               Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(Sizes.p8),
+                  padding: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(
                       color: tertiaryColor,
                       borderRadius:

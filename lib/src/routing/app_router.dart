@@ -8,7 +8,11 @@ import '../features/authentication/presentation/register/register_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/cart_screen.dart';
 import '../features/order/presentation/order_screen.dart';
+import '../features/products/presentation/all_package/package_details_screen.dart';
+import '../features/products/presentation/all_package/package_screen.dart';
+import '../features/products/presentation/category/category_screen.dart';
 import '../features/products/presentation/home_screen.dart';
+import '../features/products/presentation/item_screen/item_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -24,6 +28,10 @@ enum AppRoute {
   cart,
   favourite,
   profile,
+  item,
+  category,
+  package,
+  packageDetail,
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -88,12 +96,41 @@ GoRouter goRouter(GoRouterRef ref) {
             navigatorKey: _homeNavigatorKey,
             routes: [
               GoRoute(
-                path: '/',
-                name: AppRoute.home.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: HomeScreen(),
-                ),
-              ),
+                  path: '/',
+                  name: AppRoute.home.name,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                        child: HomeScreen(),
+                      ),
+                  routes: [
+                    GoRoute(
+                      path: 'item',
+                      name: AppRoute.item.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: ItemScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'category',
+                      name: AppRoute.category.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: CategoryScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'package',
+                      name: AppRoute.package.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: AllPackageScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'packageDetail',
+                      name: AppRoute.packageDetail.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: PackageDetailScreen(),
+                      ),
+                    ),
+                  ]),
             ],
           ),
           StatefulShellBranch(navigatorKey: _orderNavigatorKey, routes: [

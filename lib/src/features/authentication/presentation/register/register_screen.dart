@@ -60,7 +60,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
           name, email, phone, password, confirmPassword);
       if (context.mounted && success) {
         widget.onSignedIn?.call();
-        context.goNamed(AppRoute.home.name);
+        context.pushReplacementNamed(AppRoute.home.name);
       }
     }
   }

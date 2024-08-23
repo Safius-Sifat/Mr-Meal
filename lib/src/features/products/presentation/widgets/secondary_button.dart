@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
+import '../../../../routing/app_router.dart';
 
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({super.key});
@@ -11,7 +13,9 @@ class SecondaryButton extends StatelessWidget {
       height: 20,
       width: 60,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          context.goNamed(AppRoute.packageDetail.name);
+        },
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(secondaryColor),
           padding: WidgetStateProperty.all<EdgeInsetsGeometry>(

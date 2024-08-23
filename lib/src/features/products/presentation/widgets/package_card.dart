@@ -26,6 +26,7 @@ class PackageCard extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(Sizes.p4),
+        margin: const EdgeInsets.all(Sizes.p4),
         decoration: BoxDecoration(
           color: neutralColor,
           border: Border.all(color: tertiaryColor),

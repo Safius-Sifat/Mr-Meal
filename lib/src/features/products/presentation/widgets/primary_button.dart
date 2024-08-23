@@ -4,13 +4,17 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({super.key});
+  const PrimaryButton(
+      {super.key, this.title = 'Order', this.height = 20, this.width = 60});
+  final double height;
+  final double width;
 
+  final String title;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 20,
-      width: 60,
+      height: height,
+      width: width,
       child: ElevatedButton(
         onPressed: () {},
         style: ButtonStyle(
@@ -26,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Order',
+          title,
           style: Theme.of(context)
               .textTheme
               .titleMedium!
