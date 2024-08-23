@@ -86,7 +86,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
       registerControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-
     return Scaffold(
       body: SingleChildScrollView(
         child: FocusScope(
@@ -333,7 +332,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     PrimaryButton(
                       text: 'Sign up'.hardcoded,
                       isLoading: state.isLoading,
-                      onPressed: state.isLoading ? null : _submit,
+                      onPressed: () {
+                        context.goNamed(AppRoute.home.name);
+                      },
                     ),
                     gapH20,
                     Row(

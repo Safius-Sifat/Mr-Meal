@@ -44,26 +44,26 @@ final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
+  // final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/welcome',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
-    redirect: (context, state) {
-      final isLoggedIn = authRepository.currentUser != null;
-      final path = state.uri.path;
-      if (isLoggedIn) {
-        if (path == '/welcome') {
-          return '/';
-        }
-      } else {
-        if (path == '/account' || path == '/order') {
-          return '/welcome';
-        }
-      }
-      return null;
-    },
-    refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
+    // redirect: (context, state) {
+    //   final isLoggedIn = authRepository.currentUser != null;
+    //   final path = state.uri.path;
+    //   if (isLoggedIn) {
+    //     if (path == '/welcome') {
+    //       return '/';
+    //     }
+    //   } else {
+    //     if (path == '/account' || path == '/order') {
+    //       return '/welcome';
+    //     }
+    //   }
+    //   return null;
+    // },
+    // refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
       GoRoute(
           path: '/welcome',

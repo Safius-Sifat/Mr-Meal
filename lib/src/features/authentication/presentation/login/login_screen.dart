@@ -196,7 +196,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 PrimaryButton(
                   text: 'Login'.hardcoded,
                   isLoading: state.isLoading,
-                  onPressed: state.isLoading ? null : _submit,
+                  onPressed: () {
+                    context.goNamed(AppRoute.home.name);
+                  },
                 ),
                 gapH20,
                 Row(

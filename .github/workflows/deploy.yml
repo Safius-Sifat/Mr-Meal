@@ -3,7 +3,7 @@ permissions: write-all
 on:
   push:
     branches:
-      - main
+      - preview
 jobs:
   build:
     name: Build Web
