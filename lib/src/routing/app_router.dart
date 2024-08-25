@@ -12,7 +12,9 @@ import '../features/products/presentation/all_package/package_details_screen.dar
 import '../features/products/presentation/all_package/package_screen.dart';
 import '../features/products/presentation/category/category_screen.dart';
 import '../features/products/presentation/home_screen.dart';
+import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
+import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -28,16 +30,19 @@ enum AppRoute {
   cart,
   favourite,
   profile,
-  item,
+  items,
+  itemDetail,
   category,
   package,
   packageDetail,
+  todaysMenu,
 }
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
+
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _orderNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'order');
-final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 // final _favouriteNavigatorKey =
 //     GlobalKey<NavigatorState>(debugLabel: 'favourite');
 // final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
@@ -103,8 +108,15 @@ GoRouter goRouter(GoRouterRef ref) {
                       ),
                   routes: [
                     GoRoute(
-                      path: 'item',
-                      name: AppRoute.item.name,
+                      path: 'itemDetail',
+                      name: AppRoute.itemDetail.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: ItemDetailScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'items',
+                      name: AppRoute.items.name,
                       pageBuilder: (context, state) => const NoTransitionPage(
                         child: ItemScreen(),
                       ),
@@ -128,6 +140,13 @@ GoRouter goRouter(GoRouterRef ref) {
                       name: AppRoute.packageDetail.name,
                       pageBuilder: (context, state) => const NoTransitionPage(
                         child: PackageDetailScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'todaysMenu',
+                      name: AppRoute.todaysMenu.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: TodaysMenuScreen(),
                       ),
                     ),
                   ]),

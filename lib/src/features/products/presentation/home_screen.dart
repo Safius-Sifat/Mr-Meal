@@ -138,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                         SizeConfig.screenWidth / 2 - Sizes.p88 / 2 - Sizes.p8,
                     child: InkWell(
                       onTap: () {
-                        context.goNamed(AppRoute.item.name);
+                        context.goNamed(AppRoute.items.name);
                       },
                       child: Container(
                         width: 88,

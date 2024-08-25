@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import '../../../../constants/package_list.dart';
 import '../../../../utils/size_config.dart';
-import '../food_grid.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/package_card.dart';
 import '../widgets/photo.dart';
 import 'package_grid.dart';
 
