@@ -47,6 +47,9 @@ const String welcome = 'assets/welcome.png';
 const String login = 'assets/login_image.png';
 const String google = 'assets/google.png';
 const String guest = 'assets/guest_star.png';
+
+// verification screen
+const String letter = 'assets/letter.png';
 // colors
 const Color primaryColor = Color(0xFFED1E24);
 const Color secondaryColor = Color(0xFFE7E7E7);

@@ -22,10 +22,12 @@ Future<void> main() async {
         options.tracesSampleRate = 0.1;
         options.profilesSampleRate = 0.1;
       },
-      appRunner: () => runApp(const ProviderScope(child: MyApp())),
+      appRunner: () => runApp(UncontrolledProviderScope(
+          container: container, child: const MyApp())),
     );
   } else {
-    runApp(const ProviderScope(child: MyApp()));
+    runApp(
+        UncontrolledProviderScope(container: container, child: const MyApp()));
   }
 }
 

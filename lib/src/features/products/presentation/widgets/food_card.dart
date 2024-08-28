@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 
-import '../../domain/food.dart';
+import '../../domain/items.dart';
 import 'photo.dart';
 
 class FoodCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class FoodCard extends StatelessWidget {
     required this.onPressed,
   });
 
-  final Food food;
+  final Datum food;
   final void Function() onPressed;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,11 @@ class FoodCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              AspectRatio(aspectRatio: 1.5, child: Photo(food.image)),
+              AspectRatio(
+                  aspectRatio: 1.5,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(Sizes.p8),
+                      child: NetworkPhoto(food.image))),
               Positioned(
                 top: Sizes.p4,
                 right: Sizes.p4,
@@ -45,7 +50,7 @@ class FoodCard extends StatelessWidget {
           ),
           gapH4,
           Text(
-            food.name,
+            food.itemName,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium,
           ),

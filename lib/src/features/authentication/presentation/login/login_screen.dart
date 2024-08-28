@@ -181,7 +181,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.goNamed(AppRoute.askEmail.name);
+                      },
                       child: Text(
                         'Forgot Password?'.hardcoded,
                         style: Theme.of(context)

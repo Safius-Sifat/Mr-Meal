@@ -14,7 +14,8 @@ class LoggerInterceptor implements Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(
+      Response<dynamic> response, ResponseInterceptorHandler handler) {
     final url =
         '${response.requestOptions.baseUrl}${response.requestOptions.path}';
     _logMessageAndClearStopwatch(

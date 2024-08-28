@@ -36,7 +36,9 @@ class PrimaryButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const CircularProgressIndicator()
+            ? const CircularProgressIndicator(
+                strokeWidth: 2,
+              )
             : Text(
                 text,
                 textAlign: TextAlign.center,

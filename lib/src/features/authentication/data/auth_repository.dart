@@ -15,7 +15,6 @@ class AuthRepository {
   AuthRepository({required this.secureStorage, required this.client}) {
     _initialize();
   }
-  // late final InMemoryStore<AppUser?> _authState;
 
   final _authState = InMemoryStore<AppUser?>(null);
   Future<void> _initialize() async {

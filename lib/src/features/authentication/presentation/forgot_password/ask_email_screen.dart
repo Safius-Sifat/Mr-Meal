@@ -6,16 +6,18 @@ import 'package:go_router/go_router.dart';
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
+import '../../../../l10n/string_hardcoded.dart';
+import '../../../../routing/app_router.dart';
 import '../email_password_validators.dart';
 import '../string_validators.dart';
 
 class AskEmailScreen extends ConsumerStatefulWidget {
   const AskEmailScreen({super.key});
   @override
-  ConsumerState<AskEmailScreen> createState() => _ForgotPasswordState();
+  ConsumerState<AskEmailScreen> createState() => _AskEmailState();
 }
 
-class _ForgotPasswordState extends ConsumerState<AskEmailScreen>
+class _AskEmailState extends ConsumerState<AskEmailScreen>
     with EmailAndPasswordValidators {
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -42,12 +44,12 @@ class _ForgotPasswordState extends ConsumerState<AskEmailScreen>
     //   }
     // });
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              const Spacer(),
               Text('Forgot Password?',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
@@ -60,7 +62,7 @@ class _ForgotPasswordState extends ConsumerState<AskEmailScreen>
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge),
               ),
-              const Spacer(),
+              gapH32,
               Row(
                 children: [
                   const Spacer(),
@@ -104,35 +106,22 @@ class _ForgotPasswordState extends ConsumerState<AskEmailScreen>
                   const Spacer(),
                 ],
               ),
+              const Spacer(flex: 4),
+              Row(
+                children: [
+                  const Spacer(),
+                  Expanded(
+                    flex: 9,
+                    child: PrimaryButton(
+                        text: 'Confirm'.hardcoded,
+                        // isLoading: state.isLoading,
+                        // onPressed: state.isLoading ? null : _submit,
+                        onPressed: () {}),
+                  ),
+                  const Spacer(),
+                ],
+              ),
               const Spacer(),
-
-              // PrimaryButton(
-              //   text: 'Confirm'.hardcoded,
-              //   isLoading: state.isLoading,
-              //   onPressed: state.isLoading ? null : _submit,
-              // ),
-              const Spacer(),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     Text(l10n.noAccount,
-              //         style: Theme.of(context).textTheme.titleMedium),
-              //     TextButton(
-              //         onPressed: () {
-              //           context.goNamed(AppRoutes.register.name);
-              //         },
-              //         child: Text(
-              //           l10n.register,
-              //           style:
-              //               Theme.of(context).textTheme.titleMedium!.copyWith(
-              //                     color: Theme.of(context).colorScheme.primary,
-              //                     decoration: TextDecoration.underline,
-              //                   ),
-              //         )),
-              //   ],
-              // ),
-              // const Spacer(),
             ],
           ),
         ),

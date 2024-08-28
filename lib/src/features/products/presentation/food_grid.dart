@@ -3,37 +3,69 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../constants/app_sizes.dart';
-import '../../../constants/food_list.dart';
 import '../../../routing/app_router.dart';
+import '../data/item_repository.dart';
 import 'widgets/food_card.dart';
 
 /// A widget that displays the list of products that match the search query.
 class FoodsGrid extends ConsumerWidget {
   const FoodsGrid({super.key});
-
+  static const pageSize = 10;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final productsListValue = ref.watch(productsSearchResultsProvider);
-    // return AsyncValueWidget<List<Product>>(
-    //   value: productsListValue,
-    //   data: (products) => products.isEmpty
-    //       ? Center(
-    //           child: Text(
-    //             'No products found'.hardcoded,
-    //             style: Theme.of(context).textTheme.headlineMedium,
-    //           ),
-    //         )
+    final itemsListValue = ref.watch(fetchItemsProvider(page: 1));
+    final totalItems = itemsListValue.valueOrNull?.total;
     return ProductsLayoutGrid(
-      itemCount: kFoods.length,
+      itemCount: totalItems,
       itemBuilder: (_, index) {
-        final food = kFoods[index];
-        return FoodCard(
-            food: food,
-            onPressed: () {
-              context.goNamed(AppRoute.itemDetail.name);
-            });
+        final page = index ~/ pageSize + 1;
+        final indexInPage = index % pageSize;
+
+        final itemsListValue = ref.watch(fetchItemsProvider(page: page));
+        return itemsListValue.when(
+          data: (items) {
+            if (indexInPage >= items.data.length) {
+              return null;
+            }
+            final item = items.data[indexInPage];
+
+            return FoodCard(
+                food: item,
+                onPressed: () {
+                  context.goNamed(AppRoute.itemDetail.name);
+                });
+          },
+          loading: () => Shimmer.fromColors(
+            baseColor: Colors.black26,
+            highlightColor: Colors.black12,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  width: 100,
+                  height: 15,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          error: (e, st) => Text(e.toString()),
+        );
       },
     );
   }
@@ -49,10 +81,10 @@ class ProductsLayoutGrid extends StatelessWidget {
   });
 
   /// Total number of items to display.
-  final int itemCount;
+  final int? itemCount;
 
   /// Function used to build a widget for a given index in the grid.
-  final Widget Function(BuildContext, int) itemBuilder;
+  final Widget? Function(BuildContext, int) itemBuilder;
 
   @override
   Widget build(BuildContext context) {

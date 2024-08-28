@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-class ResetPassword extends ConsumerStatefulWidget {
-  const ResetPassword({required this.email, super.key});
+class ChangePasswordScreen extends ConsumerStatefulWidget {
+  const ChangePasswordScreen({required this.email, super.key});
   final String email;
 
   @override
-  ConsumerState<ResetPassword> createState() => _VerificationScreenState();
+  ConsumerState<ChangePasswordScreen> createState() => _ResetPasswordState();
 }
 
-class _VerificationScreenState extends ConsumerState<ResetPassword> {
+class _ResetPasswordState extends ConsumerState<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Spacer(),
+          Spacer(),
           Expanded(
             child: Row(
               children: [
-                const Spacer(),
+                Spacer(),
                 // Expanded(flex: 8, child: Image.asset(letter)),
-                const Spacer(),
+                Spacer(),
               ],
             ),
           ),
@@ -64,14 +63,14 @@ class _VerificationScreenState extends ConsumerState<ResetPassword> {
               // ),
             ],
           ),
-          const Spacer(),
+          Spacer(),
           // CustomButton(
           //     onPressed: () {
           //       context.goNamed(AppRoutes.login.name);
           //     },
           //     text: l10n.login,
           //     width: 150),
-          const Spacer()
+          Spacer()
         ],
       ),
     );

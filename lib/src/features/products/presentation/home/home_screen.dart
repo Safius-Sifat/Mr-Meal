@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../constants/app_sizes.dart';
-import '../../../constants/constants.dart';
-import '../../../constants/feaure_list.dart';
-import '../../../constants/package_list.dart';
-import '../../../routing/app_router.dart';
-import '../../../utils/size_config.dart';
-import 'food_grid.dart';
-import 'widgets/feature_card.dart';
-import 'widgets/notification_widget.dart';
-import 'widgets/package_card.dart';
-import 'widgets/photo.dart';
-import 'widgets/search_field.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
+import '../../../../constants/feaure_list.dart';
+import '../../../../constants/package_list.dart';
+import '../../../../routing/app_router.dart';
+import '../../../../utils/size_config.dart';
+import '../../data/item_repository.dart';
+import '../food_grid.dart';
+import '../widgets/feature_card.dart';
+import '../widgets/notification_widget.dart';
+import '../widgets/package_card.dart';
+import '../widgets/photo.dart';
+import '../widgets/search_field.dart';
+import 'carousel_slider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends ConsumerWidget {
+  HomeScreen({super.key});
+  final carouselController = CarouselController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -45,44 +49,11 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
           child: Column(
             children: [
-              DecoratedBox(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(Sizes.p12)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 5), // changes position of shadow
-                      ),
-                    ]),
-                child: Stack(
-                  children: [
-                    SizedBox(
-                        height: SizeConfig.screenHeight * 0.2,
-                        width: double.infinity,
-                        child: const Photo(hero)),
-                    Positioned(
-                      left: Sizes.p8,
-                      top: Sizes.p8,
-                      child: Container(
-                        padding: const EdgeInsets.all(Sizes.p16),
-                        decoration: BoxDecoration(
-                          color: neutralColor.withOpacity(0.6),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(Sizes.p8),
-                          ),
-                        ),
-                        child: Text('Fast Order 20% discount',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontSize: Sizes.p12,
-                                )),
-                      ),
-                    ),
-                  ],
+              SizedBox(
+                height: SizeConfig.screenHeight * 0.2,
+                child: CarouselSlider(
+                  value: ref.watch(fetchSlidersProvider),
+                  controller: carouselController,
                 ),
               ),
               gapH12,

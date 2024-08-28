@@ -3,15 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/presentation/forgot_password/ask_email_screen.dart';
+import '../features/authentication/presentation/forgot_password/forgot_password_screen.dart';
 import '../features/authentication/presentation/login/login_screen.dart';
 import '../features/authentication/presentation/register/register_screen.dart';
+import '../features/authentication/presentation/verify_email/verification_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/cart_screen.dart';
 import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
 import '../features/products/presentation/all_package/package_screen.dart';
 import '../features/products/presentation/category/category_screen.dart';
-import '../features/products/presentation/home_screen.dart';
+import '../features/products/presentation/home/home_screen.dart';
 import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
@@ -25,6 +28,10 @@ enum AppRoute {
   welcome,
   login,
   register,
+  askEmail,
+  verifyEmail,
+  forgotPassword,
+  changePassword,
   home,
   order,
   cart,
@@ -78,12 +85,39 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
           routes: [
             GoRoute(
-              path: 'login',
-              name: AppRoute.login.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: LoginScreen(),
-              ),
-            ),
+                path: 'login',
+                name: AppRoute.login.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                      child: LoginScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'askEmail',
+                    name: AppRoute.askEmail.name,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      child: AskEmailScreen(),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'verifyEmail',
+                    name: AppRoute.verifyEmail.name,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      child: VerificationScreen(
+                        // email: state.pathParameters['email']!,
+                        email: 'safiussifat@gmail.com',
+                      ),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'forgotPassword',
+                    name: AppRoute.forgotPassword.name,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      child: ForgotPasswordScreen(
+                        email: 'safiussifat@gmail.com',
+                      ),
+                    ),
+                  ),
+                ]),
             GoRoute(
               path: 'register',
               name: AppRoute.register.name,
@@ -103,7 +137,7 @@ GoRouter goRouter(GoRouterRef ref) {
               GoRoute(
                   path: '/',
                   name: AppRoute.home.name,
-                  pageBuilder: (context, state) => const NoTransitionPage(
+                  pageBuilder: (context, state) => NoTransitionPage(
                         child: HomeScreen(),
                       ),
                   routes: [
