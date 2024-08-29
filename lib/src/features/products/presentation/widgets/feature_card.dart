@@ -17,6 +17,7 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
@@ -43,6 +44,7 @@ class FeatureCard extends StatelessWidget {
         ),
         gapH4,
         Text(feature.title,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontSize: 10,
                 )),

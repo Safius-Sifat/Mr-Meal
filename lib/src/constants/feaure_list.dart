@@ -11,6 +11,4 @@ final kfeatures = [
   Feature(title: 'Delivery Time', image: foodDelivery),
   Feature(title: 'My Meals', image: lunchTime),
   Feature(title: 'My Offer', image: discount),
-  Feature(title: 'Feedback', image: chat),
-  Feature(title: 'My Profile', image: chat),
 ];

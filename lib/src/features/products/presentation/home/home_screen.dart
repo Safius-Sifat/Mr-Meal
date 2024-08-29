@@ -16,6 +16,7 @@ import '../widgets/package_card.dart';
 import '../widgets/photo.dart';
 import '../widgets/search_field.dart';
 import 'carousel_slider.dart';
+import 'feature_grid.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -49,38 +50,8 @@ class HomeScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
           child: Column(
             children: [
-              SizedBox(
-                height: SizeConfig.screenHeight * 0.2,
-                child: CarouselSlider(
-                  value: ref.watch(fetchSlidersProvider),
-                  controller: carouselController,
-                ),
-              ),
-              gapH12,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: Sizes.p12,
-                    width: Sizes.p12,
-                    decoration: const BoxDecoration(
-                        color: primaryColor, shape: BoxShape.circle),
-                  ),
-                  gapW8,
-                  Container(
-                    height: Sizes.p12,
-                    width: Sizes.p12,
-                    decoration: const BoxDecoration(
-                        color: secondaryColor, shape: BoxShape.circle),
-                  ),
-                  gapW8,
-                  Container(
-                    height: Sizes.p12,
-                    width: Sizes.p12,
-                    decoration: const BoxDecoration(
-                        color: secondaryColor, shape: BoxShape.circle),
-                  ),
-                ],
+              CustomCarouselSlider(
+                value: ref.watch(fetchSlidersProvider),
               ),
               gapH12,
               Stack(
@@ -145,22 +116,7 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
               gapH24,
-              SizedBox(
-                width: double.infinity,
-                child: Wrap(
-                  alignment: WrapAlignment.spaceEvenly,
-                  spacing: Sizes.p12,
-                  runSpacing: Sizes.p12,
-                  children: List.generate(
-                    10,
-                    (index) {
-                      return FeatureCard(
-                        feature: kfeatures[index],
-                      );
-                    },
-                  ),
-                ),
-              ),
+              const FeatureGrid(),
               gapH12,
               Container(
                   width: double.infinity,
