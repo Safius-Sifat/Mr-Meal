@@ -83,7 +83,7 @@ class HomeScreen extends ConsumerWidget {
                         context.goNamed(AppRoute.items.name);
                       },
                       child: Container(
-                        width: 88,
+                        width: Sizes.p88,
                         padding: const EdgeInsets.only(
                             left: Sizes.p4, top: Sizes.p4, bottom: Sizes.p4),
                         decoration: const BoxDecoration(
@@ -115,9 +115,9 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              gapH24,
+              gapH32,
               const FeatureGrid(),
-              gapH12,
+              gapH24,
               Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(2),

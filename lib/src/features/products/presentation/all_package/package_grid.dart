@@ -5,8 +5,6 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
-import '../../../../constants/category_list.dart';
-import 'package_screen.dart';
 import 'package_type.dart';
 
 const kPackageType = [

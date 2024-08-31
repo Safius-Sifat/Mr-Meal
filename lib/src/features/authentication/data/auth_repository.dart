@@ -120,3 +120,9 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 @riverpod
 FlutterSecureStorage secureStorage(SecureStorageRef ref) =>
     const FlutterSecureStorage();
+
+@Riverpod(keepAlive: true)
+Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.authStateChanges();
+}

@@ -21,7 +21,7 @@ final itemRepositoryProvider = AutoDisposeProvider<ItemRepository>.internal(
 );
 
 typedef ItemRepositoryRef = AutoDisposeProviderRef<ItemRepository>;
-String _$fetchSlidersHash() => r'e5fb5cc0295190b63f7651484a5ee4293b5a4995';
+String _$fetchSlidersHash() => r'54977564b71ddacafe71d42113722dd04f3c6385';
 
 /// See also [fetchSliders].
 @ProviderFor(fetchSliders)
@@ -36,7 +36,7 @@ final fetchSlidersProvider =
 );
 
 typedef FetchSlidersRef = AutoDisposeFutureProviderRef<List<SliderModel>>;
-String _$fetchItemsHash() => r'a5595f6485434a7022f61be654a43b53a1448a5e';
+String _$fetchItemsHash() => r'341fb0a56a78e599bc083d90039bcf7fd1b543c8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -183,6 +183,134 @@ class _FetchItemsProviderElement extends AutoDisposeFutureProviderElement<Items>
 
   @override
   int get page => (origin as FetchItemsProvider).page;
+}
+
+String _$getItemDetailHash() => r'7dcdbc91efd9676044034eaa7797e5fcb86c2901';
+
+/// See also [getItemDetail].
+@ProviderFor(getItemDetail)
+const getItemDetailProvider = GetItemDetailFamily();
+
+/// See also [getItemDetail].
+class GetItemDetailFamily extends Family<AsyncValue<ItemDetail>> {
+  /// See also [getItemDetail].
+  const GetItemDetailFamily();
+
+  /// See also [getItemDetail].
+  GetItemDetailProvider call({
+    required int id,
+  }) {
+    return GetItemDetailProvider(
+      id: id,
+    );
+  }
+
+  @override
+  GetItemDetailProvider getProviderOverride(
+    covariant GetItemDetailProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getItemDetailProvider';
+}
+
+/// See also [getItemDetail].
+class GetItemDetailProvider extends AutoDisposeFutureProvider<ItemDetail> {
+  /// See also [getItemDetail].
+  GetItemDetailProvider({
+    required int id,
+  }) : this._internal(
+          (ref) => getItemDetail(
+            ref as GetItemDetailRef,
+            id: id,
+          ),
+          from: getItemDetailProvider,
+          name: r'getItemDetailProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getItemDetailHash,
+          dependencies: GetItemDetailFamily._dependencies,
+          allTransitiveDependencies:
+              GetItemDetailFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  GetItemDetailProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int id;
+
+  @override
+  Override overrideWith(
+    FutureOr<ItemDetail> Function(GetItemDetailRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetItemDetailProvider._internal(
+        (ref) => create(ref as GetItemDetailRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<ItemDetail> createElement() {
+    return _GetItemDetailProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetItemDetailProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetItemDetailRef on AutoDisposeFutureProviderRef<ItemDetail> {
+  /// The parameter `id` of this provider.
+  int get id;
+}
+
+class _GetItemDetailProviderElement
+    extends AutoDisposeFutureProviderElement<ItemDetail> with GetItemDetailRef {
+  _GetItemDetailProviderElement(super.provider);
+
+  @override
+  int get id => (origin as GetItemDetailProvider).id;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

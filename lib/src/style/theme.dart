@@ -36,7 +36,7 @@ class MrMealTheme {
         color: textColor,
       ),
       bodySmall: const TextStyle(
-        fontSize: 7,
+        fontSize: 8,
         fontWeight: FontWeight.w300,
         color: textColor,
       ),
@@ -44,3 +44,7 @@ class MrMealTheme {
     useMaterial3: true,
   );
 }
+
+const boldText = TextStyle(
+  fontWeight: FontWeight.bold,
+);

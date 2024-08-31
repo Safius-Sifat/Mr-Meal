@@ -8,3 +8,4 @@ const String register = 'api/register';
 const String login = 'api/login';
 const String sliderUrl = 'api/user/sliders';
 const String itemsUrl = 'api/user/items';
+const String itemDetailUrl = 'api/user/item-details';

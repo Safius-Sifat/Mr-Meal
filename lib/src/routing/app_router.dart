@@ -9,7 +9,8 @@ import '../features/authentication/presentation/login/login_screen.dart';
 import '../features/authentication/presentation/register/register_screen.dart';
 import '../features/authentication/presentation/verify_email/verification_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
-import '../features/cart/presentation/cart_screen.dart';
+import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import '../features/notification/presentation/notification_screen.dart';
 import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
 import '../features/products/presentation/all_package/package_screen.dart';
@@ -43,6 +44,7 @@ enum AppRoute {
   package,
   packageDetail,
   todaysMenu,
+  notification,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -183,6 +185,13 @@ GoRouter goRouter(GoRouterRef ref) {
                         child: TodaysMenuScreen(),
                       ),
                     ),
+                    GoRoute(
+                      path: 'notification',
+                      name: AppRoute.notification.name,
+                      pageBuilder: (context, state) => NoTransitionPage(
+                        child: NotificationScreen(),
+                      ),
+                    ),
                   ]),
             ],
           ),
@@ -190,7 +199,7 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: '/order',
               name: AppRoute.order.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => NoTransitionPage(
                 child: OrderScreen(),
               ),
             ),
@@ -200,7 +209,7 @@ GoRouter goRouter(GoRouterRef ref) {
               path: '/cart',
               name: AppRoute.cart.name,
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: CartScreen(),
+                child: ShoppingCartScreen(),
               ),
             ),
           ]),

@@ -304,7 +304,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 ),
                 gapH8,
                 TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed(AppRoute.home.name);
+                    },
                     icon: const SizedBox(
                       height: Sizes.p16,
                       width: Sizes.p16,

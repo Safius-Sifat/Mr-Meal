@@ -4,9 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../constants/api_constants.dart';
-import '../../../exception/app_exception.dart';
 import '../../../utils/dio_provider.dart';
-import '../../authentication/data/auth_repository.dart';
+import '../domain/item_detail.dart';
 import '../domain/items.dart';
 import '../domain/slider.dart';
 part 'item_repository.g.dart';
@@ -14,8 +13,7 @@ part 'item_repository.g.dart';
 class ItemRepository {
   final Dio _client;
   const ItemRepository({required Dio client}) : _client = client;
-  Future<List<SliderModel>> fetchSliders(
-      String token, CancelToken? cancelToken) async {
+  Future<List<SliderModel>> fetchSliders(CancelToken? cancelToken) async {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
@@ -25,17 +23,13 @@ class ItemRepository {
     final response = await _client.get(
       uri.toString(),
       cancelToken: cancelToken,
-      options: Options(
-        headers: {'token': 'Bearer $token'},
-      ),
     );
     return (response.data['sliders'] as List)
         .map((e) => SliderModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
-  Future<Items> fetchItems(
-      int page, String token, CancelToken? cancelToken) async {
+  Future<Items> fetchItems(int page, CancelToken? cancelToken) async {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
@@ -45,11 +39,22 @@ class ItemRepository {
     final response = await _client.get(
       uri.toString(),
       cancelToken: cancelToken,
-      options: Options(
-        headers: {'token': 'Bearer $token'},
-      ),
     );
     return Items.fromJson(response.data['items'] as Map<String, dynamic>);
+  }
+
+  Future<ItemDetail> getItemDetail(int id, CancelToken? cancelToken) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: itemDetailUrl,
+      queryParameters: {'item_id': '$id'},
+    );
+    final response = await _client.get(
+      uri.toString(),
+      cancelToken: cancelToken,
+    );
+    return ItemDetail.fromJson(response.data['item'] as Map<String, dynamic>);
   }
 }
 
@@ -60,10 +65,6 @@ ItemRepository itemRepository(ItemRepositoryRef ref) {
 
 @riverpod
 Future<List<SliderModel>> fetchSliders(FetchSlidersRef ref) {
-  final user = ref.watch(authRepositoryProvider).currentUser;
-  if (user == null) {
-    throw UserNotFoundException();
-  }
   final repo = ref.watch(itemRepositoryProvider);
   final cancelToken = CancelToken();
   final link = ref.keepAlive();
@@ -78,15 +79,11 @@ Future<List<SliderModel>> fetchSliders(FetchSlidersRef ref) {
   ref.onResume(() {
     timer?.cancel();
   });
-  return repo.fetchSliders(user.token, cancelToken);
+  return repo.fetchSliders(cancelToken);
 }
 
 @riverpod
 Future<Items> fetchItems(FetchItemsRef ref, {required int page}) {
-  final user = ref.watch(authRepositoryProvider).currentUser;
-  if (user == null) {
-    throw UserNotFoundException();
-  }
   final repo = ref.watch(itemRepositoryProvider);
   final cancelToken = CancelToken();
   final link = ref.keepAlive();
@@ -101,5 +98,24 @@ Future<Items> fetchItems(FetchItemsRef ref, {required int page}) {
   ref.onResume(() {
     timer?.cancel();
   });
-  return repo.fetchItems(page, user.token, cancelToken);
+  return repo.fetchItems(page, cancelToken);
+}
+
+@riverpod
+Future<ItemDetail> getItemDetail(GetItemDetailRef ref, {required int id}) {
+  final repo = ref.watch(itemRepositoryProvider);
+  final cancelToken = CancelToken();
+  final link = ref.keepAlive();
+  Timer? timer;
+  ref.onDispose(() {
+    cancelToken.cancel();
+    timer?.cancel();
+  });
+  ref.onCancel(() {
+    timer = Timer(const Duration(seconds: 30), link.close);
+  });
+  ref.onResume(() {
+    timer?.cancel();
+  });
+  return repo.getItemDetail(id, cancelToken);
 }
