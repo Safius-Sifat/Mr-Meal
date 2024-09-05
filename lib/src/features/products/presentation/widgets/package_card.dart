@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
+import '../../../../routing/app_router.dart';
 import 'photo.dart';
 import 'primary_button.dart';
 import 'secondary_button.dart';
@@ -37,7 +39,12 @@ class PackageCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Stack(children: [
-              AspectRatio(aspectRatio: 1.5, child: Photo(assetName)),
+              InkWell(
+                  onTap: () {
+                    context.goNamed(AppRoute.packageDetail.name);
+                  },
+                  child:
+                      AspectRatio(aspectRatio: 1.5, child: Photo(assetName))),
               Positioned(
                 top: Sizes.p4,
                 right: Sizes.p4,
@@ -56,10 +63,15 @@ class PackageCard extends StatelessWidget {
               ),
             ]),
             gapH8,
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
+            InkWell(
+              onTap: () {
+                context.goNamed(AppRoute.packageDetail.name);
+              },
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             gapH4,
             Text(

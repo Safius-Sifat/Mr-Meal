@@ -4,13 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import '../../../../constants/feaure_list.dart';
 import '../../../../constants/package_list.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
 import '../food_grid.dart';
-import '../widgets/feature_card.dart';
 import '../widgets/notification_widget.dart';
 import '../widgets/package_card.dart';
 import '../widgets/photo.dart';
@@ -29,9 +27,13 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const SizedBox(height: 30, child: Photo(avatar)),
-            gapW4,
-            const Photo(location),
+            const SizedBox(
+              height: Sizes.p16,
+              width: Sizes.p16,
+              child: Photo(
+                location,
+              ),
+            ),
             gapW4,
             Text(
               'Dhaka, Bangladesh',
@@ -57,59 +59,64 @@ class HomeScreen extends ConsumerWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Container(
-                    height: SizeConfig.isMobile ? 260 : 300,
-                    // padding: const EdgeInsets.all(Sizes.p8),
-                    decoration: const BoxDecoration(
-                        color: tertiaryColor,
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(Sizes.p12)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            // spreadRadius: 1,
-                            blurRadius: 8,
-                            offset: Offset(0, 2), // changes position of shadow
-                          ),
-                        ]),
-                    child: const FoodsGrid(),
-                  ),
-                  Positioned(
-                    bottom: -Sizes.p16,
-                    right:
-                        SizeConfig.screenWidth / 2 - Sizes.p88 / 2 - Sizes.p8,
-                    child: InkWell(
-                      onTap: () {
-                        context.goNamed(AppRoute.items.name);
-                      },
-                      child: Container(
-                        width: Sizes.p88,
-                        padding: const EdgeInsets.only(
-                            left: Sizes.p4, top: Sizes.p4, bottom: Sizes.p4),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: SizeConfig.isMobile ? 260 : 300,
+                        // padding: const EdgeInsets.all(Sizes.p8),
                         decoration: const BoxDecoration(
                             color: tertiaryColor,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(Sizes.p16)),
+                                BorderRadius.all(Radius.circular(Sizes.p12)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black26,
                                 // spreadRadius: 1,
-                                blurRadius: 2,
+                                blurRadius: 8,
                                 offset:
                                     Offset(0, 2), // changes position of shadow
                               ),
                             ]),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'SEE MORE',
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                            ),
-                          ],
+                        child: const FoodsGrid(),
+                      ),
+                      Container(
+                        height: Sizes.p16,
+                        width: double.infinity,
+                        color: Colors.transparent,
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right:
+                        SizeConfig.screenWidth / 2 - Sizes.p96 / 2 - Sizes.p12,
+                    width: Sizes.p96,
+                    height: Sizes.p32,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.goNamed(AppRoute.items.name);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: tertiaryColor,
+                        elevation: Sizes.p4,
+                        textStyle: const TextStyle(
+                          fontSize: Sizes.p12,
                         ),
+                        padding: const EdgeInsets.only(
+                            left: Sizes.p8, right: Sizes.p4),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'SEE MORE',
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                          ),
+                        ],
                       ),
                     ),
                   ),

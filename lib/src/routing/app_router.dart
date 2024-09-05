@@ -10,6 +10,8 @@ import '../features/authentication/presentation/register/register_screen.dart';
 import '../features/authentication/presentation/verify_email/verification_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import '../features/favourite/presentation/favourite_screen.dart';
+import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
 import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
@@ -19,6 +21,7 @@ import '../features/products/presentation/home/home_screen.dart';
 import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
+import '../features/profile/presentation/profile_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -45,6 +48,7 @@ enum AppRoute {
   packageDetail,
   todaysMenu,
   notification,
+  mealOnOff,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -52,9 +56,9 @@ final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _orderNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'order');
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-// final _favouriteNavigatorKey =
-//     GlobalKey<NavigatorState>(debugLabel: 'favourite');
-// final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+final _favouriteNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'favourite');
+final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
@@ -151,6 +155,13 @@ GoRouter goRouter(GoRouterRef ref) {
                       ),
                     ),
                     GoRoute(
+                      path: 'mealOnOff',
+                      name: AppRoute.mealOnOff.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: MealOnOffScreen(),
+                      ),
+                    ),
+                    GoRoute(
                       path: 'items',
                       name: AppRoute.items.name,
                       pageBuilder: (context, state) => const NoTransitionPage(
@@ -213,24 +224,24 @@ GoRouter goRouter(GoRouterRef ref) {
               ),
             ),
           ]),
-          // StatefulShellBranch(navigatorKey: _scanNavigatorKey, routes: [
-          //   GoRoute(
-          //     path: '/favourite',
-          //     name: AppRoute.favourite.name,
-          //     pageBuilder: (context, state) => const NoTransitionPage(
-          //       child: FavouriteScreen(),
-          //     ),
-          //   ),
-          // ]),
-          // StatefulShellBranch(navigatorKey: _scanNavigatorKey, routes: [
-          //   GoRoute(
-          //     path: '/profile',
-          //     name: AppRoute.profile.name,
-          //     pageBuilder: (context, state) => const NoTransitionPage(
-          //       child: ProfileScreen(),
-          //     ),
-          //   ),
-          // ]),
+          StatefulShellBranch(navigatorKey: _favouriteNavigatorKey, routes: [
+            GoRoute(
+              path: '/favourite',
+              name: AppRoute.favourite.name,
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: FavouriteScreen(),
+              ),
+            ),
+          ]),
+          StatefulShellBranch(navigatorKey: _profileNavigatorKey, routes: [
+            GoRoute(
+              path: '/profile',
+              name: AppRoute.profile.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ProfileScreen(),
+              ),
+            ),
+          ]),
         ],
       )
     ],
