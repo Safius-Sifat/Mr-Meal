@@ -2,7 +2,8 @@
 
 Here is the apk download link for the Flutter project:
 
-- [Mr meal.apk](https://github.com/Safius-Sifat/Mr-Meal/releases/download/v1.0.0%2B1/app-release.apk)
+- [Mr meal.apk](https://github.com/Safius-Sifat/Mr-Meal/releases/download/v1.2.2%2B3/Mr.Meal.latest.apk)
+- [Mr meal web app](https://safius-sifat.github.io/Mr-Meal/)
 
 ## Preview
 
