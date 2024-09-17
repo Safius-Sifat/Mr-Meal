@@ -28,7 +28,7 @@ class SelectLocationScreen extends ConsumerWidget {
       ),
       body: PlacePicker(
         apiKey: Platform.isAndroid
-            ? 'AIzaSyASlS_sQGKOlgpyHooLjLD0PB7JlCL6c0g'
+            ? ''
             : 'GOOGLE_MAPS_API_KEY_IOS',
         onPlacePicked: (LocationResult result) {
           debugPrint('Place picked: ${result.formattedAddress}');
