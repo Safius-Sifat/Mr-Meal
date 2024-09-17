@@ -86,7 +86,8 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
                               Radius.circular(Sizes.p8),
                             ),
                           ),
-                          child: Text(sliderList[index].sliderText,
+                          child: Text(
+                              sliderList[index].sliderText ?? '20% off now',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!

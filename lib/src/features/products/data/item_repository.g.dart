@@ -312,5 +312,23 @@ class _GetItemDetailProviderElement
   @override
   int get id => (origin as GetItemDetailProvider).id;
 }
+
+String _$fetchItemsByCategoryHash() =>
+    r'986c9a116d6011a99ea115b3ee6444e00ac00ab4';
+
+/// See also [fetchItemsByCategory].
+@ProviderFor(fetchItemsByCategory)
+final fetchItemsByCategoryProvider =
+    AutoDisposeFutureProvider<ItemsByCategory>.internal(
+  fetchItemsByCategory,
+  name: r'fetchItemsByCategoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchItemsByCategoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FetchItemsByCategoryRef = AutoDisposeFutureProviderRef<ItemsByCategory>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

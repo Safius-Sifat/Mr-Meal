@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/auth_repository.dart';
@@ -11,7 +10,7 @@ class RegisterController extends _$RegisterController {
   @override
   FutureOr<void> build() async {}
 
-  final cancelToken = CancelToken();
+  final _cancelToken = CancelToken();
   //  ref.onDispose(() {
   //   cancelToken.cancel();
   // });
@@ -31,9 +30,9 @@ class RegisterController extends _$RegisterController {
           phone,
           password,
           confirmPassword,
-          cancelToken,
+          _cancelToken,
         ));
-    ref.onDispose(cancelToken.cancel);
+    ref.onDispose(_cancelToken.cancel);
     return !state.hasError;
   }
 }

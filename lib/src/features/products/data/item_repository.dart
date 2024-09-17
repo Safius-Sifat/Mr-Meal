@@ -7,6 +7,7 @@ import '../../../constants/api_constants.dart';
 import '../../../utils/dio_provider.dart';
 import '../domain/item_detail.dart';
 import '../domain/items.dart';
+import '../domain/items_by_category.dart' hide Items;
 import '../domain/slider.dart';
 part 'item_repository.g.dart';
 
@@ -20,8 +21,8 @@ class ItemRepository {
       path: sliderUrl,
       queryParameters: {'page_name': 'Home Page'},
     );
-    final response = await _client.get(
-      uri.toString(),
+    final response = await _client.getUri(
+      uri,
       cancelToken: cancelToken,
     );
     return (response.data['sliders'] as List)
@@ -36,8 +37,8 @@ class ItemRepository {
       path: itemsUrl,
       queryParameters: {'page': '$page'},
     );
-    final response = await _client.get(
-      uri.toString(),
+    final response = await _client.getUri(
+      uri,
       cancelToken: cancelToken,
     );
     return Items.fromJson(response.data['items'] as Map<String, dynamic>);
@@ -50,11 +51,25 @@ class ItemRepository {
       path: itemDetailUrl,
       queryParameters: {'item_id': '$id'},
     );
-    final response = await _client.get(
-      uri.toString(),
+    final response = await _client.getUri(
+      uri,
       cancelToken: cancelToken,
     );
     return ItemDetail.fromJson(response.data['item'] as Map<String, dynamic>);
+  }
+
+  Future<ItemsByCategory> fetchItemsByCategory(CancelToken? cancelToken) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: itemByCategoryUrl,
+    );
+    final response = await _client.getUri(
+      uri,
+      cancelToken: cancelToken,
+    );
+    return ItemsByCategory.fromJson(
+        response.data['data'] as Map<String, dynamic>);
   }
 }
 
@@ -118,4 +133,23 @@ Future<ItemDetail> getItemDetail(GetItemDetailRef ref, {required int id}) {
     timer?.cancel();
   });
   return repo.getItemDetail(id, cancelToken);
+}
+
+@riverpod
+Future<ItemsByCategory> fetchItemsByCategory(FetchItemsByCategoryRef ref) {
+  final repo = ref.watch(itemRepositoryProvider);
+  final cancelToken = CancelToken();
+  final link = ref.keepAlive();
+  Timer? timer;
+  ref.onDispose(() {
+    cancelToken.cancel();
+    timer?.cancel();
+  });
+  ref.onCancel(() {
+    timer = Timer(const Duration(seconds: 30), link.close);
+  });
+  ref.onResume(() {
+    timer?.cancel();
+  });
+  return repo.fetchItemsByCategory(cancelToken);
 }

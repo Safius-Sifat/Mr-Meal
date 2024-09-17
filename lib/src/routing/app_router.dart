@@ -11,6 +11,7 @@ import '../features/authentication/presentation/verify_email/verification_screen
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
 import '../features/favourite/presentation/favourite_screen.dart';
+import '../features/location_selection/presentation/select_location_screen.dart';
 import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
 import '../features/order/presentation/order_screen.dart';
@@ -22,6 +23,7 @@ import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/wallet/presentation/wallet_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
 import 'scaffold_with_nested_navigation.dart';
@@ -49,6 +51,8 @@ enum AppRoute {
   todaysMenu,
   notification,
   mealOnOff,
+  location,
+  wallet,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -75,7 +79,7 @@ GoRouter goRouter(GoRouterRef ref) {
           return '/';
         }
       } else {
-        if (path == '/account' || path == '/order') {
+        if (path == '/profile' || path == '/order') {
           return '/welcome';
         }
       }
@@ -148,10 +152,19 @@ GoRouter goRouter(GoRouterRef ref) {
                       ),
                   routes: [
                     GoRoute(
-                      path: 'itemDetail',
+                      path: 'itemDetail/:id',
                       name: AppRoute.itemDetail.name,
+                      pageBuilder: (context, state) => NoTransitionPage(
+                        child: ItemDetailScreen(
+                          id: int.parse(state.pathParameters['id']!),
+                        ),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'location',
+                      name: AppRoute.location.name,
                       pageBuilder: (context, state) => const NoTransitionPage(
-                        child: ItemDetailScreen(),
+                        child: SelectLocationScreen(),
                       ),
                     ),
                     GoRoute(
@@ -183,10 +196,12 @@ GoRouter goRouter(GoRouterRef ref) {
                       ),
                     ),
                     GoRoute(
-                      path: 'packageDetail',
+                      path: 'packageDetail/:id',
                       name: AppRoute.packageDetail.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
-                        child: PackageDetailScreen(),
+                      pageBuilder: (context, state) => NoTransitionPage(
+                        child: PackageDetailScreen(
+                          id: int.parse(state.pathParameters['id']!),
+                        ),
                       ),
                     ),
                     GoRoute(
@@ -235,12 +250,20 @@ GoRouter goRouter(GoRouterRef ref) {
           ]),
           StatefulShellBranch(navigatorKey: _profileNavigatorKey, routes: [
             GoRoute(
-              path: '/profile',
-              name: AppRoute.profile.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ProfileScreen(),
-              ),
-            ),
+                path: '/profile',
+                name: AppRoute.profile.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                      child: ProfileScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'wallet',
+                    name: AppRoute.wallet.name,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      child: WalletScreen(),
+                    ),
+                  ),
+                ]),
           ]),
         ],
       )

@@ -19,6 +19,7 @@ class WelcomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
           child: Column(
             children: [
+              gapH20,
               const Expanded(
                 child: Photo(logo),
               ),

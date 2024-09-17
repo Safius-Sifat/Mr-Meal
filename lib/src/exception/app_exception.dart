@@ -30,6 +30,14 @@ class UserNotFoundException extends AppException {
   UserNotFoundException() : super('user-not-found', 'User not found'.hardcoded);
 }
 
+/// Select Location
+
+class LocationPermissionDeniedException extends AppException {
+  LocationPermissionDeniedException()
+      : super('location-permission-denied',
+            'Location permission is required. Please grant it.'.hardcoded);
+}
+
 // /// Cart
 // class CartSyncFailedException extends AppException {
 //   CartSyncFailedException()

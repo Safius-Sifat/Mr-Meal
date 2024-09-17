@@ -5,8 +5,8 @@ import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
 
 class SecondaryButton extends StatelessWidget {
-  const SecondaryButton({super.key});
-
+  const SecondaryButton({super.key, required this.id});
+  final int id;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -14,7 +14,8 @@ class SecondaryButton extends StatelessWidget {
       width: 60,
       child: ElevatedButton(
         onPressed: () {
-          context.goNamed(AppRoute.packageDetail.name);
+          context.goNamed(AppRoute.packageDetail.name,
+              pathParameters: {'id': '$id'});
         },
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(secondaryColor),

@@ -1,23 +1,34 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart'
-    hide Options;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants/api_constants.dart';
 import '../../../utils/dio_provider.dart';
 import '../../../utils/in_memory_store.dart';
+import '../../../utils/shared_preference_provider.dart';
 import '../domain/app_user.dart';
 part 'auth_repository.g.dart';
 
 class AuthRepository {
   final FlutterSecureStorage secureStorage;
+  final SharedPreferences sharedPreferences;
   final Dio client;
-  AuthRepository({required this.secureStorage, required this.client}) {
+  AuthRepository(
+      {required this.secureStorage,
+      required this.client,
+      required this.sharedPreferences}) {
     _initialize();
   }
 
   final _authState = InMemoryStore<AppUser?>(null);
   Future<void> _initialize() async {
+    final first = isFirstTime();
+    if (first) {
+      await secureStorage.delete(key: userKey);
+    }
     final value = await secureStorage.read(key: userKey);
     final AppUser? user = value == null ? null : AppUser.fromJson(value);
     _authState.value = user;
@@ -98,8 +109,19 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    _authState.value = null;
     await secureStorage.delete(key: userKey);
+    _authState.value = null;
+  }
+
+  bool isFirstTime() {
+    final isFirstTime = sharedPreferences.getBool('first_time');
+    if (isFirstTime != null && !isFirstTime) {
+      sharedPreferences.setBool('first_time', false);
+      return false;
+    } else {
+      sharedPreferences.setBool('first_time', false);
+      return true;
+    }
   }
 
   void dispose() => _authState.close();
@@ -112,7 +134,11 @@ class AuthRepository {
 AuthRepository authRepository(AuthRepositoryRef ref) {
   final dio = ref.read(dioProvider);
   final secureStorage = ref.read(secureStorageProvider);
-  final auth = AuthRepository(secureStorage: secureStorage, client: dio);
+  final sharedPreferences = ref.read(sharedPreferencesProvider);
+  final auth = AuthRepository(
+      secureStorage: secureStorage,
+      client: dio,
+      sharedPreferences: sharedPreferences);
   ref.onDispose(auth.dispose);
   return auth;
 }

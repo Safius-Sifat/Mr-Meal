@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../l10n/string_hardcoded.dart';
+import '../../data/package_repository.dart';
+import '../../domain/package_by_category.dart';
 import 'package_type.dart';
 
 const kPackageType = [
@@ -17,24 +21,25 @@ class PackageGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final productsListValue = ref.watch(productsSearchResultsProvider);
-    // return AsyncValueWidget<List<Product>>(
-    //   value: productsListValue,
-    //   data: (products) => products.isEmpty
-    //       ? Center(
-    //           child: Text(
-    //             'No products found'.hardcoded,
-    //             style: Theme.of(context).textTheme.headlineMedium,
-    //           ),
-    //         )
-    return ProductsLayoutGrid(
-      itemCount: kPackageType.length,
-      itemBuilder: (_, index) {
-        final packageType = kPackageType[index];
-        return PackageType(
-          type: packageType,
-        );
-      },
+    final packagesByCategory = ref.watch(fetchPackagesByCategoryProvider);
+    return AsyncValueWidget<PackagesByCategory>(
+      value: packagesByCategory,
+      data: (value) => value.categories.isEmpty
+          ? Center(
+              child: Text(
+                'No categories found'.hardcoded,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            )
+          : ProductsLayoutGrid(
+              itemCount: value.categories.length,
+              itemBuilder: (_, index) {
+                final packageType = value.categories[index];
+                return PackageType(
+                  type: packageType,
+                );
+              },
+            ),
     );
   }
 }
@@ -70,19 +75,6 @@ class ProductsLayoutGrid extends StatelessWidget {
       // set all the row sizes to auto (self-sizing height)
       final rowSizes = List.generate(numRows, (_) => auto);
       // Custom layout grid. See: https://pub.dev/packages/flutter_layout_grid
-      // return GridView.builder(
-      //   padding: const EdgeInsets.all(Sizes.p16),
-      //   scrollDirection: Axis.horizontal,
-      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //     crossAxisCount: 2,
-      //     mainAxisSpacing: Sizes.p16,
-      //     crossAxisSpacing: Sizes.p16,
-      //     mainAxisExtent:
-      //         (width - Sizes.p16 * crossAxisCount - 16) / crossAxisCount,
-      //   ),
-      //   itemBuilder: itemBuilder,
-      //   itemCount: itemCount,
-      // );
       return LayoutGrid(
         columnSizes: columnSizes,
         rowSizes: rowSizes,

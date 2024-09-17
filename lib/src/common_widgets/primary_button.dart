@@ -16,12 +16,14 @@ class PrimaryButton extends StatelessWidget {
     this.onPressed,
     this.height = Sizes.p48,
     this.width = double.infinity,
+    this.fontSize = Sizes.p16,
   });
   final String text;
   final bool isLoading;
   final VoidCallback? onPressed;
   final double height;
   final double width;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -34,6 +36,9 @@ class PrimaryButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.p8),
           ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.p16,
+          ),
         ),
         child: isLoading
             ? const CircularProgressIndicator(
@@ -45,7 +50,7 @@ class PrimaryButton extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
-                    .copyWith(color: neutralColor, fontSize: Sizes.p16),
+                    .copyWith(color: neutralColor, fontSize: fontSize),
               ),
       ),
     );

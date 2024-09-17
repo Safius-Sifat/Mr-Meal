@@ -35,7 +35,8 @@ class FoodsGrid extends ConsumerWidget {
             return FoodCard(
                 food: item,
                 onPressed: () {
-                  context.goNamed(AppRoute.itemDetail.name);
+                  context.goNamed(AppRoute.itemDetail.name,
+                      pathParameters: {'id': '${item.id}'});
                 });
           },
           loading: () => Shimmer.fromColors(

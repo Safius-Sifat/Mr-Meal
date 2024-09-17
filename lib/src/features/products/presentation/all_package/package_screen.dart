@@ -21,7 +21,7 @@ class AllPackageScreen extends ConsumerWidget {
               horizontal: Sizes.p16, vertical: Sizes.p8),
           decoration: BoxDecoration(
               color: secondaryColor, borderRadius: BorderRadius.circular(8)),
-          child: const Text('Our All Category'),
+          child: const Text('Package'),
         ),
         actions: const [NotificationWidget(), gapW16],
       ),

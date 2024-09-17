@@ -136,6 +136,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
+                        prefixIcon: const Icon(Icons.person_outline),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),
@@ -172,6 +173,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
+                        prefixIcon: const Icon(Icons.email_rounded),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),
@@ -264,6 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
+                        prefixIcon: const Icon(Icons.password_rounded),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),
@@ -299,6 +302,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
+                        prefixIcon: const Icon(Icons.password_rounded),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),
@@ -314,21 +318,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                         fillColor: textFieldColor,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot Password?'.hardcoded,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(fontSize: Sizes.p16),
-                          ),
-                        ),
-                      ],
-                    ),
                     gapH16,
                     PrimaryButton(
                       text: 'Sign up'.hardcoded,
@@ -336,19 +325,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                       onPressed: state.isLoading ? null : _submit,
                     ),
                     gapH20,
-                    Row(
-                      children: [
-                        Checkbox(value: true, onChanged: (value) {}),
-                        gapW8,
-                        Expanded(
-                          child: Text(
-                            'By clicking this box, you certify that you agree to our Privacy Policy & Teams & Condition'
-                                .hardcoded,
-                          ),
-                        ),
-                      ],
-                    ),
-                    gapH16,
                     Container(
                       padding: const EdgeInsets.all(Sizes.p4),
                       decoration: BoxDecoration(

@@ -127,6 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       color: textFieldHint,
                       fontSize: Sizes.p16,
                     ),
+                    prefixIcon: const Icon(Icons.email_rounded),
                     enabled: !state.isLoading,
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(color: textFieldColor),
@@ -162,6 +163,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       color: textFieldHint,
                       fontSize: Sizes.p16,
                     ),
+                    prefixIcon: const Icon(Icons.password_rounded),
                     enabled: !state.isLoading,
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(color: textFieldColor),
@@ -252,20 +254,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     ),
                   ),
                 ),
-                gapH8,
-                Row(
-                  children: [
-                    Checkbox(value: true, onChanged: (value) {}),
-                    gapW8,
-                    Expanded(
-                      child: Text(
-                        'By clicking this box, you certify that you agree to our Privacy Policy & Teams & Condition'
-                            .hardcoded,
-                      ),
-                    ),
-                  ],
-                ),
-                gapH16,
+                gapH24,
                 Container(
                   padding: const EdgeInsets.all(Sizes.p4),
                   decoration: BoxDecoration(
@@ -303,19 +292,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   ),
                 ),
                 gapH8,
-                TextButton.icon(
+                TextButton(
                     onPressed: () {
                       context.goNamed(AppRoute.home.name);
                     },
-                    icon: const SizedBox(
-                      height: Sizes.p16,
-                      width: Sizes.p16,
-                      child: Photo(guest),
-                    ),
-                    label: Text(
+                    child: Text(
                       'Browse as a guest'.hardcoded,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: Sizes.p16,
+                            fontSize: Sizes.p12,
                           ),
                     ))
               ],

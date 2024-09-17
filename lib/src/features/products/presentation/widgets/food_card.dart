@@ -5,7 +5,6 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 
 import '../../domain/items.dart';
-import 'photo.dart';
 
 class FoodCard extends StatelessWidget {
   const FoodCard({

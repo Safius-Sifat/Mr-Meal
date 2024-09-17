@@ -8,7 +8,7 @@ class SliderModel with _$SliderModel {
   const factory SliderModel({
     required int id,
     @JsonKey(name: 'page_name') required String pageName,
-    @JsonKey(name: 'slider_text') required String sliderText,
+    @JsonKey(name: 'slider_text') required String? sliderText,
     required String image,
     required int status,
     @JsonKey(name: 'is_deleted') required int isDeleted,

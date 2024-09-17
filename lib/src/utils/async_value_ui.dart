@@ -7,11 +7,11 @@ extension AsyncValueUI on AsyncValue<dynamic> {
   void showAlertDialogOnError(BuildContext context) {
     debugPrint('isLoading: $isLoading, hasError: $hasError');
     if (!isLoading && hasError) {
-      final message = error.toString();
+      // final message = error.toString();
       showExceptionAlertDialog(
         context: context,
         title: 'Error',
-        exception: message,
+        exception: error,
       );
     }
   }

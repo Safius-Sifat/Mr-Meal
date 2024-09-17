@@ -24,7 +24,7 @@ mixin _$SliderModel {
   @JsonKey(name: 'page_name')
   String get pageName => throw _privateConstructorUsedError;
   @JsonKey(name: 'slider_text')
-  String get sliderText => throw _privateConstructorUsedError;
+  String? get sliderText => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   int get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_deleted')
@@ -53,7 +53,7 @@ abstract class $SliderModelCopyWith<$Res> {
   $Res call(
       {int id,
       @JsonKey(name: 'page_name') String pageName,
-      @JsonKey(name: 'slider_text') String sliderText,
+      @JsonKey(name: 'slider_text') String? sliderText,
       String image,
       int status,
       @JsonKey(name: 'is_deleted') int isDeleted,
@@ -78,7 +78,7 @@ class _$SliderModelCopyWithImpl<$Res, $Val extends SliderModel>
   $Res call({
     Object? id = null,
     Object? pageName = null,
-    Object? sliderText = null,
+    Object? sliderText = freezed,
     Object? image = null,
     Object? status = null,
     Object? isDeleted = null,
@@ -94,10 +94,10 @@ class _$SliderModelCopyWithImpl<$Res, $Val extends SliderModel>
           ? _value.pageName
           : pageName // ignore: cast_nullable_to_non_nullable
               as String,
-      sliderText: null == sliderText
+      sliderText: freezed == sliderText
           ? _value.sliderText
           : sliderText // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,7 @@ abstract class _$$SliderModelImplCopyWith<$Res>
   $Res call(
       {int id,
       @JsonKey(name: 'page_name') String pageName,
-      @JsonKey(name: 'slider_text') String sliderText,
+      @JsonKey(name: 'slider_text') String? sliderText,
       String image,
       int status,
       @JsonKey(name: 'is_deleted') int isDeleted,
@@ -156,7 +156,7 @@ class __$$SliderModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? pageName = null,
-    Object? sliderText = null,
+    Object? sliderText = freezed,
     Object? image = null,
     Object? status = null,
     Object? isDeleted = null,
@@ -172,10 +172,10 @@ class __$$SliderModelImplCopyWithImpl<$Res>
           ? _value.pageName
           : pageName // ignore: cast_nullable_to_non_nullable
               as String,
-      sliderText: null == sliderText
+      sliderText: freezed == sliderText
           ? _value.sliderText
           : sliderText // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -223,7 +223,7 @@ class _$SliderModelImpl implements _SliderModel {
   final String pageName;
   @override
   @JsonKey(name: 'slider_text')
-  final String sliderText;
+  final String? sliderText;
   @override
   final String image;
   @override
@@ -288,7 +288,7 @@ abstract class _SliderModel implements SliderModel {
   const factory _SliderModel(
           {required final int id,
           @JsonKey(name: 'page_name') required final String pageName,
-          @JsonKey(name: 'slider_text') required final String sliderText,
+          @JsonKey(name: 'slider_text') required final String? sliderText,
           required final String image,
           required final int status,
           @JsonKey(name: 'is_deleted') required final int isDeleted,
@@ -306,7 +306,7 @@ abstract class _SliderModel implements SliderModel {
   String get pageName;
   @override
   @JsonKey(name: 'slider_text')
-  String get sliderText;
+  String? get sliderText;
   @override
   String get image;
   @override

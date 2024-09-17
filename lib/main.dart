@@ -2,12 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app.dart';
 import 'src/exception/async_error_logger.dart';
 import 'src/exception/error_logger.dart';
+import 'src/utils/shared_preference_provider.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final pref = await SharedPreferences.getInstance();
   final container = ProviderContainer(
+    overrides: [sharedPreferencesProvider.overrideWithValue(pref)],
     observers: [AsyncErrorLogger()],
   );
 

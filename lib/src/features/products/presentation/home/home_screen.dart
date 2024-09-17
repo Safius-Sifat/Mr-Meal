@@ -4,17 +4,17 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import '../../../../constants/package_list.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
+import '../../data/package_repository.dart';
 import '../food_grid.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/package_card.dart';
 import '../widgets/photo.dart';
 import '../widgets/search_field.dart';
 import 'carousel_slider.dart';
 import 'feature_grid.dart';
+import 'home_packages_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -27,17 +27,27 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const SizedBox(
-              height: Sizes.p16,
-              width: Sizes.p16,
-              child: Photo(
-                location,
+            InkWell(
+              onTap: () {
+                context.goNamed(AppRoute.location.name);
+              },
+              child: const SizedBox(
+                height: Sizes.p16,
+                width: Sizes.p16,
+                child: Photo(
+                  location,
+                ),
               ),
             ),
             gapW4,
-            Text(
-              'Dhaka, Bangladesh',
-              style: Theme.of(context).textTheme.bodyMedium,
+            InkWell(
+              onTap: () {
+                context.goNamed(AppRoute.location.name);
+              },
+              child: Text(
+                'Dhaka, Bangladesh',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
             gapW8,
             const Expanded(
@@ -125,32 +135,7 @@ class HomeScreen extends ConsumerWidget {
               gapH32,
               const FeatureGrid(),
               gapH24,
-              Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(2),
-                  decoration: const BoxDecoration(
-                      color: tertiaryColor,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(Sizes.p12)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          // spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ]),
-                  child: Row(
-                    children: List.generate(4, (index) {
-                      return PackageCard(
-                        title: kPackages[index].name,
-                        assetName: kPackages[index].image,
-                        description: kPackages[index].description,
-                        price: kPackages[index].price,
-                        pastPrice: kPackages[index].pastPrice,
-                      );
-                    }),
-                  )),
+              const HomePackagesWidget(),
               gapH16,
             ],
           ),
