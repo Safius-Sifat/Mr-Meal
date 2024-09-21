@@ -41,8 +41,11 @@ class PrimaryButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const CircularProgressIndicator(
-                strokeWidth: 2,
+            ? const Padding(
+                padding: EdgeInsets.all(8),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
               )
             : Text(
                 text,

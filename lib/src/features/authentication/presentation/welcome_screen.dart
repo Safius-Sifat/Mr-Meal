@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,17 +17,31 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
           child: Column(
             children: [
-              gapH20,
+              gapH24,
               const Expanded(
                 child: Photo(logo),
               ),
-              gapH64,
-              const Expanded(
-                child: Photo(welcome),
-              ),
+              gapH80,
+              CarouselSlider.builder(
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    autoPlay: true,
+                    // onPageChanged: (index, reason) {
+                    //   setState(() {
+                    //     _current = index;
+                    //   });
+                    // },
+                  ),
+                  itemCount: 3,
+                  itemBuilder: (context, index, realIndex) {
+                    return const Photo(
+                      welcome,
+                      fit: BoxFit.contain,
+                    );
+                  }),
               const Spacer(),
               Text('Hello, Foodies!'.hardcoded,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(

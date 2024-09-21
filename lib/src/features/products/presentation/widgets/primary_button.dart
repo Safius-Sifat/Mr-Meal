@@ -5,7 +5,10 @@ import '../../../../constants/constants.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton(
-      {super.key, this.title = 'Order', this.height = 20, this.width = 60});
+      {super.key,
+      this.title = 'Order',
+      this.height = Sizes.p24,
+      this.width = 60});
   final double height;
   final double width;
 
@@ -34,7 +37,7 @@ class PrimaryButton extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(color: neutralColor, fontSize: Sizes.p8),
+              .copyWith(color: neutralColor, fontSize: Sizes.p12),
         ),
       ),
     );

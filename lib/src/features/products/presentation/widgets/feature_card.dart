@@ -26,7 +26,7 @@ class FeatureCard extends StatelessWidget {
           child: Container(
             width: 56,
             height: 56,
-            padding: const EdgeInsets.all(Sizes.p16),
+            padding: const EdgeInsets.all(Sizes.p12),
             decoration: const BoxDecoration(
                 color: tertiaryColor,
                 shape: BoxShape.circle,

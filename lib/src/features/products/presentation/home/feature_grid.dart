@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
+import '../../../../constants/breakpoints.dart';
 import '../../../../constants/feaure_list.dart';
 import '../widgets/feature_card.dart';
 
@@ -40,9 +42,10 @@ class ProductsLayoutGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // use a LayoutBuilder to determine the crossAxisCount
     return LayoutBuilder(builder: (context, constraints) {
       final width = constraints.maxWidth;
+
+      final bool isMobile = constraints.maxWidth < Breakpoint.tablet;
       // 1 column for width < 500px
       // then add one more column for each 250px
       final crossAxisCount = max(4, width ~/ 100);
@@ -53,30 +56,47 @@ class ProductsLayoutGrid extends StatelessWidget {
       final numRows = (itemCount / crossAxisCount).ceil();
       // set all the row sizes to auto (self-sizing height)
       final rowSizes = List.generate(numRows, (_) => auto);
-      // Custom layout grid. See: https://pub.dev/packages/flutter_layout_grid
-      // return GridView.builder(
-      //   padding: const EdgeInsets.all(Sizes.p16),
-      //   scrollDirection: Axis.horizontal,
-      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //     crossAxisCount: 2,
-      //     mainAxisSpacing: Sizes.p16,
-      //     crossAxisSpacing: Sizes.p16,
-      //     mainAxisExtent:
-      //         (width - Sizes.p16 * crossAxisCount - 16) / crossAxisCount,
-      //   ),
-      //   itemBuilder: itemBuilder,
-      //   itemCount: itemCount,
-      // );
-      return LayoutGrid(
-        columnSizes: columnSizes,
-        rowSizes: rowSizes,
-        rowGap: Sizes.p12, // equivalent to mainAxisSpacing
-        columnGap: Sizes.p24, // equivalent to crossAxisSpacing
-        children: [
-          // render all the items with automatic child placement
-          for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
-        ],
-      );
+
+      return isMobile
+          ? CarouselSlider.builder(
+              options: CarouselOptions(
+                height: 200,
+
+                viewportFraction: 1,
+                // autoPlay: true,
+                // onPageChanged: (index, reason) {
+                //   setState(() {
+                //     _current = index;
+                //   });
+                // },
+              ),
+              itemCount: 2,
+              itemBuilder: (context, index, realIndex) {
+                return LayoutGrid(
+                  columnSizes: columnSizes,
+                  rowSizes: rowSizes,
+                  rowGap: Sizes.p12, // equivalent to mainAxisSpacing
+                  columnGap: Sizes.p24, // equivalent to crossAxisSpacing
+                  children: [
+                    // render all the items with automatic child placement
+                    if (index == 0)
+                      for (var i = 0; i < 8; i++) itemBuilder(context, i),
+                    if (index == 1)
+                      for (var i = 8; i < itemCount; i++)
+                        itemBuilder(context, i),
+                  ],
+                );
+              })
+          : LayoutGrid(
+              columnSizes: columnSizes,
+              rowSizes: rowSizes,
+              rowGap: Sizes.p12, // equivalent to mainAxisSpacing
+              columnGap: Sizes.p24, // equivalent to crossAxisSpacing
+              children: [
+                // render all the items with automatic child placement
+                for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
+              ],
+            );
     });
   }
 }

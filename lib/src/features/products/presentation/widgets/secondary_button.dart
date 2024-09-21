@@ -10,7 +10,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 20,
+      height: Sizes.p24,
       width: 60,
       child: ElevatedButton(
         onPressed: () {
@@ -34,7 +34,7 @@ class SecondaryButton extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(fontWeight: FontWeight.w400, fontSize: Sizes.p8),
+              .copyWith(fontWeight: FontWeight.w400, fontSize: Sizes.p12),
         ),
       ),
     );

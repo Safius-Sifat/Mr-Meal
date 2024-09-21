@@ -84,6 +84,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             key: _formKey,
             child: Column(
               children: [
+                gapH20,
                 const Photo(
                   login,
                   fit: BoxFit.contain,
@@ -109,7 +110,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 gapH16,
                 TextFormField(
                   controller: _emailController,
-                  textAlign: TextAlign.center,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -146,7 +146,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 gapH16,
                 TextFormField(
                   controller: _passwordController,
-                  textAlign: TextAlign.center,
                   textInputAction: TextInputAction.done,
                   obscureText: true,
                   autocorrect: false,
@@ -188,16 +187,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       },
                       child: Text(
                         'Forgot Password?'.hardcoded,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontSize: Sizes.p16),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: Sizes.p16,
+                              color: primaryColor,
+                            ),
                       ),
                     ),
                   ],
                 ),
                 gapH8,
                 PrimaryButton(
+                  width: 150,
                   text: 'Login'.hardcoded,
                   isLoading: state.isLoading,
                   onPressed: state.isLoading ? null : _submit,
@@ -229,32 +229,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     )
                   ],
                 ),
-                gapH20,
-                SizedBox(
-                  width: double.infinity,
-                  height: Sizes.p48,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                            height: Sizes.p20,
-                            width: Sizes.p20,
-                            child: Photo(google)),
-                        gapW8,
-                        Text(
-                          'Sign in with Google'.hardcoded,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: Sizes.p16),
-                        ),
-                      ],
-                    ),
-                  ),
+                gapH8,
+                const Text(
+                  'Sign in with',
+                  style: TextStyle(fontSize: Sizes.p12),
                 ),
-                gapH24,
+                gapH8,
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(shape: const CircleBorder()),
+                  child: Container(
+                      height: Sizes.p20,
+                      width: Sizes.p20,
+                      margin: const EdgeInsets.all(Sizes.p8),
+                      child: const Photo(google)),
+                ),
+                gapH16,
                 Container(
                   padding: const EdgeInsets.all(Sizes.p4),
                   decoration: BoxDecoration(

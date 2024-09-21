@@ -40,6 +40,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
 // local variable used to apply AutovalidateMode.onUserInteraction and show
   // error hints only when the form has been submitted
   var _submitted = false;
+  bool isChecked = false;
 
   @override
   void dispose() {
@@ -98,6 +99,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
               child: SafeArea(
                 child: Column(
                   children: [
+                    gapH16,
                     const Photo(
                       login,
                       fit: BoxFit.contain,
@@ -122,7 +124,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     ),
                     gapH16,
                     TextFormField(
-                      textAlign: TextAlign.center,
                       controller: _nameController,
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
@@ -154,7 +155,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     ),
                     gapH16,
                     TextFormField(
-                      textAlign: TextAlign.center,
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -191,7 +191,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     ),
                     gapH16,
                     TextFormField(
-                      textAlign: TextAlign.center,
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
@@ -248,7 +247,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     ),
                     gapH16,
                     TextFormField(
-                      textAlign: TextAlign.center,
                       controller: _passwordController,
                       textInputAction: TextInputAction.next,
                       obscureText: true,
@@ -284,7 +282,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                     ),
                     gapH16,
                     TextFormField(
-                      textAlign: TextAlign.center,
                       controller: _confirmPasswordController,
                       textInputAction: TextInputAction.done,
                       obscureText: true,
@@ -318,13 +315,76 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                         fillColor: textFieldColor,
                       ),
                     ),
+                    gapH8,
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: isChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                if (value == null) return;
+                                isChecked = value;
+                              });
+                            }),
+                        Expanded(
+                          child: Text(
+                              'By clicking on this box, you certify that you agree to our Privacy policy, Terms & conditions'
+                                  .hardcoded,
+                              style: Theme.of(context).textTheme.bodyMedium),
+                        ),
+                      ],
+                    ),
                     gapH16,
                     PrimaryButton(
                       text: 'Sign up'.hardcoded,
+                      width: 150,
                       isLoading: state.isLoading,
                       onPressed: state.isLoading ? null : _submit,
                     ),
-                    gapH20,
+                    gapH16,
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 8,
+                          child: Container(height: 1.5, color: Colors.black),
+                        ),
+                        Flexible(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Sizes.p8),
+                              child: Text(
+                                'OR',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontSize: Sizes.p12),
+                              ),
+                            )),
+                        Flexible(
+                          flex: 8,
+                          fit: FlexFit.tight,
+                          child: Container(height: 1.5, color: Colors.black),
+                        )
+                      ],
+                    ),
+                    gapH8,
+                    const Text(
+                      'Sign up with',
+                      style: TextStyle(fontSize: Sizes.p12),
+                    ),
+                    gapH8,
+                    OutlinedButton(
+                      onPressed: () {},
+                      style:
+                          OutlinedButton.styleFrom(shape: const CircleBorder()),
+                      child: Container(
+                          height: Sizes.p20,
+                          width: Sizes.p20,
+                          margin: const EdgeInsets.all(Sizes.p8),
+                          child: const Photo(google)),
+                    ),
+                    gapH16,
                     Container(
                       padding: const EdgeInsets.all(Sizes.p4),
                       decoration: BoxDecoration(
