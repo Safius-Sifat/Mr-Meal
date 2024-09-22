@@ -14,47 +14,45 @@ class MealCountContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: Sizes.p48,
-        constraints: const BoxConstraints(maxWidth: 130),
-        margin: const EdgeInsets.symmetric(
-          horizontal: Sizes.p12,
+    return Container(
+      height: Sizes.p48,
+      constraints: const BoxConstraints(maxWidth: 150),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.p8,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: tertiaryColor,
+          width: 2,
         ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: tertiaryColor,
-            width: 2,
+        borderRadius: BorderRadius.circular(Sizes.p12),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              mealTime,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: Sizes.p16,
+              ),
+            ),
           ),
-          borderRadius: BorderRadius.circular(Sizes.p12),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                mealTime,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: Sizes.p16,
-                ),
+          const VerticalDivider(
+            thickness: 2,
+            color: tertiaryColor,
+          ),
+          Expanded(
+            child: Text(
+              mealCount,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: Sizes.p16,
               ),
             ),
-            const VerticalDivider(
-              thickness: 2,
-              color: tertiaryColor,
-            ),
-            Expanded(
-              child: Text(
-                mealCount,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: Sizes.p16,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

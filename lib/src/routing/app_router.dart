@@ -25,6 +25,7 @@ import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/report/presentation/my_report_screen.dart';
 import '../features/wallet/presentation/wallet_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
@@ -57,6 +58,7 @@ enum AppRoute {
   deliverySchedule,
   location,
   wallet,
+  myReport,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -279,6 +281,13 @@ GoRouter goRouter(GoRouterRef ref) {
                     name: AppRoute.wallet.name,
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: WalletScreen(),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'myReport',
+                    name: AppRoute.myReport.name,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      child: MyReportScreen(),
                     ),
                   ),
                 ]),
