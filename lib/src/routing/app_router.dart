@@ -10,8 +10,10 @@ import '../features/authentication/presentation/register/register_screen.dart';
 import '../features/authentication/presentation/verify_email/verification_screen.dart';
 import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
+import '../features/delivery_schedule/presentation/delivery_schedule_screen.dart';
 import '../features/favourite/presentation/favourite_screen.dart';
 import '../features/location_selection/presentation/select_location_screen.dart';
+import '../features/meal_on_off/presentation/guest_meal_screen.dart';
 import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
 import '../features/order/presentation/order_screen.dart';
@@ -51,6 +53,8 @@ enum AppRoute {
   todaysMenu,
   notification,
   mealOnOff,
+  guestMeal,
+  deliverySchedule,
   location,
   wallet,
 }
@@ -172,6 +176,20 @@ GoRouter goRouter(GoRouterRef ref) {
                       name: AppRoute.mealOnOff.name,
                       pageBuilder: (context, state) => const NoTransitionPage(
                         child: MealOnOffScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'guestMeal',
+                      name: AppRoute.guestMeal.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: GuestMealScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'deliverySchedule',
+                      name: AppRoute.deliverySchedule.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: DeliveryScheduleScreen(),
                       ),
                     ),
                     GoRoute(

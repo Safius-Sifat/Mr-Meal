@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
-import '../../../../routing/app_router.dart';
 import '../email_password_validators.dart';
 import '../string_validators.dart';
 
@@ -27,7 +25,7 @@ class _AskEmailState extends ConsumerState<AskEmailScreen>
     super.dispose();
   }
 
-  var _submitted = false;
+  final _submitted = false;
   @override
   Widget build(BuildContext context) {
     // final state = ref.watch(authControllerProvider);

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/breakpoints.dart';
-import '../../../../constants/feaure_list.dart';
+import '../../../../constants/feature_list.dart';
 import '../widgets/feature_card.dart';
 
 class FeatureGrid extends ConsumerWidget {

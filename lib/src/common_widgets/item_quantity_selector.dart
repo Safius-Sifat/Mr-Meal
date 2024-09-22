@@ -17,14 +17,14 @@ class ItemQuantitySelector extends StatelessWidget {
   final int? itemIndex;
   final ValueChanged<int>? onChanged;
 
-  // * Keys for testing using find.byKey()
-  static Key decrementKey([int? index]) =>
-      index != null ? Key('decrement-$index') : const Key('decrement');
-  static Key quantityKey([int? index]) =>
-      index != null ? Key('quantity-$index') : const Key('quantity');
-  static Key incrementKey([int? index]) =>
-      index != null ? Key('increment-$index') : const Key('increment');
-
+  // // * Keys for testing using find.byKey()
+  // static Key decrementKey([int? index]) =>
+  //     index != null ? Key('decrement-$index') : const Key('decrement');
+  // static Key quantityKey([int? index]) =>
+  //     index != null ? Key('quantity-$index') : const Key('quantity');
+  // static Key incrementKey([int? index]) =>
+  //     index != null ? Key('increment-$index') : const Key('increment');
+  //
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +51,7 @@ class ItemQuantitySelector extends StatelessWidget {
           SizedBox(
             child: Text(
               '$quantity',
-              key: quantityKey(itemIndex),
+              // key: quantityKey(itemIndex),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
