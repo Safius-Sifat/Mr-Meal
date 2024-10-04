@@ -26,8 +26,34 @@ sealed class AppException implements Exception {
 //       : super('wrong-password', 'Wrong password'.hardcoded);
 // }
 
+class RegistrationException extends AppException {
+  RegistrationException(String message) : super('registration-failed', message);
+}
+
+class LoginException extends AppException {
+  LoginException(String message) : super('login-failed', message);
+}
+
+class CodeNotSentException extends AppException {
+  CodeNotSentException()
+      : super('code-not-sent',
+            'Something went wrong. Please try again later'.hardcoded);
+}
+
+class ResetPasswordException extends AppException {
+  ResetPasswordException()
+      : super('password-not-reset',
+            'Password was not reset. Please try again later'.hardcoded);
+}
+
 class UserNotFoundException extends AppException {
   UserNotFoundException() : super('user-not-found', 'User not found'.hardcoded);
+}
+
+class UserNotAuthenticated extends AppException {
+  UserNotAuthenticated()
+      : super('user-not-authenticated',
+            'You are not authenticatd, please log in'.hardcoded);
 }
 
 /// Select Location
@@ -38,6 +64,17 @@ class LocationPermissionDeniedException extends AppException {
             'Location permission is required. Please grant it.'.hardcoded);
 }
 
+class NoInternetException extends AppException {
+  NoInternetException()
+      : super(
+            'no-internet', 'It looks like you are currently offline'.hardcoded);
+}
+
+class FavouriteFetchFailed extends AppException {
+  FavouriteFetchFailed()
+      : super('favourite-fetch-failed',
+            'Something went wrong, failed to fetch the favrourites'.hardcoded);
+}
 // /// Cart
 // class CartSyncFailedException extends AppException {
 //   CartSyncFailedException()

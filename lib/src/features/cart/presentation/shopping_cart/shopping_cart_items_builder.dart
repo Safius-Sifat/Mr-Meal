@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../common_widgets/empty_placeholder_screens.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/breakpoints.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
-import '../../domain/cart_item.dart';
+import '../../domain/online_cart.dart';
 import '../cart_total/cart_total_with_cta.dart';
 
 /// Responsive widget showing the cart items and the checkout button
@@ -17,16 +16,18 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
     required this.itemBuilder,
     required this.ctaBuilder,
   });
-  final List<CartItem> items;
-  final Widget Function(BuildContext, CartItem, int) itemBuilder;
+  final List<CartModel> items;
+  final Widget Function(BuildContext, CartModel, int) itemBuilder;
   final WidgetBuilder ctaBuilder;
 
   @override
   Widget build(BuildContext context) {
     // If there are no items, show a placeholder
     if (items.isEmpty) {
-      return EmptyPlaceholderWidget(
-        message: 'Your shopping cart is empty'.hardcoded,
+      return Center(
+        child: Text('Your shopping cart in currently empty'.hardcoded,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge),
       );
     }
     // ! MediaQuery is used on the assumption that the widget takes up the full
@@ -43,12 +44,13 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
             Flexible(
               // use 3 flex units for the list of items
               flex: 2,
-              child: ListView.builder(
+              child: ListView.separated(
                 padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
                 itemBuilder: (context, index) {
                   final item = items[index];
                   return itemBuilder(context, item, index);
                 },
+                separatorBuilder: (_, __) => gapH16,
                 itemCount: items.length,
               ),
             ),
@@ -69,12 +71,13 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
       return Column(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               padding: const EdgeInsets.all(Sizes.p12),
               itemBuilder: (context, index) {
                 final item = items[index];
                 return itemBuilder(context, item, index);
               },
+              separatorBuilder: (_, __) => gapH16,
               itemCount: items.length,
             ),
           ),

@@ -30,7 +30,7 @@ class MyReportScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider),
+                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
               ),
               gapH12,
               Row(

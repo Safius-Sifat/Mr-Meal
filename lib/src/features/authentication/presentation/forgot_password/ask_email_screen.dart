@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
+import '../../../../routing/app_router.dart';
 import '../email_password_validators.dart';
 import '../string_validators.dart';
+import 'forgot_password_controller.dart';
 
 class AskEmailScreen extends ConsumerStatefulWidget {
   const AskEmailScreen({super.key});
@@ -19,13 +23,36 @@ class _AskEmailState extends ConsumerState<AskEmailScreen>
     with EmailAndPasswordValidators {
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String get email => _emailController.text;
   @override
   void dispose() {
     _emailController.dispose();
     super.dispose();
   }
 
-  final _submitted = false;
+  var _submitted = false;
+  Future<void> _submit() async {
+    setState(() => _submitted = true);
+    // only submit the form if validation passes
+    if (_formKey.currentState!.validate()) {
+      final controller = ref.read(sendOtpControllerProvider.notifier);
+      final success = await controller.sendOtp(email);
+
+      if (context.mounted && success) {
+        toastification.show(
+          context: context,
+          title:
+              const Text('The verification code has been sent to your email'),
+          type: ToastificationType.success,
+          style: ToastificationStyle.simple,
+          autoCloseDuration: const Duration(seconds: 5),
+        );
+        await context.pushNamed(AppRoute.forgotPassword.name,
+            pathParameters: {'email': email});
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final state = ref.watch(authControllerProvider);

@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants/api_constants.dart';
+import '../../../exception/app_exception.dart';
 import '../../../utils/dio_provider.dart';
 import '../../../utils/in_memory_store.dart';
 import '../../../utils/shared_preference_provider.dart';
@@ -20,16 +21,22 @@ class AuthRepository {
       {required this.secureStorage,
       required this.client,
       required this.sharedPreferences}) {
-    _initialize();
+    // _initialize();
   }
 
-  final _authState = InMemoryStore<AppUser?>(null);
-  Future<void> _initialize() async {
-    final first = isFirstTime();
+  static final _authState = InMemoryStore<AppUser?>(null);
+  static Future<void> initialize() async {
+    const secure = FlutterSecureStorage(
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    );
+
+    final first = await _isFirstTime();
     if (first) {
-      await secureStorage.delete(key: userKey);
+      await secure.deleteAll();
     }
-    final value = await secureStorage.read(key: userKey);
+    final value = await secure.read(key: userKey);
     final AppUser? user = value == null ? null : AppUser.fromJson(value);
     _authState.value = user;
   }
@@ -72,8 +79,9 @@ class AuthRepository {
       await _saveUser(user);
       _authState.value = user;
     } else {
-      throw Exception(
-          response.data['data']['email']?.first ?? 'Something went wrong');
+      throw RegistrationException(
+          response.data['data']['email']?.first.toString() ??
+              'Something went wrong');
     }
   }
 
@@ -97,14 +105,61 @@ class AuthRepository {
     );
     if (response.data['status'] == null) {
       final user = AppUser(
-          name: 'name',
+          name: response.data['user']['name'] as String,
           email: email,
-          phone: 'phone',
+          phone: response.data['user']['phone'] as String,
           token: response.data['token'] as String);
       await _saveUser(user);
       _authState.value = user;
     } else {
-      throw Exception(response.data['message']);
+      throw LoginException(response.data['message'] as String);
+    }
+  }
+
+  Future<void> sendOtp(String email) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: forgotPassword,
+    );
+    final response = await client.postUri(
+      uri,
+      options: Options(
+        headers: {'Accept': 'application/json'},
+      ),
+      data: {
+        'email': email,
+      },
+    );
+    if (response.data['success'] != 200) {
+      throw CodeNotSentException();
+    }
+  }
+
+  Future<void> forgotPasswordReset(
+    String email,
+    String code,
+    String password,
+  ) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: resetPassword,
+    );
+    final response = await client.postUri(
+      uri,
+      options: Options(
+        headers: {'Accept': 'application/json'},
+      ),
+      data: {
+        'email': email,
+        'code': code,
+        'password': password,
+      },
+    );
+
+    if (response.data['success'] != 200) {
+      throw ResetPasswordException();
     }
   }
 
@@ -113,13 +168,14 @@ class AuthRepository {
     _authState.value = null;
   }
 
-  bool isFirstTime() {
-    final isFirstTime = sharedPreferences.getBool('first_time');
+  static Future<bool> _isFirstTime() async {
+    final shared = await SharedPreferences.getInstance();
+    final isFirstTime = shared.getBool('first_time');
     if (isFirstTime != null && !isFirstTime) {
-      sharedPreferences.setBool('first_time', false);
+      await shared.setBool('first_time', false);
       return false;
     } else {
-      sharedPreferences.setBool('first_time', false);
+      await shared.setBool('first_time', false);
       return true;
     }
   }

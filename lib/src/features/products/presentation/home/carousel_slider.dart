@@ -59,15 +59,15 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
                               height: SizeConfig.screenHeight * 0.2,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                // color: Colors.black,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                    Colors.transparent,
-                                  ],
-                                ),
+                                color: Colors.black,
+                                // gradient: LinearGradient(
+                                //   begin: Alignment.topCenter,
+                                //   end: Alignment.bottomCenter,
+                                //   colors: [
+                                //     Theme.of(context).scaffoldBackgroundColor,
+                                //     Colors.transparent,
+                                //   ],
+                                // ),
                               ),
                             ),
                           ),

@@ -10,6 +10,7 @@ import '../../../../l10n/string_hardcoded.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../products/domain/item_detail.dart';
 import '../../application/cart_service.dart';
+import '../../domain/online_cart.dart';
 import 'add_to_cart_controller.dart';
 
 /// A widget that shows an [ItemQuantitySelector] along with a [PrimaryButton]
@@ -17,7 +18,6 @@ import 'add_to_cart_controller.dart';
 class AddToCartWidget extends ConsumerWidget {
   const AddToCartWidget({super.key, required this.product});
   final ItemDetail product;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue<dynamic>>(
@@ -29,6 +29,7 @@ class AddToCartWidget extends ConsumerWidget {
     final quantity = ref.watch(itemQuantityControllerProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,7 +49,9 @@ class AddToCartWidget extends ConsumerWidget {
           ],
         ),
         gapH8,
-        const Divider(),
+        const Divider(
+          color: Colors.grey,
+        ),
         gapH8,
         PrimaryButton(
           isLoading: state.isLoading,
@@ -56,7 +59,13 @@ class AddToCartWidget extends ConsumerWidget {
           onPressed: availableQuantity > 0
               ? () => ref
                   .read(addToCartControllerProvider.notifier)
-                  .addItem(product.id)
+                  .addItem(CartModel.empty().copyWith(
+                    itemId: product.id,
+                    itemName: product.itemName,
+                    itemPrice: product.itemPrice,
+                    itemDiscountPrice: product.discountPrice,
+                    itemImage: product.image,
+                  ))
               : null,
           text: availableQuantity > 0
               ? 'Add to Cart'.hardcoded
@@ -66,7 +75,7 @@ class AddToCartWidget extends ConsumerWidget {
           gapH8,
           Text(
             'Already added to cart'.hardcoded,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
         ]

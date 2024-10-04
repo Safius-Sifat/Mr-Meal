@@ -6,10 +6,10 @@ import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
+import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
 import '../../data/item_repository.dart';
 import '../../domain/item_detail.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/photo.dart';
 import 'item_description.dart';
 import 'tab_bar.dart';
 
@@ -63,6 +63,7 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
                               width: double.infinity,
@@ -85,7 +86,7 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                             Row(
                               children: [
                                 Text(
-                                  '${detail.discountPrice}',
+                                  '৳${detail.discountPrice}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -95,9 +96,9 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                                         fontSize: 14,
                                       ),
                                 ),
-                                gapW4,
+                                gapW8,
                                 Text(
-                                  '${detail.itemPrice}',
+                                  '৳${detail.itemPrice}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -165,6 +166,8 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                       )
                     ],
                   ),
+                  gapH16,
+                  AddToCartWidget(product: detail),
                   gapH16,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

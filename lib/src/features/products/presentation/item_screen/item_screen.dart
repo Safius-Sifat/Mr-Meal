@@ -35,7 +35,7 @@ class ItemScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider),
+                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
               ),
               gapH24,
               AsyncValueWidget<ItemsByCategory>(

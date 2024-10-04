@@ -20,11 +20,11 @@ final cartServiceProvider = Provider<CartService>.internal(
 );
 
 typedef CartServiceRef = ProviderRef<CartService>;
-String _$cartHash() => r'd35edbfc65f24abebaa54f3d8812907641d9ff3e';
+String _$cartHash() => r'dc4a246830c1718d60ab0f2807a063824fce16cf';
 
 /// See also [cart].
 @ProviderFor(cart)
-final cartProvider = StreamProvider<Cart>.internal(
+final cartProvider = StreamProvider<RemoteCart>.internal(
   cart,
   name: r'cartProvider',
   debugGetCreateSourceHash:
@@ -33,8 +33,8 @@ final cartProvider = StreamProvider<Cart>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef CartRef = StreamProviderRef<Cart>;
-String _$cartItemsCountHash() => r'c8d67d2c5fa13d83da6dec350bca0418820ad8d8';
+typedef CartRef = StreamProviderRef<RemoteCart>;
+String _$cartItemsCountHash() => r'54617f31ae1ee3d22c9753317ac09ed0023aec23';
 
 /// See also [cartItemsCount].
 @ProviderFor(cartItemsCount)
@@ -49,8 +49,22 @@ final cartItemsCountProvider = Provider<int>.internal(
 );
 
 typedef CartItemsCountRef = ProviderRef<int>;
+String _$cartTotalHash() => r'e2ab44b5fd21699a882ef2bf3e124eca07f658f0';
+
+/// See also [cartTotal].
+@ProviderFor(cartTotal)
+final cartTotalProvider = AutoDisposeFutureProvider<double>.internal(
+  cartTotal,
+  name: r'cartTotalProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$cartTotalHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CartTotalRef = AutoDisposeFutureProviderRef<double>;
 String _$itemAvailableQuantityHash() =>
-    r'7c3da08efb6391998afb039c3bca4074cf816fa6';
+    r'78f805dadecee48ef5393577e32fa6fdc0eda61f';
 
 /// Copied from Dart SDK
 class _SystemHash {

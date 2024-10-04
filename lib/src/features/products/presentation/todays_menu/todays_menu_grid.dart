@@ -5,8 +5,6 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
-import '../../../../constants/category_list.dart';
-import '../../../../constants/package_list.dart';
 import 'todays_menu_screen.dart';
 
 class TodaysMenuGrid extends ConsumerWidget {
@@ -25,11 +23,10 @@ class TodaysMenuGrid extends ConsumerWidget {
     //           ),
     //         )
     return ProductsLayoutGrid(
-      itemCount: kPackages.length,
+      itemCount: 6,
       itemBuilder: (_, index) {
-        final package = kPackages[index];
-        return MenuContainer(
-          title: package.name,
+        return const MenuContainer(
+          title: 'Package name',
         );
       },
     );

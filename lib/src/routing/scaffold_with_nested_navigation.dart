@@ -65,8 +65,8 @@ class NavBar extends StatelessWidget {
             ),
             Expanded(
               child: navItem(
-                order,
-                'Order',
+                announcement,
+                'Announce',
                 pageIndex == 1,
                 onTap: () => onTap(1),
               ),
@@ -123,10 +123,18 @@ class NavBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                  height: Sizes.p20,
-                  width: Sizes.p20,
-                  child: Photo(icon,
-                      color: selected ? neutralColor : Colors.black)),
+                height: Sizes.p20,
+                width: Sizes.p20,
+                child: selected
+                    ? DecoratedBox(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        )),
+                        child: Photo(icon))
+                    : Photo(icon),
+              ),
               gapH4,
               Text(name,
                   style:

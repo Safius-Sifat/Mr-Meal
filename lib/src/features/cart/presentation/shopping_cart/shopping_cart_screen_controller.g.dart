@@ -7,7 +7,7 @@ part of 'shopping_cart_screen_controller.dart';
 // **************************************************************************
 
 String _$shoppingCartScreenControllerHash() =>
-    r'0e928b6de41a8a78c35ee032fce07bc169e8be09';
+    r'e96f031f8094ee85b3d0e8a12eacd2d6930f2c4b';
 
 /// See also [ShoppingCartScreenController].
 @ProviderFor(ShoppingCartScreenController)

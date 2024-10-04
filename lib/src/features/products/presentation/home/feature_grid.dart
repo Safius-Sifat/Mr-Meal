@@ -60,7 +60,7 @@ class ProductsLayoutGrid extends StatelessWidget {
       return isMobile
           ? CarouselSlider.builder(
               options: CarouselOptions(
-                height: 200,
+                height: 240,
 
                 viewportFraction: 1,
                 // autoPlay: true,

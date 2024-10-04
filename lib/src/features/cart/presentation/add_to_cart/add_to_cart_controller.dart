@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../application/cart_service.dart';
-import '../../domain/cart_item.dart';
+import '../../domain/online_cart.dart';
 
 part 'add_to_cart_controller.g.dart';
 
@@ -12,10 +12,9 @@ class AddToCartController extends _$AddToCartController {
     // nothing to do
   }
 
-  Future<void> addItem(ProductID productId) async {
+  Future<void> addItem(CartModel item) async {
     final cartService = ref.read(cartServiceProvider);
     final quantity = ref.read(itemQuantityControllerProvider);
-    final item = CartItem(productId: productId, quantity: quantity);
     state = const AsyncLoading<void>();
     state = await AsyncValue.guard(() => cartService.addItem(item));
     if (!state.hasError) {

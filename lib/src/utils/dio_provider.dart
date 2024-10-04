@@ -5,7 +5,7 @@ import 'logger_interceptor.dart';
 
 part 'dio_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Dio dio(DioRef ref) {
   final dio = Dio();
   dio.interceptors.add(LoggerInterceptor());

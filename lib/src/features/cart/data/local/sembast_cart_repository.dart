@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-import 'package:sembast_web/sembast_web.dart';
 
-import '../../domain/cart.dart';
+import '../../domain/online_cart.dart';
 import 'local_cart_repository.dart';
 
 class SembastCartRepository implements LocalCartRepository {
@@ -13,12 +13,8 @@ class SembastCartRepository implements LocalCartRepository {
   final store = StoreRef.main();
 
   static Future<Database> createDatabase(String filename) async {
-    if (!kIsWeb) {
-      final appDocDir = await getApplicationDocumentsDirectory();
-      return databaseFactoryIo.openDatabase('${appDocDir.path}/$filename');
-    } else {
-      return databaseFactoryWeb.openDatabase(filename);
-    }
+    final appDocDir = await getApplicationDocumentsDirectory();
+    return databaseFactoryIo.openDatabase('${appDocDir.path}/$filename');
   }
 
   static Future<SembastCartRepository> makeDefault() async {
@@ -28,28 +24,28 @@ class SembastCartRepository implements LocalCartRepository {
   static const cartItemsKey = 'cartItems';
 
   @override
-  Future<Cart> fetchCart() async {
-    final cartJson = await store.record(cartItemsKey).get(db) as String?;
+  Future<RemoteCart> fetchCart() async {
+    final cartJson = await store.record(cartItemsKey).get(db);
     if (cartJson != null) {
-      return Cart.fromJson(cartJson);
+      return RemoteCart.fromJson(cartJson as Map<String, dynamic>);
     } else {
-      return const Cart();
+      return const RemoteCart(carts: []);
     }
   }
 
   @override
-  Future<void> setCart(Cart cart) {
+  Future<void> setCart(RemoteCart cart) {
     return store.record(cartItemsKey).put(db, cart.toJson());
   }
 
   @override
-  Stream<Cart> watchCart() {
+  Stream<RemoteCart> watchCart() {
     final record = store.record(cartItemsKey);
     return record.onSnapshot(db).map((snapshot) {
       if (snapshot != null) {
-        return Cart.fromJson(snapshot.value as String);
+        return RemoteCart.fromJson(snapshot.value! as Map<String, dynamic>);
       } else {
-        return const Cart();
+        return const RemoteCart(carts: []);
       }
     });
   }

@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/address/presentation/select_location_screen.dart';
+import '../features/announcement/presentation/announcement_screen.dart';
 import '../features/authentication/data/auth_repository.dart';
 import '../features/authentication/presentation/forgot_password/ask_email_screen.dart';
 import '../features/authentication/presentation/forgot_password/forgot_password_screen.dart';
@@ -12,11 +14,9 @@ import '../features/authentication/presentation/welcome_screen.dart';
 import '../features/cart/presentation/shopping_cart/shopping_cart_screen.dart';
 import '../features/delivery_schedule/presentation/delivery_schedule_screen.dart';
 import '../features/favourite/presentation/favourite_screen.dart';
-import '../features/location_selection/presentation/select_location_screen.dart';
 import '../features/meal_on_off/presentation/guest_meal_screen.dart';
 import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
-import '../features/order/presentation/order_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
 import '../features/products/presentation/all_package/package_screen.dart';
 import '../features/products/presentation/category/category_screen.dart';
@@ -43,6 +43,7 @@ enum AppRoute {
   changePassword,
   home,
   order,
+  announcement,
   cart,
   favourite,
   profile,
@@ -69,6 +70,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _favouriteNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'favourite');
 final _profileNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'profile');
+const _locationKey = ValueKey('location');
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
@@ -127,9 +129,9 @@ GoRouter goRouter(GoRouterRef ref) {
                   GoRoute(
                     path: 'forgotPassword',
                     name: AppRoute.forgotPassword.name,
-                    pageBuilder: (context, state) => const NoTransitionPage(
+                    pageBuilder: (context, state) => NoTransitionPage(
                       child: ForgotPasswordScreen(
-                        email: 'safiussifat@gmail.com',
+                        email: state.pathParameters['email']!,
                       ),
                     ),
                   ),
@@ -167,10 +169,13 @@ GoRouter goRouter(GoRouterRef ref) {
                       ),
                     ),
                     GoRoute(
-                      path: 'location',
+                      path: 'location/:locationType',
                       name: AppRoute.location.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
-                        child: SelectLocationScreen(),
+                      pageBuilder: (context, state) => NoTransitionPage(
+                        key: _locationKey,
+                        child: SelectLocationScreen(
+                          locationType: state.pathParameters['locationType']!,
+                        ),
                       ),
                     ),
                     GoRoute(
@@ -241,15 +246,25 @@ GoRouter goRouter(GoRouterRef ref) {
                   ]),
             ],
           ),
+
           StatefulShellBranch(navigatorKey: _orderNavigatorKey, routes: [
             GoRoute(
-              path: '/order',
-              name: AppRoute.order.name,
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: OrderScreen(),
+              path: '/announcement',
+              name: AppRoute.announcement.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AnnouncementScreen(),
               ),
             ),
           ]),
+          // StatefulShellBranch(navigatorKey: _orderNavigatorKey, routes: [
+          //   GoRoute(
+          //     path: '/order',
+          //     name: AppRoute.order.name,
+          //     pageBuilder: (context, state) => NoTransitionPage(
+          //       child: OrderScreen(),
+          //     ),
+          //   ),
+          // ]),
           StatefulShellBranch(navigatorKey: _cartNavigatorKey, routes: [
             GoRoute(
               path: '/cart',
@@ -263,7 +278,7 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: '/favourite',
               name: AppRoute.favourite.name,
-              pageBuilder: (context, state) => NoTransitionPage(
+              pageBuilder: (context, state) => const NoTransitionPage(
                 child: FavouriteScreen(),
               ),
             ),

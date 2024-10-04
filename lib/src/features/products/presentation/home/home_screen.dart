@@ -7,14 +7,13 @@ import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
-import '../../data/package_repository.dart';
 import '../food_grid.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/photo.dart';
 import '../widgets/search_field.dart';
 import 'carousel_slider.dart';
 import 'feature_grid.dart';
 import 'home_packages_widget.dart';
+import 'set_location.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -25,32 +24,11 @@ class HomeScreen extends ConsumerWidget {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            InkWell(
-              onTap: () {
-                context.goNamed(AppRoute.location.name);
-              },
-              child: const SizedBox(
-                height: Sizes.p16,
-                width: Sizes.p16,
-                child: Photo(
-                  location,
-                ),
-              ),
-            ),
-            gapW4,
-            InkWell(
-              onTap: () {
-                context.goNamed(AppRoute.location.name);
-              },
-              child: Text(
-                'Dhaka, Bangladesh',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
+            SetLocationWidget(),
             gapW8,
-            const Expanded(
+            Expanded(
               child: SearchField(),
             ),
           ],
@@ -63,7 +41,7 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider),
+                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
               ),
               gapH12,
               Stack(
@@ -134,7 +112,6 @@ class HomeScreen extends ConsumerWidget {
               ),
               gapH32,
               const FeatureGrid(),
-              gapH24,
               const HomePackagesWidget(),
               gapH16,
             ],

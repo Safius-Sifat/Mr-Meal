@@ -1,22 +1,21 @@
 import '../../../../utils/in_memory_store.dart';
-import '../../domain/cart.dart';
+import '../../domain/online_cart.dart';
 import 'local_cart_repository.dart';
 
 class FakeLocalCartRepository implements LocalCartRepository {
   FakeLocalCartRepository({this.addDelay = true});
   final bool addDelay;
 
-  final _cart = InMemoryStore<Cart>(const Cart());
+  final _cart = InMemoryStore<RemoteCart>(const RemoteCart(carts: []));
 
   @override
-  Future<Cart> fetchCart() => Future.value(_cart.value);
+  Future<RemoteCart> fetchCart() => Future.value(_cart.value);
 
   @override
-  Stream<Cart> watchCart() => _cart.stream;
+  Stream<RemoteCart> watchCart() => _cart.stream;
 
   @override
-  Future<void> setCart(Cart cart) async {
-    await Future.delayed(Duration(milliseconds: 2000));
+  Future<void> setCart(RemoteCart cart) async {
     _cart.value = cart;
   }
 }

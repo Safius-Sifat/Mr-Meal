@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
 import '../../../../style/theme.dart';
-import 'cart_total_text.dart';
+import '../../application/cart_service.dart';
 
 /// Widget for showing the shopping cart total with a checkout button
-class CartTotalWithCTA extends StatelessWidget {
+class CartTotalWithCTA extends ConsumerWidget {
   const CartTotalWithCTA({super.key, required this.ctaBuilder});
   final WidgetBuilder ctaBuilder;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedItem = ref.watch(cartItemsCountProvider);
+    final total = ref.watch(cartTotalProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -34,9 +38,13 @@ class CartTotalWithCTA extends StatelessWidget {
             ),
             Column(
               children: [
-                Text('6'.hardcoded, style: boldText),
+                Text(selectedItem.toString(), style: boldText),
                 gapH4,
-                Text('120'.hardcoded, style: boldText),
+                total.when(
+                  data: (value) => Text('৳$value', style: boldText),
+                  loading: () => const Skeletonizer(child: Text('100')),
+                  error: (error, _) => Text(error.toString(), style: boldText),
+                ),
                 gapH4,
               ],
             ),
@@ -116,7 +124,7 @@ class CartTotalWithCTA extends StatelessWidget {
                 gapH4,
                 Text(
                   'Discount'.hardcoded,
-                  style: TextStyle(color: primaryColor),
+                  style: const TextStyle(color: primaryColor),
                 ),
                 gapH4,
                 Text('Delivery Fee'.hardcoded),
@@ -128,10 +136,10 @@ class CartTotalWithCTA extends StatelessWidget {
             Column(
               children: [
                 gapH4,
-                Text('-5'.hardcoded,
+                Text('৳0'.hardcoded,
                     style: boldText.copyWith(color: primaryColor)),
                 gapH4,
-                Text('45'.hardcoded, style: boldText),
+                Text('৳120'.hardcoded, style: boldText),
               ],
             ),
             const Spacer(),
@@ -147,7 +155,7 @@ class CartTotalWithCTA extends StatelessWidget {
               children: [
                 Text(
                   'Total Payment'.hardcoded,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: primaryColor, fontWeight: FontWeight.bold),
                 ),
               ],

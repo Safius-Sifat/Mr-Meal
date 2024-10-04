@@ -13,20 +13,20 @@ class NetworkPhoto extends StatelessWidget {
       imageUrl: image,
       fit: BoxFit.cover,
       placeholder: (_, __) => Shimmer.fromColors(
-        baseColor: Colors.black26,
-        highlightColor: Colors.black12,
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            // color: Colors.black,
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Theme.of(context).scaffoldBackgroundColor,
-                Colors.transparent,
-              ],
-            ),
+            color: Colors.grey.shade300,
+            // gradient: LinearGradient(
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            //   colors: [
+            //     Theme.of(context).scaffoldBackgroundColor,
+            //     Colors.transparent,
+            //   ],
+            // ),
           ),
         ),
       ),

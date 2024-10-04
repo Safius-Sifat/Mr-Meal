@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
 import '../home/carousel_slider.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/photo.dart';
 import 'todays_menu_grid.dart';
 
 class TodaysMenuScreen extends ConsumerWidget {
@@ -33,7 +31,7 @@ class TodaysMenuScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider),
+                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
               ),
               gapH24,
               const TodaysMenuGrid(),

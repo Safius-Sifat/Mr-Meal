@@ -8,6 +8,7 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../../products/presentation/widgets/photo.dart';
 import '../email_password_validators.dart';
 import '../string_validators.dart';
@@ -75,6 +76,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(loginControllerProvider);
+
+    ref.listen<AsyncValue<dynamic>>(
+      loginControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(

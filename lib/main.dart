@@ -6,16 +6,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app.dart';
 import 'src/exception/async_error_logger.dart';
 import 'src/exception/error_logger.dart';
+import 'src/features/authentication/data/auth_repository.dart';
+import 'src/features/cart/application/cart_sync_service.dart';
+import 'src/features/cart/data/local/local_cart_repository.dart';
+import 'src/features/cart/data/local/sembast_cart_repository.dart';
 import 'src/utils/shared_preference_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final pref = await SharedPreferences.getInstance();
+  await AuthRepository.initialize();
+
+  final localCartRepository = await SembastCartRepository.makeDefault();
   final container = ProviderContainer(
-    overrides: [sharedPreferencesProvider.overrideWithValue(pref)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(pref),
+      localCartRepositoryProvider.overrideWithValue(localCartRepository),
+    ],
     observers: [AsyncErrorLogger()],
   );
 
+  // * Initialize CartSyncService to start the listener
+  container.read(cartSyncServiceProvider);
   final errorLogger = container.read(errorLoggerProvider);
   // * Register error handlers. For more info, see:
   // * https://docs.flutter.dev/testing/errors

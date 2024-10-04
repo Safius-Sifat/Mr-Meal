@@ -60,7 +60,7 @@ class NotificationScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
             child: CustomCarouselSlider(
-              value: ref.watch(fetchSlidersProvider),
+              value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
             ),
           ),
           Expanded(
