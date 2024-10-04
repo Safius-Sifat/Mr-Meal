@@ -31,3 +31,5 @@ const String announcementUrl = '/api/user/announcements';
 const String profileUrl = '/api/user-profile';
 const String balanceUrl = '/api/balance';
 const String changePasswordUrl = '/api/change-password';
+const String orderUrl = '/api/order-now';
+const String rechargeUrl = '/api/user-recharge-now';

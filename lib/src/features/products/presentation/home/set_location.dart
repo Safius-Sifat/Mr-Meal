@@ -15,108 +15,6 @@ import '../widgets/photo.dart';
 class SetLocationWidget extends ConsumerWidget {
   const SetLocationWidget({super.key});
 
-  Future<void> setLocation(BuildContext context, Address address) async {
-    final permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      errorToast(
-          ctx: context,
-          title: 'Location Permission Denied',
-          description: 'Please enable location permission to continue');
-    } else if (permission == LocationPermission.deniedForever) {
-      errorToast(
-          ctx: context,
-          title: 'Location Permission Permanently Denied',
-          description:
-              'Please enable location permission from the app settings to continue');
-    } else {
-      await showModalBottomSheet(
-          backgroundColor: tertiaryColor,
-          context: context,
-          builder: (context) {
-            return DecoratedBox(
-              decoration: const BoxDecoration(
-                  color: tertiaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(Sizes.p12))),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (address.primaryLocation != null)
-                    ListTile(
-                      leading: const Icon(
-                        Icons.location_on_rounded,
-                        color: primaryColor,
-                      ),
-                      title: const Text('Primary Address'),
-                      subtitle: Text(address.primaryLocation!),
-                      onTap: () {
-                        context.pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SelectLocationScreen(
-                                  locationType: 'primary',
-                                  latitude: address.primaryLocLattitude!,
-                                  longitude: address.primaryLocLongitude!,
-                                )));
-                      },
-                    ),
-                  if (address.primaryLocation == null)
-                    ListTile(
-                      leading: const Icon(
-                        Icons.add_location_alt_rounded,
-                        color: primaryColor,
-                      ),
-                      splashColor: primaryColor.withOpacity(0.2),
-                      title: const Text('Add primary address'),
-                      onTap: () {
-                        context.pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SelectLocationScreen(
-                                  locationType: 'primary',
-                                )));
-                      },
-                    ),
-                  if (address.secondaryLocation != null)
-                    ListTile(
-                      leading: const Icon(
-                        Icons.location_on_rounded,
-                        color: primaryColor,
-                      ),
-                      title: const Text('Secondary Address'),
-                      subtitle: Text(address.secondaryLocation!),
-                      onTap: () {
-                        context.pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SelectLocationScreen(
-                                  locationType: 'secondary',
-                                  latitude: address.secondaryLocLattitude!,
-                                  longitude: address.secondaryLocLongitude!,
-                                )));
-                      },
-                    ),
-                  if (address.secondaryLocation == null)
-                    ListTile(
-                      leading: const Icon(
-                        Icons.add_location_alt_rounded,
-                        color: primaryColor,
-                      ),
-                      title: const Text('Add secondary address'),
-                      onTap: () {
-                        context.pop();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SelectLocationScreen(
-                                  locationType: 'secondary',
-                                )));
-
-                        // context.goNamed(AppRoute.location.name,
-                        //     pathParameters: {'locationType': 'secondary'});
-                      },
-                    ),
-                ],
-              ),
-            );
-          });
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(fetchAddressProvider);
@@ -207,5 +105,107 @@ class SetLocationWidget extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> setLocation(BuildContext context, Address address) async {
+  final permission = await Geolocator.requestPermission();
+  if (permission == LocationPermission.denied) {
+    errorToast(
+        ctx: context,
+        title: 'Location Permission Denied',
+        description: 'Please enable location permission to continue');
+  } else if (permission == LocationPermission.deniedForever) {
+    errorToast(
+        ctx: context,
+        title: 'Location Permission Permanently Denied',
+        description:
+            'Please enable location permission from the app settings to continue');
+  } else {
+    await showModalBottomSheet(
+        backgroundColor: tertiaryColor,
+        context: context,
+        builder: (context) {
+          return DecoratedBox(
+            decoration: const BoxDecoration(
+                color: tertiaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(Sizes.p12))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (address.primaryLocation != null)
+                  ListTile(
+                    leading: const Icon(
+                      Icons.location_on_rounded,
+                      color: primaryColor,
+                    ),
+                    title: const Text('Primary Address'),
+                    subtitle: Text(address.primaryLocation!),
+                    onTap: () {
+                      context.pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SelectLocationScreen(
+                                locationType: 'primary',
+                                latitude: address.primaryLocLattitude!,
+                                longitude: address.primaryLocLongitude!,
+                              )));
+                    },
+                  ),
+                if (address.primaryLocation == null)
+                  ListTile(
+                    leading: const Icon(
+                      Icons.add_location_alt_rounded,
+                      color: primaryColor,
+                    ),
+                    splashColor: primaryColor.withOpacity(0.2),
+                    title: const Text('Add primary address'),
+                    onTap: () {
+                      context.pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const SelectLocationScreen(
+                                locationType: 'primary',
+                              )));
+                    },
+                  ),
+                if (address.secondaryLocation != null)
+                  ListTile(
+                    leading: const Icon(
+                      Icons.location_on_rounded,
+                      color: primaryColor,
+                    ),
+                    title: const Text('Secondary Address'),
+                    subtitle: Text(address.secondaryLocation!),
+                    onTap: () {
+                      context.pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SelectLocationScreen(
+                                locationType: 'secondary',
+                                latitude: address.secondaryLocLattitude!,
+                                longitude: address.secondaryLocLongitude!,
+                              )));
+                    },
+                  ),
+                if (address.secondaryLocation == null)
+                  ListTile(
+                    leading: const Icon(
+                      Icons.add_location_alt_rounded,
+                      color: primaryColor,
+                    ),
+                    title: const Text('Add secondary address'),
+                    onTap: () {
+                      context.pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const SelectLocationScreen(
+                                locationType: 'secondary',
+                              )));
+
+                      // context.goNamed(AppRoute.location.name,
+                      //     pathParameters: {'locationType': 'secondary'});
+                    },
+                  ),
+              ],
+            ),
+          );
+        });
   }
 }

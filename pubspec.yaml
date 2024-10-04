@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: "none"
 
-version: 1.9.7+9
+version: 2.0.1+10
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -43,9 +43,9 @@ dependencies:
   skeletonizer: ^1.4.2
   toastification: ^2.3.0
   equatable: ^2.0.5
-  uddoktapay: ^0.0.3
   geolocator: ^12.0.0
   geocoding: ^3.0.0
+  webview_flutter: ^4.9.0
 
 dev_dependencies:
   flutter_test:

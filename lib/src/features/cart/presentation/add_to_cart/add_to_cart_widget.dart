@@ -57,15 +57,17 @@ class AddToCartWidget extends ConsumerWidget {
           isLoading: state.isLoading,
           // only enable the button if there is enough stock
           onPressed: availableQuantity > 0
-              ? () => ref
-                  .read(addToCartControllerProvider.notifier)
-                  .addItem(CartModel.empty().copyWith(
-                    itemId: product.id,
-                    itemName: product.itemName,
-                    itemPrice: product.itemPrice,
-                    itemDiscountPrice: product.discountPrice,
-                    itemImage: product.image,
-                  ))
+              ? () async {
+                  await ref
+                      .read(addToCartControllerProvider.notifier)
+                      .addItem(CartModel.empty().copyWith(
+                        itemId: product.id,
+                        itemName: product.itemName,
+                        itemPrice: product.itemPrice,
+                        itemDiscountPrice: product.discountPrice,
+                        itemImage: product.image,
+                      ));
+                }
               : null,
           text: availableQuantity > 0
               ? 'Add to Cart'.hardcoded

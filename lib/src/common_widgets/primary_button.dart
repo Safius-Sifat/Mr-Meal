@@ -45,6 +45,7 @@ class PrimaryButton extends StatelessWidget {
                 padding: EdgeInsets.all(8),
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
+                  color: Colors.white,
                 ),
               )
             : Text(

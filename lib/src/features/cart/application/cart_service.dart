@@ -72,6 +72,7 @@ class CartService {
             .addItemToCart(token: user.token, id: item.itemId!, type: 'item');
       }
       await _addCart(item);
+      return;
     }
     await _addCart(item);
   }

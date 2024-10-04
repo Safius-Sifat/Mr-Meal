@@ -48,6 +48,9 @@ extension MutableCart on RemoteCart {
         oldItem = carts.firstWhere((elem) => elem.itemId == item.itemId,
             orElse: () => item);
       }
+      print('oldItem: ${oldItem.quantity}');
+
+      print('NewItem: ${item.quantity}');
       copy[index] =
           oldItem.copyWith(quantity: item.quantity + oldItem.quantity);
       return RemoteCart(carts: copy);

@@ -16,7 +16,8 @@ class AddToCartController extends _$AddToCartController {
     final cartService = ref.read(cartServiceProvider);
     final quantity = ref.read(itemQuantityControllerProvider);
     state = const AsyncLoading<void>();
-    state = await AsyncValue.guard(() => cartService.addItem(item));
+    state = await AsyncValue.guard(
+        () => cartService.addItem(item.copyWith(quantity: quantity)));
     if (!state.hasError) {
       ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
     }

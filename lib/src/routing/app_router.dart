@@ -17,6 +17,7 @@ import '../features/favourite/presentation/favourite_screen.dart';
 import '../features/meal_on_off/presentation/guest_meal_screen.dart';
 import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
+import '../features/payment/presentation/payment_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
 import '../features/products/presentation/all_package/package_screen.dart';
 import '../features/products/presentation/category/category_screen.dart';
@@ -60,6 +61,7 @@ enum AppRoute {
   location,
   wallet,
   myReport,
+  payment,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -267,12 +269,22 @@ GoRouter goRouter(GoRouterRef ref) {
           // ]),
           StatefulShellBranch(navigatorKey: _cartNavigatorKey, routes: [
             GoRoute(
-              path: '/cart',
-              name: AppRoute.cart.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ShoppingCartScreen(),
-              ),
-            ),
+                path: '/cart',
+                name: AppRoute.cart.name,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                      child: ShoppingCartScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'payment/:url',
+                    name: AppRoute.payment.name,
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      child: PaymentScreen(
+                        paymentUrl: state.pathParameters['url']!,
+                      ),
+                    ),
+                  ),
+                ]),
           ]),
           StatefulShellBranch(navigatorKey: _favouriteNavigatorKey, routes: [
             GoRoute(
