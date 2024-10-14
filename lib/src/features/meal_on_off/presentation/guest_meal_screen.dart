@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../common_widgets/error_message_widget.dart';
 import '../../../common_widgets/primary_button.dart';
+import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
+import '../../../utils/async_value_ui.dart';
+import '../../../utils/toastification.dart';
+import '../../delivery_schedule/data/delivery_schedule_repository.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
 import 'meal_count_container_widget.dart';
 import 'meal_increase_container_widget.dart';
+import 'meal_on_off_controller.dart';
 
-class GuestMealScreen extends ConsumerWidget {
+class GuestMealScreen extends ConsumerStatefulWidget {
   const GuestMealScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _GuestMealScreenState();
+}
+
+class _GuestMealScreenState extends ConsumerState<GuestMealScreen> {
+  List<int> mealCount = [1, 1, 1];
+  @override
+  Widget build(BuildContext context) {
+    ref.listen<AsyncValue<dynamic>>(
+      guestMealControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -32,7 +49,8 @@ class GuestMealScreen extends ConsumerWidget {
             child: Column(
               children: [
                 CustomCarouselSlider(
-                  value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                  value:
+                      ref.watch(fetchSlidersProvider(screen: guestMealParam)),
                 ),
                 gapH12,
                 Text(
@@ -48,17 +66,17 @@ class GuestMealScreen extends ConsumerWidget {
                   children: [
                     MealCountContainerWidget(
                       mealTime: 'Breakfast'.hardcoded,
-                      mealCount: '1'.hardcoded,
+                      mealCount: mealCount[0].toString(),
                     ),
                     gapW8,
                     MealCountContainerWidget(
                       mealTime: 'Lunch'.hardcoded,
-                      mealCount: '2'.hardcoded,
+                      mealCount: mealCount[1].toString(),
                     ),
                     gapW8,
                     MealCountContainerWidget(
                       mealTime: 'Dinner'.hardcoded,
-                      mealCount: '3'.hardcoded,
+                      mealCount: mealCount[2].toString(),
                     ),
                   ],
                 ),
@@ -68,30 +86,57 @@ class GuestMealScreen extends ConsumerWidget {
                   style: const TextStyle(fontSize: Sizes.p12),
                 ),
                 gapH16,
-                Wrap(
-                  spacing: Sizes.p8,
-                  runSpacing: Sizes.p12,
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  children: [
-                    MealIncreaseContainerWidget(
-                      mealTime: 'Breakfast'.hardcoded,
-                      mealCount: 1,
+                ref.watch(fetchMealSettingProvider).when(
+                      data: (data) {
+                        return Wrap(
+                          spacing: Sizes.p8,
+                          runSpacing: Sizes.p12,
+                          alignment: WrapAlignment.center,
+                          runAlignment: WrapAlignment.center,
+                          children: List.generate(data.length, (index) {
+                            final settings = data[index];
+
+                            return MealIncreaseContainerWidget(
+                              mealTime: settings.mealName,
+                              timeRange:
+                                  '${settings.startTime} - ${settings.endTime}',
+                              mealCount: mealCount[index],
+                              onChanged: (quantity) {
+                                setState(() {
+                                  mealCount[index] = quantity;
+                                });
+                              },
+                            );
+                          }),
+                        );
+                      },
+                      error: (e, st) => ErrorMessageWidget(e),
+                      loading: () => const CircularProgressIndicator(),
                     ),
-                    MealIncreaseContainerWidget(
-                      mealTime: 'Lunch'.hardcoded,
-                      mealCount: 2,
-                    ),
-                    MealIncreaseContainerWidget(
-                      mealTime: 'Dinner'.hardcoded,
-                      mealCount: 3,
-                    ),
-                  ],
-                ),
                 gapH24,
                 PrimaryButton(
+                  isLoading: ref.watch(guestMealControllerProvider).isLoading,
                   width: 150,
-                  onPressed: () {},
+                  onPressed: () async {
+                    final noOfMeals =
+                        mealCount.fold<int>(0, (a, b) => a + b) - 3;
+                    if (noOfMeals == 0) {
+                      successToast(
+                          ctx: context, title: 'Please add meals first');
+                      return;
+                    }
+                    final success = await ref
+                        .read(guestMealControllerProvider.notifier)
+                        .addGuestMeal(
+                          noOfMeals: noOfMeals.toString(),
+                          startDate: DateTime.now().toString(),
+                          endDate: DateTime.now().toString(),
+                        );
+                    if (success) {
+                      successToast(
+                          ctx: context, title: 'Guest Meal added successfully');
+                    }
+                  },
                   text: 'Submit Order'.hardcoded,
                 ),
                 gapH16,

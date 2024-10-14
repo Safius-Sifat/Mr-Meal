@@ -7,9 +7,9 @@ import '../../../constants/api_constants.dart';
 import '../../../exception/app_exception.dart';
 import '../../../utils/dio_provider.dart';
 import '../../authentication/data/auth_repository.dart';
+import '../domain/category.dart';
 import '../domain/item_detail.dart';
 import '../domain/items.dart';
-import '../domain/items_by_category.dart' hide Items;
 import '../domain/slider.dart';
 import '../domain/todays_meal.dart';
 part 'item_repository.g.dart';
@@ -63,34 +63,35 @@ class ItemRepository {
     return ItemDetail.fromJson(response.data['item'] as Map<String, dynamic>);
   }
 
-  Future<ItemsByCategory> fetchItemsByCategory(CancelToken? cancelToken) async {
+  Future<List<Category>> fetchCategories(CancelToken? cancelToken) async {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
-      path: itemsUrl,
+      path: categoryUrl,
     );
     final response = await _client.getUri(
       uri,
       cancelToken: cancelToken,
     );
-    return ItemsByCategory.fromJson(
-        response.data['categories'] as Map<String, dynamic>);
+    return (response.data['categories'] as List).map((e) {
+      return Category.fromJson(e as Map<String, dynamic>);
+    }).toList();
   }
 
-  // Future<Items> fetchItemsByCategory(
-  //     CancelToken? cancelToken, int page, int categoryId) async {
-  //   final uri = Uri(
-  //     scheme: 'https',
-  //     host: baseUrl,
-  //     path: itemsUrl,
-  //     queryParameters: {'category_id': '$categoryId', 'page': '$page'},
-  //   );
-  //   final response = await _client.getUri(
-  //     uri,
-  //     cancelToken: cancelToken,
-  //   );
-  //   return Items.fromJson(response.data['items'] as Map<String, dynamic>);
-  // }
+  Future<Items> fetchItemsByCategory(
+      CancelToken? cancelToken, int page, int categoryId) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: itemsUrl,
+      queryParameters: {'category_id': '$categoryId', 'page': '$page'},
+    );
+    final response = await _client.getUri(
+      uri,
+      cancelToken: cancelToken,
+    );
+    return Items.fromJson(response.data['items'] as Map<String, dynamic>);
+  }
 
   Future<List<TodaysMeal>> fetchTodaysMeal(
       {required String token, CancelToken? cancelToken}) async {
@@ -178,7 +179,8 @@ Future<ItemDetail> getItemDetail(GetItemDetailRef ref, {required int id}) {
 }
 
 @riverpod
-Future<ItemsByCategory> fetchItemsByCategory(FetchItemsByCategoryRef ref) {
+Future<Items> fetchItemsByCategory(FetchItemsByCategoryRef ref,
+    {required int page, required int categoryId}) {
   final repo = ref.watch(itemRepositoryProvider);
   final cancelToken = CancelToken();
   final link = ref.keepAlive();
@@ -193,7 +195,7 @@ Future<ItemsByCategory> fetchItemsByCategory(FetchItemsByCategoryRef ref) {
   ref.onResume(() {
     timer?.cancel();
   });
-  return repo.fetchItemsByCategory(cancelToken);
+  return repo.fetchItemsByCategory(cancelToken, page, categoryId);
 }
 
 // @riverpod
@@ -215,6 +217,29 @@ Future<ItemsByCategory> fetchItemsByCategory(FetchItemsByCategoryRef ref) {
 //   });
 //   return repo.fetchItemsByCategory(cancelToken, page, categoryId);
 // }
+
+@riverpod
+Future<List<Category>> fetchCategories(FetchCategoriesRef ref) {
+  final repo = ref.watch(itemRepositoryProvider);
+  final cancelToken = CancelToken();
+  ref.listenSelf((_, st) {
+    if (st.hasValue) {
+      final link = ref.keepAlive();
+      Timer? timer;
+      ref.onDispose(() {
+        cancelToken.cancel();
+        timer?.cancel();
+      });
+      ref.onCancel(() {
+        timer = Timer(const Duration(seconds: 30), link.close);
+      });
+      ref.onResume(() {
+        timer?.cancel();
+      });
+    }
+  });
+  return repo.fetchCategories(cancelToken);
+}
 
 @riverpod
 Future<List<TodaysMeal>> fetchTodaysMeal(FetchTodaysMealRef ref) {

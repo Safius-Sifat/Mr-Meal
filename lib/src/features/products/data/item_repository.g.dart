@@ -429,22 +429,168 @@ class _GetItemDetailProviderElement
 }
 
 String _$fetchItemsByCategoryHash() =>
-    r'986c9a116d6011a99ea115b3ee6444e00ac00ab4';
+    r'2af353bf495062240749e836bb370bf5feebb6b2';
 
 /// See also [fetchItemsByCategory].
 @ProviderFor(fetchItemsByCategory)
-final fetchItemsByCategoryProvider =
-    AutoDisposeFutureProvider<ItemsByCategory>.internal(
-  fetchItemsByCategory,
-  name: r'fetchItemsByCategoryProvider',
+const fetchItemsByCategoryProvider = FetchItemsByCategoryFamily();
+
+/// See also [fetchItemsByCategory].
+class FetchItemsByCategoryFamily extends Family<AsyncValue<Items>> {
+  /// See also [fetchItemsByCategory].
+  const FetchItemsByCategoryFamily();
+
+  /// See also [fetchItemsByCategory].
+  FetchItemsByCategoryProvider call({
+    required int page,
+    required int categoryId,
+  }) {
+    return FetchItemsByCategoryProvider(
+      page: page,
+      categoryId: categoryId,
+    );
+  }
+
+  @override
+  FetchItemsByCategoryProvider getProviderOverride(
+    covariant FetchItemsByCategoryProvider provider,
+  ) {
+    return call(
+      page: provider.page,
+      categoryId: provider.categoryId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'fetchItemsByCategoryProvider';
+}
+
+/// See also [fetchItemsByCategory].
+class FetchItemsByCategoryProvider extends AutoDisposeFutureProvider<Items> {
+  /// See also [fetchItemsByCategory].
+  FetchItemsByCategoryProvider({
+    required int page,
+    required int categoryId,
+  }) : this._internal(
+          (ref) => fetchItemsByCategory(
+            ref as FetchItemsByCategoryRef,
+            page: page,
+            categoryId: categoryId,
+          ),
+          from: fetchItemsByCategoryProvider,
+          name: r'fetchItemsByCategoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$fetchItemsByCategoryHash,
+          dependencies: FetchItemsByCategoryFamily._dependencies,
+          allTransitiveDependencies:
+              FetchItemsByCategoryFamily._allTransitiveDependencies,
+          page: page,
+          categoryId: categoryId,
+        );
+
+  FetchItemsByCategoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.page,
+    required this.categoryId,
+  }) : super.internal();
+
+  final int page;
+  final int categoryId;
+
+  @override
+  Override overrideWith(
+    FutureOr<Items> Function(FetchItemsByCategoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FetchItemsByCategoryProvider._internal(
+        (ref) => create(ref as FetchItemsByCategoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        page: page,
+        categoryId: categoryId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Items> createElement() {
+    return _FetchItemsByCategoryProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FetchItemsByCategoryProvider &&
+        other.page == page &&
+        other.categoryId == categoryId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, page.hashCode);
+    hash = _SystemHash.combine(hash, categoryId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FetchItemsByCategoryRef on AutoDisposeFutureProviderRef<Items> {
+  /// The parameter `page` of this provider.
+  int get page;
+
+  /// The parameter `categoryId` of this provider.
+  int get categoryId;
+}
+
+class _FetchItemsByCategoryProviderElement
+    extends AutoDisposeFutureProviderElement<Items>
+    with FetchItemsByCategoryRef {
+  _FetchItemsByCategoryProviderElement(super.provider);
+
+  @override
+  int get page => (origin as FetchItemsByCategoryProvider).page;
+  @override
+  int get categoryId => (origin as FetchItemsByCategoryProvider).categoryId;
+}
+
+String _$fetchCategoriesHash() => r'582f1980d98f675fdebb93b16881730c3607deaa';
+
+/// See also [fetchCategories].
+@ProviderFor(fetchCategories)
+final fetchCategoriesProvider =
+    AutoDisposeFutureProvider<List<Category>>.internal(
+  fetchCategories,
+  name: r'fetchCategoriesProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$fetchItemsByCategoryHash,
+      : _$fetchCategoriesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FetchItemsByCategoryRef = AutoDisposeFutureProviderRef<ItemsByCategory>;
+typedef FetchCategoriesRef = AutoDisposeFutureProviderRef<List<Category>>;
 String _$fetchTodaysMealHash() => r'4cd393134b92883a5c6cd818eedc942f42132bbb';
 
 /// See also [fetchTodaysMeal].

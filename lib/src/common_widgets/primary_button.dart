@@ -14,7 +14,7 @@ class PrimaryButton extends StatelessWidget {
     required this.text,
     this.isLoading = false,
     this.onPressed,
-    this.height = Sizes.p48,
+    this.height = Sizes.p36,
     this.width = double.infinity,
     this.fontSize = Sizes.p16,
   });
@@ -43,9 +43,11 @@ class PrimaryButton extends StatelessWidget {
         child: isLoading
             ? const Padding(
                 padding: EdgeInsets.all(8),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
+                child: FittedBox(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 ),
               )
             : Text(

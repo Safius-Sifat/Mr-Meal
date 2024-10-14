@@ -24,8 +24,8 @@ class FeatureCard extends StatelessWidget {
             context.goNamed(feature.route.name);
           },
           child: Container(
-            width: 56,
-            height: 56,
+            width: 64,
+            height: 64,
             padding: const EdgeInsets.all(Sizes.p12),
             decoration: const BoxDecoration(
                 color: tertiaryColor,

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../common_widgets/error_message_widget.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../routing/app_router.dart';
 import '../data/item_repository.dart';
@@ -26,10 +27,15 @@ class FoodsGrid extends ConsumerWidget {
 
         final itemsListValue = ref.watch(fetchItemsProvider(page: page));
         return itemsListValue.when(
+          skipLoadingOnRefresh: false,
           data: (items) {
             if (indexInPage >= items.data.length) {
               return null;
             }
+            if (items.data.isEmpty) {
+              return const Center(child: Text('No item available'));
+            }
+
             final item = items.data[indexInPage];
 
             return FoodCard(
@@ -65,7 +71,7 @@ class FoodsGrid extends ConsumerWidget {
               ],
             ),
           ),
-          error: (e, st) => Text(e.toString()),
+          error: (e, st) => ErrorMessageWidget(e),
         );
       },
     );

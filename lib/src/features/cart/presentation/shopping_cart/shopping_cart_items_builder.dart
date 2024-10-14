@@ -25,7 +25,7 @@ class ShoppingCartItemsBuilder extends StatelessWidget {
     // If there are no items, show a placeholder
     if (items.isEmpty) {
       return Center(
-        child: Text('Your shopping cart in currently empty'.hardcoded,
+        child: Text('Your shopping cart is currently empty'.hardcoded,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge),
       );

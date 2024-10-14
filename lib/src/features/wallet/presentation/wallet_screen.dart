@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../common_widgets/primary_button.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/breakpoints.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
+import '../../../routing/app_router.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
 
-class WalletScreen extends ConsumerWidget {
+class WalletScreen extends ConsumerStatefulWidget {
   const WalletScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends ConsumerState<WalletScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -66,7 +73,8 @@ class WalletScreen extends ConsumerWidget {
                           width: 90,
                           height: 40,
                           fontSize: 12,
-                          onPressed: () {},
+                          onPressed: () =>
+                              context.goNamed(AppRoute.inputAmount.name),
                           text: 'Recharge Now',
                         ),
                       ],

@@ -9,16 +9,20 @@ class MealIncreaseContainerWidget extends StatelessWidget {
     super.key,
     required this.mealTime,
     required this.mealCount,
+    required this.timeRange,
+    required this.onChanged,
   });
+  final String timeRange;
   final String mealTime;
   final int mealCount;
+  final void Function(int) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('09:30:17 AM', style: TextStyle(fontSize: Sizes.p12)),
+        Text(timeRange, style: const TextStyle(fontSize: Sizes.p12)),
         gapH8,
         Container(
           height: Sizes.p48,
@@ -51,7 +55,7 @@ class MealIncreaseContainerWidget extends StatelessWidget {
               ),
               Expanded(
                   child: ItemQuantitySelector(
-                      quantity: mealCount, onChanged: (quantity) {})),
+                      quantity: mealCount, onChanged: onChanged)),
             ],
           ),
         ),

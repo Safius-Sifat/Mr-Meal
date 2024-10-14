@@ -8,7 +8,7 @@ class Items with _$Items {
     @JsonKey(name: 'current_page') required int currentPage,
     @JsonKey(name: 'data') required List<Datum> data,
     @JsonKey(name: 'first_page_url') required String firstPageUrl,
-    @JsonKey(name: 'from') required int from,
+    @JsonKey(name: 'from') required int? from,
     @JsonKey(name: 'last_page') required int lastPage,
     @JsonKey(name: 'last_page_url') required String lastPageUrl,
     @JsonKey(name: 'links') required List<Link> links,
@@ -16,7 +16,7 @@ class Items with _$Items {
     @JsonKey(name: 'path') required String path,
     @JsonKey(name: 'per_page') required int perPage,
     @JsonKey(name: 'prev_page_url') required String? prevPageUrl,
-    @JsonKey(name: 'to') required int to,
+    @JsonKey(name: 'to') required int? to,
     @JsonKey(name: 'total') required int total,
   }) = _Items;
 
@@ -34,6 +34,7 @@ class Datum with _$Datum {
     @JsonKey(name: 'category_name') required String categoryName,
     @JsonKey(name: 'subcategory_name') required String subcategoryName,
     @JsonKey(name: 'currency_symbol') required String currencySymbol,
+    @JsonKey(name: 'category_id') required int categoryId,
   }) = _Datum;
 
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);

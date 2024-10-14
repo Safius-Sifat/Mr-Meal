@@ -23,6 +23,7 @@ extension MutableCart on RemoteCart {
       oldItem = carts.firstWhere((elem) => elem.itemId == item.itemId,
           orElse: () => item);
     }
+    print('oldItem: $oldItem');
     copy[index] = oldItem.copyWith(quantity: item.quantity);
     return RemoteCart(carts: copy);
   }
@@ -48,9 +49,6 @@ extension MutableCart on RemoteCart {
         oldItem = carts.firstWhere((elem) => elem.itemId == item.itemId,
             orElse: () => item);
       }
-      print('oldItem: ${oldItem.quantity}');
-
-      print('NewItem: ${item.quantity}');
       copy[index] =
           oldItem.copyWith(quantity: item.quantity + oldItem.quantity);
       return RemoteCart(carts: copy);
@@ -79,12 +77,13 @@ extension MutableCart on RemoteCart {
 
   /// if an item with the given productId is found, remove it
   RemoteCart removeItemById(CartModel item) {
-    final copy = carts;
-    if (item.itemId == null) {
-      copy.removeWhere((elem) => elem.packageId == elem.packageId);
-    } else {
-      copy.removeWhere((elem) => elem.itemId == item.itemId);
-    }
+    final copy = carts.toList(growable: true);
+    copy.removeWhere((elem) => elem.id == item.id);
+    // if (item.itemId == null) {
+    //   copy.removeWhere((elem) => elem.packageId == elem.packageId);
+    // } else {
+    //   copy.removeWhere((elem) => elem.itemId == item.itemId);
+    // }
     return RemoteCart(carts: copy);
   }
 }

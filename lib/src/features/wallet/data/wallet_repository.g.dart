@@ -21,19 +21,19 @@ final walletRepositoryProvider = AutoDisposeProvider<WalletRepository>.internal(
 );
 
 typedef WalletRepositoryRef = AutoDisposeProviderRef<WalletRepository>;
-String _$fetchProfileHash() => r'17329dd6db7388da3aea11c8689be2f49395e4b2';
+String _$fetchBalanceHash() => r'765faf22bbc6aee49efa69a9c2e103c4e20be148';
 
-/// See also [fetchProfile].
-@ProviderFor(fetchProfile)
-final fetchProfileProvider = AutoDisposeFutureProvider<Balance>.internal(
-  fetchProfile,
-  name: r'fetchProfileProvider',
+/// See also [fetchBalance].
+@ProviderFor(fetchBalance)
+final fetchBalanceProvider = AutoDisposeFutureProvider<Balance>.internal(
+  fetchBalance,
+  name: r'fetchBalanceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fetchProfileHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$fetchBalanceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FetchProfileRef = AutoDisposeFutureProviderRef<Balance>;
+typedef FetchBalanceRef = AutoDisposeFutureProviderRef<Balance>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

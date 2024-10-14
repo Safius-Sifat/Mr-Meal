@@ -58,7 +58,7 @@ class FavouriteRepository {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
-      path: addToFavouriteUrl,
+      path: removeFromFavouriteUrl,
     );
 
     final response = await client.postUri(
@@ -69,8 +69,9 @@ class FavouriteRepository {
           'Authorization': 'Bearer $token',
         },
       ),
-      data: {'favourite_id': id},
+      data: {'favourite_id': '$id'},
     );
+    print(response.data);
   }
 }
 

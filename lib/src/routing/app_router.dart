@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,7 +26,10 @@ import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/report/presentation/meal_history_screen.dart';
 import '../features/report/presentation/my_report_screen.dart';
+import '../features/report/presentation/recharge_history_screen.dart';
+import '../features/wallet/presentation/select_amount_screen.dart';
 import '../features/wallet/presentation/wallet_screen.dart';
 import 'go_router_refresh_stream.dart';
 import 'not_found_screen.dart';
@@ -62,6 +65,9 @@ enum AppRoute {
   wallet,
   myReport,
   payment,
+  inputAmount,
+  rechargeHistory,
+  mealHistory,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -245,6 +251,15 @@ GoRouter goRouter(GoRouterRef ref) {
                         child: NotificationScreen(),
                       ),
                     ),
+                    GoRoute(
+                      path: 'payment/:url',
+                      name: AppRoute.payment.name,
+                      pageBuilder: (context, state) => NoTransitionPage(
+                        child: PaymentScreen(
+                          paymentUrl: state.pathParameters['url']!,
+                        ),
+                      ),
+                    ),
                   ]),
             ],
           ),
@@ -269,22 +284,12 @@ GoRouter goRouter(GoRouterRef ref) {
           // ]),
           StatefulShellBranch(navigatorKey: _cartNavigatorKey, routes: [
             GoRoute(
-                path: '/cart',
-                name: AppRoute.cart.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                      child: ShoppingCartScreen(),
-                    ),
-                routes: [
-                  GoRoute(
-                    path: 'payment/:url',
-                    name: AppRoute.payment.name,
-                    pageBuilder: (context, state) => NoTransitionPage(
-                      child: PaymentScreen(
-                        paymentUrl: state.pathParameters['url']!,
-                      ),
-                    ),
-                  ),
-                ]),
+              path: '/cart',
+              name: AppRoute.cart.name,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: ShoppingCartScreen(),
+              ),
+            ),
           ]),
           StatefulShellBranch(navigatorKey: _favouriteNavigatorKey, routes: [
             GoRoute(
@@ -304,18 +309,43 @@ GoRouter goRouter(GoRouterRef ref) {
                     ),
                 routes: [
                   GoRoute(
-                    path: 'wallet',
-                    name: AppRoute.wallet.name,
-                    pageBuilder: (context, state) => const NoTransitionPage(
-                      child: WalletScreen(),
-                    ),
-                  ),
+                      path: 'wallet',
+                      name: AppRoute.wallet.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                            child: WalletScreen(),
+                          ),
+                      routes: [
+                        GoRoute(
+                          path: 'selectAmount',
+                          name: AppRoute.inputAmount.name,
+                          pageBuilder: (context, state) => const MaterialPage(
+                            fullscreenDialog: true,
+                            child: SelectAmountScreen(),
+                          ),
+                        ),
+                      ]),
                   GoRoute(
                     path: 'myReport',
                     name: AppRoute.myReport.name,
                     pageBuilder: (context, state) => const NoTransitionPage(
                       child: MyReportScreen(),
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'rechargeHistory',
+                        name: AppRoute.rechargeHistory.name,
+                        pageBuilder: (context, state) => const NoTransitionPage(
+                          child: RechargeHistoryScreen(),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'mealHistory',
+                        name: AppRoute.mealHistory.name,
+                        pageBuilder: (context, state) => const NoTransitionPage(
+                          child: MealHistoryScreen(),
+                        ),
+                      ),
+                    ],
                   ),
                 ]),
           ]),

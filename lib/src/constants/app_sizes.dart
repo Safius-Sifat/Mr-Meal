@@ -17,6 +17,7 @@ class Sizes {
   static const p80 = 80.0;
   static const p96 = 96.0;
   static const p88 = 88.0;
+  static const p160 = 160.0;
 }
 
 /// Constant gap widths

@@ -35,6 +35,9 @@ class PackageGrid extends ConsumerWidget {
               itemCount: value.categories.length,
               itemBuilder: (_, index) {
                 final packageType = value.categories[index];
+                if (packageType.packages.data.isEmpty) {
+                  return Container();
+                }
                 return PackageType(
                   type: packageType,
                 );

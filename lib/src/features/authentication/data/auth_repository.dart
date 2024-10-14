@@ -33,8 +33,10 @@ class AuthRepository {
     );
 
     final first = await _isFirstTime();
+    print('First time: $first');
     if (first) {
       await secure.deleteAll();
+      print('Deleted all skibidi');
     }
     final value = await secure.read(key: userKey);
     final AppUser? user = value == null ? null : AppUser.fromJson(value);
@@ -201,7 +203,11 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 
 @riverpod
 FlutterSecureStorage secureStorage(SecureStorageRef ref) =>
-    const FlutterSecureStorage();
+    const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    );
 
 @Riverpod(keepAlive: true)
 Stream<AppUser?> authStateChanges(AuthStateChangesRef ref) {

@@ -64,7 +64,7 @@ final cartTotalProvider = AutoDisposeFutureProvider<double>.internal(
 
 typedef CartTotalRef = AutoDisposeFutureProviderRef<double>;
 String _$itemAvailableQuantityHash() =>
-    r'78f805dadecee48ef5393577e32fa6fdc0eda61f';
+    r'89e247cd76ca7272ff3e6d8ea628e1f7041697b8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -97,11 +97,13 @@ class ItemAvailableQuantityFamily extends Family<int> {
   const ItemAvailableQuantityFamily();
 
   /// See also [itemAvailableQuantity].
-  ItemAvailableQuantityProvider call(
-    ItemDetail product,
-  ) {
+  ItemAvailableQuantityProvider call([
+    ItemDetail? product,
+    PackageDetail? package,
+  ]) {
     return ItemAvailableQuantityProvider(
       product,
+      package,
     );
   }
 
@@ -111,6 +113,7 @@ class ItemAvailableQuantityFamily extends Family<int> {
   ) {
     return call(
       provider.product,
+      provider.package,
     );
   }
 
@@ -132,12 +135,14 @@ class ItemAvailableQuantityFamily extends Family<int> {
 /// See also [itemAvailableQuantity].
 class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
   /// See also [itemAvailableQuantity].
-  ItemAvailableQuantityProvider(
-    ItemDetail product,
-  ) : this._internal(
+  ItemAvailableQuantityProvider([
+    ItemDetail? product,
+    PackageDetail? package,
+  ]) : this._internal(
           (ref) => itemAvailableQuantity(
             ref as ItemAvailableQuantityRef,
             product,
+            package,
           ),
           from: itemAvailableQuantityProvider,
           name: r'itemAvailableQuantityProvider',
@@ -149,6 +154,7 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
           allTransitiveDependencies:
               ItemAvailableQuantityFamily._allTransitiveDependencies,
           product: product,
+          package: package,
         );
 
   ItemAvailableQuantityProvider._internal(
@@ -159,9 +165,11 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.product,
+    required this.package,
   }) : super.internal();
 
-  final ItemDetail product;
+  final ItemDetail? product;
+  final PackageDetail? package;
 
   @override
   Override overrideWith(
@@ -177,6 +185,7 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         product: product,
+        package: package,
       ),
     );
   }
@@ -188,13 +197,16 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
 
   @override
   bool operator ==(Object other) {
-    return other is ItemAvailableQuantityProvider && other.product == product;
+    return other is ItemAvailableQuantityProvider &&
+        other.product == product &&
+        other.package == package;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, product.hashCode);
+    hash = _SystemHash.combine(hash, package.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -202,7 +214,10 @@ class ItemAvailableQuantityProvider extends AutoDisposeProvider<int> {
 
 mixin ItemAvailableQuantityRef on AutoDisposeProviderRef<int> {
   /// The parameter `product` of this provider.
-  ItemDetail get product;
+  ItemDetail? get product;
+
+  /// The parameter `package` of this provider.
+  PackageDetail? get package;
 }
 
 class _ItemAvailableQuantityProviderElement
@@ -210,7 +225,10 @@ class _ItemAvailableQuantityProviderElement
   _ItemAvailableQuantityProviderElement(super.provider);
 
   @override
-  ItemDetail get product => (origin as ItemAvailableQuantityProvider).product;
+  ItemDetail? get product => (origin as ItemAvailableQuantityProvider).product;
+  @override
+  PackageDetail? get package =>
+      (origin as ItemAvailableQuantityProvider).package;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

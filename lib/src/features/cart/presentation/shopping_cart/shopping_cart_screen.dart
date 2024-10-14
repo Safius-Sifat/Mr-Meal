@@ -80,6 +80,7 @@ class ShoppingCartScreen extends ConsumerWidget {
                   }
                   print(items);
                   print(packages);
+
                   const double discount = 0;
                   final location = ref.read(fetchAddressProvider).valueOrNull;
                   if (location == null) {

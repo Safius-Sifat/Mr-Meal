@@ -11,7 +11,8 @@ enum DayTime {
 }
 
 class CustomDropDown extends ConsumerWidget {
-  const CustomDropDown({super.key, this.onChange});
+  const CustomDropDown({super.key, this.onChange, required this.selectedValue});
+  final DayTime selectedValue;
   final void Function(DayTime?)? onChange;
 
   @override
@@ -19,7 +20,7 @@ class CustomDropDown extends ConsumerWidget {
     return DropdownButton<DayTime>(
       underline: Container(),
       elevation: 0,
-      value: DayTime.breakfast,
+      value: selectedValue,
       menuMaxHeight: 300,
       menuWidth: 120,
       isExpanded: true,

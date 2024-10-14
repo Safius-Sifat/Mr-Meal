@@ -127,7 +127,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               onTap: () {
                 context.goNamed(AppRoute.myReport.name);
               },
-              title: Text('Recharge History'.hardcoded),
+              title: Text('My Report'.hardcoded),
             ),
             ListTile(
               leading: const Icon(

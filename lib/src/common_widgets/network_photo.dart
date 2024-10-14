@@ -19,14 +19,6 @@ class NetworkPhoto extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.grey.shade300,
-            // gradient: LinearGradient(
-            //   begin: Alignment.topCenter,
-            //   end: Alignment.bottomCenter,
-            //   colors: [
-            //     Theme.of(context).scaffoldBackgroundColor,
-            //     Colors.transparent,
-            //   ],
-            // ),
           ),
         ),
       ),

@@ -15,7 +15,7 @@ class PackageType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 380,
       width: double.infinity,
       padding: const EdgeInsets.all(Sizes.p8),
       decoration: const BoxDecoration(
@@ -48,14 +48,14 @@ class PackageType extends StatelessWidget {
           gapH16,
           if (type.packages.data.isNotEmpty)
             SizedBox(
-              height: 220,
+              height: 290,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     final package = type.packages.data[index];
                     return PackageCard(data: package);
                   },
-                  separatorBuilder: (context, index) => gapW12,
+                  separatorBuilder: (context, index) => gapW8,
                   itemCount: type.packages.data.length),
             )
           else

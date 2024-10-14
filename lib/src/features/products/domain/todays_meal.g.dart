@@ -10,6 +10,7 @@ _$TodaysMealImpl _$$TodaysMealImplFromJson(Map<String, dynamic> json) =>
     _$TodaysMealImpl(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
+      itemName: json['item_name'] as String,
       longDescription: json['long_description'] as String,
       isDeleted: (json['is_deleted'] as num).toInt(),
       status: (json['status'] as num).toInt(),
@@ -21,6 +22,7 @@ Map<String, dynamic> _$$TodaysMealImplToJson(_$TodaysMealImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'item_name': instance.itemName,
       'long_description': instance.longDescription,
       'is_deleted': instance.isDeleted,
       'status': instance.status,

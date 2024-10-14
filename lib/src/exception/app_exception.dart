@@ -75,6 +75,13 @@ class FavouriteFetchFailed extends AppException {
       : super('favourite-fetch-failed',
             'Something went wrong, failed to fetch the favrourites'.hardcoded);
 }
+
+class DayTimeSelectionException extends AppException {
+  DayTimeSelectionException()
+      : super('daytime-selection-failed',
+            'From daytime cannot be less than untill daytime'.hardcoded);
+}
+
 // /// Cart
 // class CartSyncFailedException extends AppException {
 //   CartSyncFailedException()

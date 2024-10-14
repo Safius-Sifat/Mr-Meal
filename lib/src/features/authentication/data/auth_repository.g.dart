@@ -21,7 +21,7 @@ final authRepositoryProvider = Provider<AuthRepository>.internal(
 );
 
 typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
-String _$secureStorageHash() => r'525d10dc5fff421e5ae01100b4a50bee1dce912b';
+String _$secureStorageHash() => r'0deb19379536b5fa0a6c062bb65ca921ec863a1a';
 
 /// See also [secureStorage].
 @ProviderFor(secureStorage)

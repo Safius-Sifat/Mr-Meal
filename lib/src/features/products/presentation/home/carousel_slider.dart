@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../common_widgets/error_message_widget.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../utils/size_config.dart';
@@ -25,7 +26,11 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
   @override
   Widget build(BuildContext context) {
     return widget.value.when(
+      skipLoadingOnRefresh: false,
       data: (sliderList) {
+        if (sliderList.isEmpty) {
+          return Container();
+        }
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -42,61 +47,56 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
                     }),
                 itemCount: sliderList.length,
                 itemBuilder: (context, index, realIndex) {
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(Sizes.p12),
-                        child: CachedNetworkImage(
-                          height: SizeConfig.screenHeight * 0.2,
-                          width: double.infinity,
-                          imageUrl: sliderList[index].image,
-                          fit: BoxFit.cover,
-                          placeholder: (_, __) => Shimmer.fromColors(
-                            baseColor: Colors.black26,
-                            highlightColor: Colors.black12,
-                            child: Container(
-                              width: double.infinity,
-                              height: SizeConfig.screenHeight * 0.2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black,
-                                // gradient: LinearGradient(
-                                //   begin: Alignment.topCenter,
-                                //   end: Alignment.bottomCenter,
-                                //   colors: [
-                                //     Theme.of(context).scaffoldBackgroundColor,
-                                //     Colors.transparent,
-                                //   ],
-                                // ),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(Sizes.p12),
+                          child: CachedNetworkImage(
+                            height: SizeConfig.screenHeight * 0.2,
+                            width: double.infinity,
+                            imageUrl: sliderList[index].image,
+                            fit: BoxFit.cover,
+                            placeholder: (_, __) => Shimmer.fromColors(
+                              baseColor: Colors.black26,
+                              highlightColor: Colors.black12,
+                              child: Container(
+                                width: double.infinity,
+                                height: SizeConfig.screenHeight * 0.2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
                         ),
-                      ),
-                      Positioned(
-                        left: Sizes.p8,
-                        top: Sizes.p8,
-                        child: Container(
-                          padding: const EdgeInsets.all(Sizes.p16),
-                          decoration: BoxDecoration(
-                            color: neutralColor.withOpacity(0.7),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(Sizes.p8),
+                        Positioned(
+                          left: Sizes.p8,
+                          top: Sizes.p8,
+                          child: Container(
+                            padding: const EdgeInsets.all(Sizes.p16),
+                            decoration: BoxDecoration(
+                              color: neutralColor.withOpacity(0.7),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(Sizes.p8),
+                              ),
                             ),
+                            child: Text(
+                                sliderList[index].sliderText ?? '20% off now',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      fontSize: Sizes.p12,
+                                    )),
                           ),
-                          child: Text(
-                              sliderList[index].sliderText ?? '20% off now',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                    fontSize: Sizes.p12,
-                                  )),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 }),
             Row(
@@ -134,7 +134,7 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
         ),
       ),
       error: (error, stackTrace) {
-        return Center(child: Text('Error: $error'));
+        return ErrorMessageWidget(error);
       },
     );
   }

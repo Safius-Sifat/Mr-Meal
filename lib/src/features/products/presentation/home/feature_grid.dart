@@ -60,15 +60,8 @@ class ProductsLayoutGrid extends StatelessWidget {
       return isMobile
           ? CarouselSlider.builder(
               options: CarouselOptions(
-                height: 240,
-
+                height: 250,
                 viewportFraction: 1,
-                // autoPlay: true,
-                // onPageChanged: (index, reason) {
-                //   setState(() {
-                //     _current = index;
-                //   });
-                // },
               ),
               itemCount: 2,
               itemBuilder: (context, index, realIndex) {

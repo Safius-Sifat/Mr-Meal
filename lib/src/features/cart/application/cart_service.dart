@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../authentication/data/auth_repository.dart';
 import '../../products/domain/item_detail.dart';
+import '../../products/domain/package_detail.dart';
 import '../data/local/local_cart_repository.dart';
 import '../data/remote/remote_cart_repository.dart';
 import '../domain/mutable_cart.dart';
@@ -56,6 +55,7 @@ class CartService {
   Future<void> setItem(CartModel item) async {
     final cart = await ref.read(localCartRepositoryProvider).fetchCart();
     final updated = cart.setItem(item);
+    print('updated: $updated');
     await ref.read(localCartRepositoryProvider).setCart(updated);
   }
 
@@ -83,15 +83,11 @@ class CartService {
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
       await _removeCart(cartItem);
-      if (cartItem.itemId == null) {
-        await ref
-            .read(remoteCartRepositoryProvider)
-            .removeCartItem(token: user.token, id: cartItem.packageId!);
-      } else {
-        await ref
-            .read(remoteCartRepositoryProvider)
-            .removeCartItem(token: user.token, id: cartItem.itemId!);
-      }
+
+      await ref
+          .read(remoteCartRepositoryProvider)
+          .removeCartItem(token: user.token, id: cartItem.id);
+      return;
     }
 
     await _removeCart(cartItem);
@@ -146,18 +142,21 @@ Future<double> cartTotal(CartTotalRef ref) async {
 }
 
 @riverpod
-int itemAvailableQuantity(ItemAvailableQuantityRef ref, ItemDetail product) {
+int itemAvailableQuantity(ItemAvailableQuantityRef ref,
+    [ItemDetail? product, PackageDetail? package]) {
   final cart = ref.watch(cartProvider).value;
   if (cart != null) {
     // get the current quantity for the given product in the cart
 
     for (final item in cart.carts) {
-      if (item.itemId == product.id) {
-        return max(0, product.itemQty - item.quantity);
+      if (product != null && item.itemId == product.id) {
+        return product.itemQty - item.quantity;
+      } else if (package != null && item.packageId == package.id) {
+        return package.packageQty - item.quantity;
       }
     }
-    return product.itemQty;
+    return product?.itemQty ?? package?.packageQty ?? 0;
   } else {
-    return product.itemQty;
+    return product?.itemQty ?? package?.packageQty ?? 0;
   }
 }

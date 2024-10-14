@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../constants/api_constants.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../utils/size_config.dart';
@@ -8,7 +9,6 @@ import '../../data/item_repository.dart';
 import '../food_grid.dart';
 import '../home/carousel_slider.dart';
 import '../widgets/notification_widget.dart';
-import 'category_grid.dart';
 
 class CategoryScreen extends ConsumerWidget {
   const CategoryScreen({super.key});
@@ -33,7 +33,7 @@ class CategoryScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                value: ref.watch(fetchSlidersProvider(screen: categoryParam)),
               ),
               // gapH12,
               // const CategoryGrid(),

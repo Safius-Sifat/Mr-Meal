@@ -8,17 +8,18 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import 'dropdown.dart';
+import 'meal_on_off_controller.dart';
 
-class CalendarGrid extends ConsumerStatefulWidget {
-  const CalendarGrid({super.key});
+class CalendarGrid extends ConsumerWidget {
+  CalendarGrid({super.key});
 
+  final DateTime firstDay = DateTime.now().add(const Duration(days: 1));
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CalendarGridState();
-}
-
-class _CalendarGridState extends ConsumerState<CalendarGrid> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fromDate = ref.watch(fromDateProvider);
+    final toDate = ref.watch(toDateProvider);
+    final fromDateDayTime = ref.watch(fromDateDayTimeProvider);
+    final toDateDayTime = ref.watch(toDateDayTimeProvider);
     return LayoutBuilder(builder: (context, constraints) {
       final width = constraints.maxWidth;
       // 1 column for width < 500px
@@ -71,9 +72,13 @@ class _CalendarGridState extends ConsumerState<CalendarGrid> {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  firstDay: DateTime.utc(2020, 10, 16),
+                  currentDay: fromDate,
+                  firstDay: firstDay,
                   lastDay: DateTime.utc(2030, 12, 31),
-                  focusedDay: DateTime.now(),
+                  focusedDay: fromDate,
+                  onDaySelected: (date, time) {
+                    ref.read(fromDateProvider.notifier).update(date);
+                  },
                 ),
               ),
               gapH12,
@@ -110,7 +115,13 @@ class _CalendarGridState extends ConsumerState<CalendarGrid> {
                         padding:
                             const EdgeInsets.symmetric(horizontal: Sizes.p8),
                         child: CustomDropDown(
-                          onChange: (value) {},
+                          selectedValue: fromDateDayTime,
+                          onChange: (value) {
+                            if (value == null) return;
+                            ref
+                                .read(fromDateDayTimeProvider.notifier)
+                                .update(value);
+                          },
                         ),
                       ),
                     )
@@ -153,9 +164,13 @@ class _CalendarGridState extends ConsumerState<CalendarGrid> {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  firstDay: DateTime.utc(2020, 10, 16),
+                  currentDay: toDate,
+                  firstDay: firstDay,
                   lastDay: DateTime.utc(2030, 12, 31),
-                  focusedDay: DateTime.now(),
+                  focusedDay: toDate,
+                  onDaySelected: (date, time) {
+                    ref.read(toDateProvider.notifier).update(date);
+                  },
                 ),
               ),
               gapH12,
@@ -192,7 +207,13 @@ class _CalendarGridState extends ConsumerState<CalendarGrid> {
                         padding:
                             const EdgeInsets.symmetric(horizontal: Sizes.p8),
                         child: CustomDropDown(
-                          onChange: (value) {},
+                          selectedValue: toDateDayTime,
+                          onChange: (value) {
+                            if (value == null) return;
+                            ref
+                                .read(toDateDayTimeProvider.notifier)
+                                .update(value);
+                          },
                         ),
                       ),
                     )

@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
+import '../../../../constants/api_constants.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
-import '../../domain/items_by_category.dart';
-import '../food_grid.dart';
+import '../../domain/category.dart';
 import '../home/carousel_slider.dart';
 import '../widgets/notification_widget.dart';
+import 'items_by_category_grid.dart';
 
 class ItemScreen extends ConsumerWidget {
   const ItemScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemCategory = ref.watch(fetchItemsByCategoryProvider);
+    final itemCategory = ref.watch(fetchCategoriesProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,10 +36,10 @@ class ItemScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                value: ref.watch(fetchSlidersProvider(screen: allItemsParam)),
               ),
               gapH24,
-              AsyncValueWidget<ItemsByCategory>(
+              AsyncValueWidget<List<Category>>(
                   value: itemCategory,
                   data: (category) {
                     return ListView.separated(
@@ -46,11 +47,11 @@ class ItemScreen extends ConsumerWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ItemCategoryWidget(
-                            category: category.categories[index],
+                            category: category[index],
                           );
                         },
                         separatorBuilder: (context, index) => gapH24,
-                        itemCount: category.categories.length);
+                        itemCount: category.length);
                   }),
             ],
           ),
@@ -101,7 +102,9 @@ class ItemCategoryWidget extends StatelessWidget {
                   offset: Offset(0, 2), // changes position of shadow
                 ),
               ]),
-          child: const FoodsGrid(),
+          child: ItemsByCategoryGrid(
+            categoryId: category.id,
+          ),
         ),
       ],
     );

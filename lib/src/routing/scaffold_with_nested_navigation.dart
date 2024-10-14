@@ -123,8 +123,8 @@ class NavBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                height: Sizes.p20,
-                width: Sizes.p20,
+                height: Sizes.p24,
+                width: Sizes.p24,
                 child: selected
                     ? DecoratedBox(
                         decoration: BoxDecoration(

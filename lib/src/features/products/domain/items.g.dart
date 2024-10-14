@@ -12,7 +12,7 @@ _$ItemsImpl _$$ItemsImplFromJson(Map<String, dynamic> json) => _$ItemsImpl(
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstPageUrl: json['first_page_url'] as String,
-      from: (json['from'] as num).toInt(),
+      from: (json['from'] as num?)?.toInt(),
       lastPage: (json['last_page'] as num).toInt(),
       lastPageUrl: json['last_page_url'] as String,
       links: (json['links'] as List<dynamic>)
@@ -22,7 +22,7 @@ _$ItemsImpl _$$ItemsImplFromJson(Map<String, dynamic> json) => _$ItemsImpl(
       path: json['path'] as String,
       perPage: (json['per_page'] as num).toInt(),
       prevPageUrl: json['prev_page_url'] as String?,
-      to: (json['to'] as num).toInt(),
+      to: (json['to'] as num?)?.toInt(),
       total: (json['total'] as num).toInt(),
     );
 
@@ -31,10 +31,6 @@ Map<String, dynamic> _$$ItemsImplToJson(_$ItemsImpl instance) {
     'current_page': instance.currentPage,
     'data': instance.data.map((e) => e.toJson()).toList(),
     'first_page_url': instance.firstPageUrl,
-    'from': instance.from,
-    'last_page': instance.lastPage,
-    'last_page_url': instance.lastPageUrl,
-    'links': instance.links.map((e) => e.toJson()).toList(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -43,11 +39,15 @@ Map<String, dynamic> _$$ItemsImplToJson(_$ItemsImpl instance) {
     }
   }
 
+  writeNotNull('from', instance.from);
+  val['last_page'] = instance.lastPage;
+  val['last_page_url'] = instance.lastPageUrl;
+  val['links'] = instance.links.map((e) => e.toJson()).toList();
   writeNotNull('next_page_url', instance.nextPageUrl);
   val['path'] = instance.path;
   val['per_page'] = instance.perPage;
   writeNotNull('prev_page_url', instance.prevPageUrl);
-  val['to'] = instance.to;
+  writeNotNull('to', instance.to);
   val['total'] = instance.total;
   return val;
 }
@@ -61,6 +61,7 @@ _$DatumImpl _$$DatumImplFromJson(Map<String, dynamic> json) => _$DatumImpl(
       categoryName: json['category_name'] as String,
       subcategoryName: json['subcategory_name'] as String,
       currencySymbol: json['currency_symbol'] as String,
+      categoryId: (json['category_id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>
@@ -73,6 +74,7 @@ Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>
       'category_name': instance.categoryName,
       'subcategory_name': instance.subcategoryName,
       'currency_symbol': instance.currencySymbol,
+      'category_id': instance.categoryId,
     };
 
 _$LinkImpl _$$LinkImplFromJson(Map<String, dynamic> json) => _$LinkImpl(

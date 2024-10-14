@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../common_widgets/network_photo.dart';
 import '../../../common_widgets/primary_button.dart';
+import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
@@ -60,25 +60,25 @@ class NotificationScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
             child: CustomCarouselSlider(
-              value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+              value: ref.watch(fetchSlidersProvider(screen: notificationParam)),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: notification.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: NetworkPhoto(notification[index]['image']!),
-                    title: Text(notification[index]['text']!),
-                    trailing: Column(
-                      children: [
-                        Text(notification[index]['time']!,
-                            style: TextStyle(color: Colors.black45)),
-                      ],
-                    ),
-                  );
-                }),
-          ),
+          // Expanded(
+          //   child: ListView.builder(
+          //       itemCount: notification.length,
+          //       itemBuilder: (context, index) {
+          //         return ListTile(
+          //           leading: NetworkPhoto(notification[index]['image']!),
+          //           title: Text(notification[index]['text']!),
+          //           trailing: Column(
+          //             children: [
+          //               Text(notification[index]['time']!,
+          //                   style: const TextStyle(color: Colors.black45)),
+          //             ],
+          //           ),
+          //         );
+          //       }),
+          // ),
         ],
       ),
     );

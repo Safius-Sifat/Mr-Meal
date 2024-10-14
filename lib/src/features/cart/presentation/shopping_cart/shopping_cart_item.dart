@@ -8,7 +8,6 @@ import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
-import '../../../../utils/currency_formatter.dart';
 import '../../domain/online_cart.dart';
 import 'shopping_cart_screen_controller.dart';
 
@@ -64,11 +63,12 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final priceFormatted = ref
-        .watch(currencyFormatterProvider)
-        .format(item.itemPrice ?? item.packagePrice);
+    // final priceFormatted = ref
+    //     .watch(currencyFormatterProvider)
+    //     .format(item.itemPrice ?? item.packagePrice);
     return Container(
       padding: const EdgeInsets.all(Sizes.p8),
+      height: Sizes.p96,
       decoration: BoxDecoration(
         color: tertiaryColor,
         border: Border.all(color: secondaryColor),
@@ -77,11 +77,16 @@ class ShoppingCartItemContents extends ConsumerWidget {
       child: Row(
         children: [
           Expanded(
-            child: NetworkPhoto(
-                item.itemId != null ? item.itemImage : item.packageImage),
+            flex: 5,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(Sizes.p8),
+              child: NetworkPhoto(
+                  item.itemId != null ? item.itemImage : item.packageImage),
+            ),
           ),
           gapW8,
-          Flexible(
+          Expanded(
+            flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -204,20 +209,35 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(shoppingCartScreenControllerProvider);
-    return Wrap(
-      runAlignment: WrapAlignment.center,
-      children: [
-        ItemQuantitySelector(
-          quantity: item.quantity,
-          maxQuantity: min(20, 10),
-          itemIndex: itemIndex,
-          onChanged: state.isLoading
-              ? null
-              : (quantity) => ref
+    return Expanded(
+      flex: 4,
+      child: Wrap(
+        runAlignment: WrapAlignment.center,
+        alignment: WrapAlignment.center,
+        children: [
+          ItemQuantitySelector(
+            quantity: item.quantity,
+            maxQuantity: min(20, 10),
+            itemIndex: itemIndex,
+            onChanged: state.isLoading
+                ? null
+                : (quantity) => ref
+                    .read(shoppingCartScreenControllerProvider.notifier)
+                    .updateItemQuantity(item.copyWith(quantity: quantity)),
+          ),
+          IconButton(
+            onPressed: () async {
+              await ref
                   .read(shoppingCartScreenControllerProvider.notifier)
-                  .updateItemQuantity(item.copyWith(quantity: quantity)),
-        ),
-      ],
+                  .removeItemById(item);
+            },
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

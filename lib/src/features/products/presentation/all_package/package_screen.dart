@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../constants/api_constants.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../data/item_repository.dart';
@@ -31,7 +32,8 @@ class AllPackageScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                value:
+                    ref.watch(fetchSlidersProvider(screen: allPackagesParam)),
               ),
               gapH12,
               const PackageGrid(),

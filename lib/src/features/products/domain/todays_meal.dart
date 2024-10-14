@@ -7,6 +7,7 @@ class TodaysMeal with _$TodaysMeal {
   const factory TodaysMeal({
     @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'title') required String title,
+    @JsonKey(name: 'item_name') required String itemName,
     @JsonKey(name: 'long_description') required String longDescription,
     @JsonKey(name: 'is_deleted') required int isDeleted,
     @JsonKey(name: 'status') required int status,

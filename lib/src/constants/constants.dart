@@ -12,14 +12,14 @@ const String foodDelivery = 'assets/Food delivery.png';
 const String friedRice = 'assets/Fried rice.png';
 const String hero = 'assets/hero.png';
 // const String home = 'assets/home.svg';
-const String location = 'assets/location.svg';
+const String location = 'assets/Location.png';
 const String lunchTime = 'assets/Lunch time.png';
 const String menu = 'assets/Menu.png';
 const String dish = 'assets/Dish.png';
 const String order = 'assets/order.svg';
 const String paperBag = 'assets/Paper bag.png';
 // const String profile = 'assets/profile.svg';
-const String search = 'assets/search.svg';
+const String search = 'assets/Search.png';
 // navbar
 const String announcement = 'assets/Announcement.png';
 const String cart = 'assets/Cart.png';

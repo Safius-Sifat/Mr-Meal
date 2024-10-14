@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
+import '../../../cart/domain/online_cart.dart';
+import '../../../cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import '../../domain/package_by_category.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
 
-class PackageCard extends StatelessWidget {
+class PackageCard extends ConsumerStatefulWidget {
   const PackageCard({
     super.key,
     required this.data,
@@ -17,9 +21,16 @@ class PackageCard extends StatelessWidget {
 
   final Datum data;
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _PackageCardState();
+}
+
+class _PackageCardState extends ConsumerState<PackageCard> {
+  Datum get data => widget.data;
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
+      width: 110,
       padding: const EdgeInsets.all(Sizes.p4),
       decoration: BoxDecoration(
         color: neutralColor,
@@ -27,7 +38,7 @@ class PackageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.p8),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Stack(
@@ -37,9 +48,8 @@ class PackageCard extends StatelessWidget {
                   context.goNamed(AppRoute.packageDetail.name,
                       pathParameters: {'id': '${data.packageId}'});
                 },
-                child: SizedBox(
-                  height: 60,
-                  width: double.infinity,
+                child: AspectRatio(
+                  aspectRatio: 1.5,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(Sizes.p8),
                     child: NetworkPhoto(data.image),
@@ -87,7 +97,7 @@ class PackageCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '৳${data.discountPrice}',
+                '৳${NumberFormat('', 'bn').format(data.discountPrice)}',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       decoration: TextDecoration.lineThrough,
                       fontSize: Sizes.p12,
@@ -95,7 +105,7 @@ class PackageCard extends StatelessWidget {
               ),
               gapW4,
               Text(
-                '৳${data.packagePrice}',
+                '৳${NumberFormat('', 'bn').format(data.packagePrice)}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: primaryColor,
                       fontSize: Sizes.p12,
@@ -106,7 +116,26 @@ class PackageCard extends StatelessWidget {
           gapH8,
           SecondaryButton(id: data.packageId),
           gapH8,
-          const PrimaryButton(),
+          PackageButton(
+            isLoading: isLoading,
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              await ref
+                  .read(addToCartControllerProvider.notifier)
+                  .addItem(CartModel.empty().copyWith(
+                    packageId: data.packageId,
+                    packageName: data.packageName,
+                    packagePrice: data.packagePrice,
+                    packageDiscountPrice: data.discountPrice,
+                    packageImage: data.image,
+                  ));
+              setState(() {
+                isLoading = false;
+              });
+            },
+          ),
           gapH8,
         ],
       ),

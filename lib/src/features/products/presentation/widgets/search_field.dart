@@ -30,7 +30,7 @@ class SearchField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(width: Sizes.p8),
-            Photo(search),
+            Photo(search, height: Sizes.p16),
           ],
         ),
         prefixIconConstraints: const BoxConstraints(

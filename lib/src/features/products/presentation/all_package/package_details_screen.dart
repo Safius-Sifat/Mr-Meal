@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
+import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
 import '../../data/item_repository.dart';
 import '../../data/package_repository.dart';
 import '../home/carousel_slider.dart';
 import '../widgets/notification_widget.dart';
-import '../widgets/primary_button.dart';
 
 class PackageDetailScreen extends ConsumerWidget {
   const PackageDetailScreen({super.key, required this.id});
@@ -49,7 +51,7 @@ class PackageDetailScreen extends ConsumerWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.all(Sizes.p16),
+                            padding: const EdgeInsets.all(Sizes.p8),
                             decoration: BoxDecoration(
                               color: neutralColor,
                               border: Border.all(color: tertiaryColor),
@@ -57,22 +59,24 @@ class PackageDetailScreen extends ConsumerWidget {
                             ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                gapH8,
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: Sizes.p12,
                                       vertical: Sizes.p8),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: Sizes.p8),
                                   decoration: BoxDecoration(
                                       color: tertiaryColor,
                                       borderRadius:
                                           BorderRadius.circular(Sizes.p24)),
                                   child: Center(
                                     child: Text(
-                                      'Package Info',
+                                      detail.packageName,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium!
+                                          .titleLarge!
                                           .copyWith(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
@@ -80,121 +84,123 @@ class PackageDetailScreen extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                                gapH8,
-                                AspectRatio(
-                                  aspectRatio: 1.5,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(Sizes.p8),
-                                    child: NetworkPhoto(detail.image),
-                                  ),
+                                gapH16,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(Sizes.p8),
+                                  child: NetworkPhoto(detail.image),
                                 ),
                                 gapH8,
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '৳${detail.discountPrice}',
+                                      '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
                                           .copyWith(
                                             decoration:
                                                 TextDecoration.lineThrough,
-                                            fontSize: Sizes.p12,
+                                            fontSize: Sizes.p16,
                                           ),
                                     ),
-                                    gapW4,
+                                    gapW12,
                                     Text(
-                                      '৳${detail.packagePrice}',
+                                      '৳${NumberFormat('', 'bn').format(detail.packagePrice)}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
                                           .copyWith(
                                             color: primaryColor,
-                                            fontSize: Sizes.p12,
+                                            fontSize: Sizes.p16,
                                           ),
                                     ),
                                   ],
                                 ),
                                 gapH8,
-                                Text(
+                                HtmlWidget(
                                   detail.shortDescription,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.titleSmall,
+                                  customStylesBuilder: (element) {
+                                    return {'text-align': 'center'};
+                                  },
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                                 gapH16,
-                                const PrimaryButton(),
+                                AddToCartWidget(
+                                  package: detail,
+                                ),
                                 gapH8,
                               ],
                             ),
                           ),
                         ),
-                        gapW16,
-                        Expanded(
-                            child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: Sizes.p12, vertical: Sizes.p8),
-                                decoration: BoxDecoration(
-                                    color: tertiaryColor,
-                                    borderRadius:
-                                        BorderRadius.circular(Sizes.p8)),
-                                child: Center(
-                                  child: Text(
-                                    'Requirement',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Checkbox(value: true, onChanged: (value) {}),
-                                  gapW8,
-                                  const Expanded(
-                                    child: Text('Update soon'),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Checkbox(value: true, onChanged: (value) {}),
-                                  gapW8,
-                                  const Expanded(
-                                    child: Text('Update soon'),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Checkbox(value: true, onChanged: (value) {}),
-                                  gapW8,
-                                  const Expanded(
-                                    child: Text('Update soon'),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                'Not Like? Order now',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              gapH8,
-                              const PrimaryButton(
-                                title: 'Create Custom Package',
-                                height: Sizes.p32,
-                                width: double.infinity,
-                              )
-                            ],
-                          ),
-                        )),
+                        // gapW16,
+                        // Expanded(
+                        //     child: Container(
+                        //   child: Column(
+                        //     children: [
+                        //       Container(
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: Sizes.p12, vertical: Sizes.p8),
+                        //         decoration: BoxDecoration(
+                        //             color: tertiaryColor,
+                        //             borderRadius:
+                        //                 BorderRadius.circular(Sizes.p8)),
+                        //         child: Center(
+                        //           child: Text(
+                        //             'Requirement',
+                        //             style: Theme.of(context)
+                        //                 .textTheme
+                        //                 .titleMedium!
+                        //                 .copyWith(
+                        //                   color: Colors.black,
+                        //                   fontWeight: FontWeight.bold,
+                        //                 ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           Checkbox(value: true, onChanged: (value) {}),
+                        //           gapW8,
+                        //           const Expanded(
+                        //             child: Text('Update soon'),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           Checkbox(value: true, onChanged: (value) {}),
+                        //           gapW8,
+                        //           const Expanded(
+                        //             child: Text('Update soon'),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           Checkbox(value: true, onChanged: (value) {}),
+                        //           gapW8,
+                        //           const Expanded(
+                        //             child: Text('Update soon'),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       Text(
+                        //         'Not Like? Order now',
+                        //         style: Theme.of(context).textTheme.titleMedium,
+                        //       ),
+                        //       gapH8,
+                        //       PackageButton(
+                        //         title: 'Create Custom Package',
+                        //         height: Sizes.p32,
+                        //         width: double.infinity,
+                        //         onPressed: () {},
+                        //       )
+                        //     ],
+                        //   ),
+                        // )),
                       ],
                     ),
                     gapH20,
@@ -213,15 +219,23 @@ class PackageDetailScreen extends ConsumerWidget {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
+                                  fontSize: Sizes.p16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
                           gapH8,
-                          Text(detail.longDescription)
+                          HtmlWidget(
+                            detail.longDescription,
+                            customStylesBuilder: (element) {
+                              return {'text-align': 'center'};
+                            },
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ],
                       ),
                     ),
+                    gapH12,
                   ],
                 ),
               ),

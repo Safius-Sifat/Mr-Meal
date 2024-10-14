@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
@@ -32,7 +33,8 @@ class DeliveryScheduleScreen extends ConsumerWidget {
             child: Column(
               children: [
                 CustomCarouselSlider(
-                  value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                  value: ref.watch(
+                      fetchSlidersProvider(screen: deliveryScheduleParam)),
                 ),
                 gapH12,
                 schedule.when(

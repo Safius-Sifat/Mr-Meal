@@ -24,6 +24,8 @@ mixin _$TodaysMeal {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'item_name')
+  String get itemName => throw _privateConstructorUsedError;
   @JsonKey(name: 'long_description')
   String get longDescription => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_deleted')
@@ -54,6 +56,7 @@ abstract class $TodaysMealCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'item_name') String itemName,
       @JsonKey(name: 'long_description') String longDescription,
       @JsonKey(name: 'is_deleted') int isDeleted,
       @JsonKey(name: 'status') int status,
@@ -78,6 +81,7 @@ class _$TodaysMealCopyWithImpl<$Res, $Val extends TodaysMeal>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? itemName = null,
     Object? longDescription = null,
     Object? isDeleted = null,
     Object? status = null,
@@ -92,6 +96,10 @@ class _$TodaysMealCopyWithImpl<$Res, $Val extends TodaysMeal>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      itemName: null == itemName
+          ? _value.itemName
+          : itemName // ignore: cast_nullable_to_non_nullable
               as String,
       longDescription: null == longDescription
           ? _value.longDescription
@@ -128,6 +136,7 @@ abstract class _$$TodaysMealImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int id,
       @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'item_name') String itemName,
       @JsonKey(name: 'long_description') String longDescription,
       @JsonKey(name: 'is_deleted') int isDeleted,
       @JsonKey(name: 'status') int status,
@@ -150,6 +159,7 @@ class __$$TodaysMealImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? itemName = null,
     Object? longDescription = null,
     Object? isDeleted = null,
     Object? status = null,
@@ -164,6 +174,10 @@ class __$$TodaysMealImplCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      itemName: null == itemName
+          ? _value.itemName
+          : itemName // ignore: cast_nullable_to_non_nullable
               as String,
       longDescription: null == longDescription
           ? _value.longDescription
@@ -195,6 +209,7 @@ class _$TodaysMealImpl implements _TodaysMeal {
   const _$TodaysMealImpl(
       {@JsonKey(name: 'id') required this.id,
       @JsonKey(name: 'title') required this.title,
+      @JsonKey(name: 'item_name') required this.itemName,
       @JsonKey(name: 'long_description') required this.longDescription,
       @JsonKey(name: 'is_deleted') required this.isDeleted,
       @JsonKey(name: 'status') required this.status,
@@ -210,6 +225,9 @@ class _$TodaysMealImpl implements _TodaysMeal {
   @override
   @JsonKey(name: 'title')
   final String title;
+  @override
+  @JsonKey(name: 'item_name')
+  final String itemName;
   @override
   @JsonKey(name: 'long_description')
   final String longDescription;
@@ -228,7 +246,7 @@ class _$TodaysMealImpl implements _TodaysMeal {
 
   @override
   String toString() {
-    return 'TodaysMeal(id: $id, title: $title, longDescription: $longDescription, isDeleted: $isDeleted, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TodaysMeal(id: $id, title: $title, itemName: $itemName, longDescription: $longDescription, isDeleted: $isDeleted, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -238,6 +256,8 @@ class _$TodaysMealImpl implements _TodaysMeal {
             other is _$TodaysMealImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.itemName, itemName) ||
+                other.itemName == itemName) &&
             (identical(other.longDescription, longDescription) ||
                 other.longDescription == longDescription) &&
             (identical(other.isDeleted, isDeleted) ||
@@ -251,8 +271,8 @@ class _$TodaysMealImpl implements _TodaysMeal {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, longDescription,
-      isDeleted, status, createdAt, updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, title, itemName,
+      longDescription, isDeleted, status, createdAt, updatedAt);
 
   /// Create a copy of TodaysMeal
   /// with the given fields replaced by the non-null parameter values.
@@ -274,6 +294,7 @@ abstract class _TodaysMeal implements TodaysMeal {
   const factory _TodaysMeal(
       {@JsonKey(name: 'id') required final int id,
       @JsonKey(name: 'title') required final String title,
+      @JsonKey(name: 'item_name') required final String itemName,
       @JsonKey(name: 'long_description') required final String longDescription,
       @JsonKey(name: 'is_deleted') required final int isDeleted,
       @JsonKey(name: 'status') required final int status,
@@ -290,6 +311,9 @@ abstract class _TodaysMeal implements TodaysMeal {
   @override
   @JsonKey(name: 'title')
   String get title;
+  @override
+  @JsonKey(name: 'item_name')
+  String get itemName;
   @override
   @JsonKey(name: 'long_description')
   String get longDescription;

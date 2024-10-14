@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../data/item_repository.dart';
+import '../../domain/todays_meal.dart';
 import 'todays_menu_screen.dart';
 
 class TodaysMenuGrid extends ConsumerWidget {
@@ -12,23 +15,24 @@ class TodaysMenuGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final productsListValue = ref.watch(productsSearchResultsProvider);
-    // return AsyncValueWidget<List<Product>>(
-    //   value: productsListValue,
-    //   data: (products) => products.isEmpty
-    //       ? Center(
-    //           child: Text(
-    //             'No products found'.hardcoded,
-    //             style: Theme.of(context).textTheme.headlineMedium,
-    //           ),
-    //         )
-    return ProductsLayoutGrid(
-      itemCount: 6,
-      itemBuilder: (_, index) {
-        return const MenuContainer(
-          title: 'Package name',
-        );
-      },
+    final productsListValue = ref.watch(fetchTodaysMealProvider);
+    return AsyncValueWidget<List<TodaysMeal>>(
+      value: productsListValue,
+      data: (products) => products.isEmpty
+          ? Center(
+              child: Text(
+                'No meal available today',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            )
+          : ProductsLayoutGrid(
+              itemCount: products.length,
+              itemBuilder: (_, index) {
+                return MenuContainer(
+                  todaysMeal: products[index],
+                );
+              },
+            ),
     );
   }
 }

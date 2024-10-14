@@ -21,8 +21,13 @@ class FavouriteItemListTile extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
       child: InkWell(
         onTap: () {
-          context.goNamed(AppRoute.itemDetail.name,
-              pathParameters: {'id': '${item.id}'});
+          if (item.itemId != null) {
+            context.goNamed(AppRoute.itemDetail.name,
+                pathParameters: {'id': '${item.itemId}'});
+          } else {
+            context.goNamed(AppRoute.packageDetail.name,
+                pathParameters: {'id': '${item.packageId}'});
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(Sizes.p8),

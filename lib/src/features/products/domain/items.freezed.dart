@@ -27,7 +27,7 @@ mixin _$Items {
   @JsonKey(name: 'first_page_url')
   String get firstPageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'from')
-  int get from => throw _privateConstructorUsedError;
+  int? get from => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_page')
   int get lastPage => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_page_url')
@@ -43,7 +43,7 @@ mixin _$Items {
   @JsonKey(name: 'prev_page_url')
   String? get prevPageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'to')
-  int get to => throw _privateConstructorUsedError;
+  int? get to => throw _privateConstructorUsedError;
   @JsonKey(name: 'total')
   int get total => throw _privateConstructorUsedError;
 
@@ -65,7 +65,7 @@ abstract class $ItemsCopyWith<$Res> {
       {@JsonKey(name: 'current_page') int currentPage,
       @JsonKey(name: 'data') List<Datum> data,
       @JsonKey(name: 'first_page_url') String firstPageUrl,
-      @JsonKey(name: 'from') int from,
+      @JsonKey(name: 'from') int? from,
       @JsonKey(name: 'last_page') int lastPage,
       @JsonKey(name: 'last_page_url') String lastPageUrl,
       @JsonKey(name: 'links') List<Link> links,
@@ -73,7 +73,7 @@ abstract class $ItemsCopyWith<$Res> {
       @JsonKey(name: 'path') String path,
       @JsonKey(name: 'per_page') int perPage,
       @JsonKey(name: 'prev_page_url') String? prevPageUrl,
-      @JsonKey(name: 'to') int to,
+      @JsonKey(name: 'to') int? to,
       @JsonKey(name: 'total') int total});
 }
 
@@ -95,7 +95,7 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
     Object? currentPage = null,
     Object? data = null,
     Object? firstPageUrl = null,
-    Object? from = null,
+    Object? from = freezed,
     Object? lastPage = null,
     Object? lastPageUrl = null,
     Object? links = null,
@@ -103,7 +103,7 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
     Object? path = null,
     Object? perPage = null,
     Object? prevPageUrl = freezed,
-    Object? to = null,
+    Object? to = freezed,
     Object? total = null,
   }) {
     return _then(_value.copyWith(
@@ -119,10 +119,10 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
           ? _value.firstPageUrl
           : firstPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      from: null == from
+      from: freezed == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lastPage: null == lastPage
           ? _value.lastPage
           : lastPage // ignore: cast_nullable_to_non_nullable
@@ -151,10 +151,10 @@ class _$ItemsCopyWithImpl<$Res, $Val extends Items>
           ? _value.prevPageUrl
           : prevPageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      to: null == to
+      to: freezed == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -174,7 +174,7 @@ abstract class _$$ItemsImplCopyWith<$Res> implements $ItemsCopyWith<$Res> {
       {@JsonKey(name: 'current_page') int currentPage,
       @JsonKey(name: 'data') List<Datum> data,
       @JsonKey(name: 'first_page_url') String firstPageUrl,
-      @JsonKey(name: 'from') int from,
+      @JsonKey(name: 'from') int? from,
       @JsonKey(name: 'last_page') int lastPage,
       @JsonKey(name: 'last_page_url') String lastPageUrl,
       @JsonKey(name: 'links') List<Link> links,
@@ -182,7 +182,7 @@ abstract class _$$ItemsImplCopyWith<$Res> implements $ItemsCopyWith<$Res> {
       @JsonKey(name: 'path') String path,
       @JsonKey(name: 'per_page') int perPage,
       @JsonKey(name: 'prev_page_url') String? prevPageUrl,
-      @JsonKey(name: 'to') int to,
+      @JsonKey(name: 'to') int? to,
       @JsonKey(name: 'total') int total});
 }
 
@@ -202,7 +202,7 @@ class __$$ItemsImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? data = null,
     Object? firstPageUrl = null,
-    Object? from = null,
+    Object? from = freezed,
     Object? lastPage = null,
     Object? lastPageUrl = null,
     Object? links = null,
@@ -210,7 +210,7 @@ class __$$ItemsImplCopyWithImpl<$Res>
     Object? path = null,
     Object? perPage = null,
     Object? prevPageUrl = freezed,
-    Object? to = null,
+    Object? to = freezed,
     Object? total = null,
   }) {
     return _then(_$ItemsImpl(
@@ -226,10 +226,10 @@ class __$$ItemsImplCopyWithImpl<$Res>
           ? _value.firstPageUrl
           : firstPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      from: null == from
+      from: freezed == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lastPage: null == lastPage
           ? _value.lastPage
           : lastPage // ignore: cast_nullable_to_non_nullable
@@ -258,10 +258,10 @@ class __$$ItemsImplCopyWithImpl<$Res>
           ? _value.prevPageUrl
           : prevPageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      to: null == to
+      to: freezed == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -310,7 +310,7 @@ class _$ItemsImpl implements _Items {
   final String firstPageUrl;
   @override
   @JsonKey(name: 'from')
-  final int from;
+  final int? from;
   @override
   @JsonKey(name: 'last_page')
   final int lastPage;
@@ -340,7 +340,7 @@ class _$ItemsImpl implements _Items {
   final String? prevPageUrl;
   @override
   @JsonKey(name: 'to')
-  final int to;
+  final int? to;
   @override
   @JsonKey(name: 'total')
   final int total;
@@ -415,7 +415,7 @@ abstract class _Items implements Items {
       {@JsonKey(name: 'current_page') required final int currentPage,
       @JsonKey(name: 'data') required final List<Datum> data,
       @JsonKey(name: 'first_page_url') required final String firstPageUrl,
-      @JsonKey(name: 'from') required final int from,
+      @JsonKey(name: 'from') required final int? from,
       @JsonKey(name: 'last_page') required final int lastPage,
       @JsonKey(name: 'last_page_url') required final String lastPageUrl,
       @JsonKey(name: 'links') required final List<Link> links,
@@ -423,7 +423,7 @@ abstract class _Items implements Items {
       @JsonKey(name: 'path') required final String path,
       @JsonKey(name: 'per_page') required final int perPage,
       @JsonKey(name: 'prev_page_url') required final String? prevPageUrl,
-      @JsonKey(name: 'to') required final int to,
+      @JsonKey(name: 'to') required final int? to,
       @JsonKey(name: 'total') required final int total}) = _$ItemsImpl;
 
   factory _Items.fromJson(Map<String, dynamic> json) = _$ItemsImpl.fromJson;
@@ -439,7 +439,7 @@ abstract class _Items implements Items {
   String get firstPageUrl;
   @override
   @JsonKey(name: 'from')
-  int get from;
+  int? get from;
   @override
   @JsonKey(name: 'last_page')
   int get lastPage;
@@ -463,7 +463,7 @@ abstract class _Items implements Items {
   String? get prevPageUrl;
   @override
   @JsonKey(name: 'to')
-  int get to;
+  int? get to;
   @override
   @JsonKey(name: 'total')
   int get total;
@@ -498,6 +498,8 @@ mixin _$Datum {
   String get subcategoryName => throw _privateConstructorUsedError;
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
+  int get categoryId => throw _privateConstructorUsedError;
 
   /// Serializes this Datum to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -521,7 +523,8 @@ abstract class $DatumCopyWith<$Res> {
       @JsonKey(name: 'discount_price') int discountPrice,
       @JsonKey(name: 'category_name') String categoryName,
       @JsonKey(name: 'subcategory_name') String subcategoryName,
-      @JsonKey(name: 'currency_symbol') String currencySymbol});
+      @JsonKey(name: 'currency_symbol') String currencySymbol,
+      @JsonKey(name: 'category_id') int categoryId});
 }
 
 /// @nodoc
@@ -547,6 +550,7 @@ class _$DatumCopyWithImpl<$Res, $Val extends Datum>
     Object? categoryName = null,
     Object? subcategoryName = null,
     Object? currencySymbol = null,
+    Object? categoryId = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -581,6 +585,10 @@ class _$DatumCopyWithImpl<$Res, $Val extends Datum>
           ? _value.currencySymbol
           : currencySymbol // ignore: cast_nullable_to_non_nullable
               as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -600,7 +608,8 @@ abstract class _$$DatumImplCopyWith<$Res> implements $DatumCopyWith<$Res> {
       @JsonKey(name: 'discount_price') int discountPrice,
       @JsonKey(name: 'category_name') String categoryName,
       @JsonKey(name: 'subcategory_name') String subcategoryName,
-      @JsonKey(name: 'currency_symbol') String currencySymbol});
+      @JsonKey(name: 'currency_symbol') String currencySymbol,
+      @JsonKey(name: 'category_id') int categoryId});
 }
 
 /// @nodoc
@@ -624,6 +633,7 @@ class __$$DatumImplCopyWithImpl<$Res>
     Object? categoryName = null,
     Object? subcategoryName = null,
     Object? currencySymbol = null,
+    Object? categoryId = null,
   }) {
     return _then(_$DatumImpl(
       id: null == id
@@ -658,6 +668,10 @@ class __$$DatumImplCopyWithImpl<$Res>
           ? _value.currencySymbol
           : currencySymbol // ignore: cast_nullable_to_non_nullable
               as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -673,7 +687,8 @@ class _$DatumImpl implements _Datum {
       @JsonKey(name: 'discount_price') required this.discountPrice,
       @JsonKey(name: 'category_name') required this.categoryName,
       @JsonKey(name: 'subcategory_name') required this.subcategoryName,
-      @JsonKey(name: 'currency_symbol') required this.currencySymbol});
+      @JsonKey(name: 'currency_symbol') required this.currencySymbol,
+      @JsonKey(name: 'category_id') required this.categoryId});
 
   factory _$DatumImpl.fromJson(Map<String, dynamic> json) =>
       _$$DatumImplFromJson(json);
@@ -702,10 +717,13 @@ class _$DatumImpl implements _Datum {
   @override
   @JsonKey(name: 'currency_symbol')
   final String currencySymbol;
+  @override
+  @JsonKey(name: 'category_id')
+  final int categoryId;
 
   @override
   String toString() {
-    return 'Datum(id: $id, itemName: $itemName, itemPrice: $itemPrice, image: $image, discountPrice: $discountPrice, categoryName: $categoryName, subcategoryName: $subcategoryName, currencySymbol: $currencySymbol)';
+    return 'Datum(id: $id, itemName: $itemName, itemPrice: $itemPrice, image: $image, discountPrice: $discountPrice, categoryName: $categoryName, subcategoryName: $subcategoryName, currencySymbol: $currencySymbol, categoryId: $categoryId)';
   }
 
   @override
@@ -726,13 +744,15 @@ class _$DatumImpl implements _Datum {
             (identical(other.subcategoryName, subcategoryName) ||
                 other.subcategoryName == subcategoryName) &&
             (identical(other.currencySymbol, currencySymbol) ||
-                other.currencySymbol == currencySymbol));
+                other.currencySymbol == currencySymbol) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, itemName, itemPrice, image,
-      discountPrice, categoryName, subcategoryName, currencySymbol);
+      discountPrice, categoryName, subcategoryName, currencySymbol, categoryId);
 
   /// Create a copy of Datum
   /// with the given fields replaced by the non-null parameter values.
@@ -759,8 +779,9 @@ abstract class _Datum implements Datum {
       @JsonKey(name: 'discount_price') required final int discountPrice,
       @JsonKey(name: 'category_name') required final String categoryName,
       @JsonKey(name: 'subcategory_name') required final String subcategoryName,
-      @JsonKey(name: 'currency_symbol')
-      required final String currencySymbol}) = _$DatumImpl;
+      @JsonKey(name: 'currency_symbol') required final String currencySymbol,
+      @JsonKey(name: 'category_id')
+      required final int categoryId}) = _$DatumImpl;
 
   factory _Datum.fromJson(Map<String, dynamic> json) = _$DatumImpl.fromJson;
 
@@ -788,6 +809,9 @@ abstract class _Datum implements Datum {
   @override
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol;
+  @override
+  @JsonKey(name: 'category_id')
+  int get categoryId;
 
   /// Create a copy of Datum
   /// with the given fields replaced by the non-null parameter values.

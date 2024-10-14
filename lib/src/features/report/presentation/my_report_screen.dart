@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common_widgets/primary_button.dart';
+import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
+import '../../../routing/app_router.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
+import '../../wallet/data/wallet_repository.dart';
 
 class MyReportScreen extends ConsumerWidget {
   const MyReportScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final balance = ref.watch(fetchBalanceProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -30,7 +36,7 @@ class MyReportScreen extends ConsumerWidget {
           child: Column(
             children: [
               CustomCarouselSlider(
-                value: ref.watch(fetchSlidersProvider(screen: 'Home Page')),
+                value: ref.watch(fetchSlidersProvider(screen: myReportParam)),
               ),
               gapH12,
               Row(
@@ -42,10 +48,26 @@ class MyReportScreen extends ConsumerWidget {
                       value: '19',
                     ),
                   ),
-                  Expanded(
-                    child: ReportInfoWidget(
-                      title: 'Total Balance'.hardcoded,
-                      value: '1000',
+                  balance.when(
+                    data: (bal) => Expanded(
+                      child: ReportInfoWidget(
+                        title: 'Total Balance'.hardcoded,
+                        value: bal.balance.toString(),
+                      ),
+                    ),
+                    loading: () => Skeletonizer(
+                      child: Expanded(
+                        child: ReportInfoWidget(
+                          title: 'Total Balance'.hardcoded,
+                          value: '1000',
+                        ),
+                      ),
+                    ),
+                    error: (e, st) => Expanded(
+                      child: ReportInfoWidget(
+                        title: 'Total Balance'.hardcoded,
+                        value: '-1',
+                      ),
                     ),
                   ),
                   Expanded(
@@ -63,13 +85,17 @@ class MyReportScreen extends ConsumerWidget {
                       child: PrimaryButton(
                           text: 'View Meal History'.hardcoded,
                           fontSize: 10,
-                          onPressed: () {})),
+                          onPressed: () {
+                            context.goNamed(AppRoute.mealHistory.name);
+                          })),
                   gapW8,
                   Expanded(
                       child: PrimaryButton(
-                          text: 'View Balance History'.hardcoded,
+                          text: 'View Recharge History'.hardcoded,
                           fontSize: 10,
-                          onPressed: () {})),
+                          onPressed: () {
+                            context.goNamed(AppRoute.rechargeHistory.name);
+                          })),
                   gapW8,
                   Expanded(
                       child: PrimaryButton(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/network_photo.dart';
@@ -10,6 +12,7 @@ import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
 import '../../data/item_repository.dart';
 import '../../domain/item_detail.dart';
 import '../widgets/notification_widget.dart';
+import 'health_tips_widget.dart';
 import 'item_description.dart';
 import 'tab_bar.dart';
 
@@ -78,15 +81,20 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             gapH4,
-                            Text(detail.shortDescription.substring(0, 50)),
-                            Text(
-                              'Date today 1:30 pm',
-                              style: Theme.of(context).textTheme.titleMedium,
+
+                            HtmlWidget(
+                              detail.shortDescription,
+                              textStyle: Theme.of(context).textTheme.bodyMedium,
                             ),
+                            // Text(detail.shortDescription.substring(0, 50)),
+                            // Text(
+                            //   'Date today 1:30 pm',
+                            //   style: Theme.of(context).textTheme.titleMedium,
+                            // ),
                             Row(
                               children: [
                                 Text(
-                                  '৳${detail.discountPrice}',
+                                  '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -98,7 +106,7 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                                 ),
                                 gapW8,
                                 Text(
-                                  '৳${detail.itemPrice}',
+                                  '৳${NumberFormat('', 'bn').format(detail.itemPrice)}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -145,29 +153,30 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                               color: tertiaryColor,
                               borderRadius: BorderRadius.circular(8)),
                           padding: const EdgeInsets.all(Sizes.p8),
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: '${detail.itemName}\n',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        color: textColor,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                              TextSpan(
-                                  text: detail.longDescription,
-                                  style:
-                                      Theme.of(context).textTheme.titleSmall),
-                            ]),
-                          ),
+                          child: HtmlWidget(detail.longDescription),
+                          // child: RichText(
+                          //   text: TextSpan(children: [
+                          //     TextSpan(
+                          //         text: '${detail.itemName}\n',
+                          //         style: Theme.of(context)
+                          //             .textTheme
+                          //             .titleMedium!
+                          //             .copyWith(
+                          //               color: textColor,
+                          //               fontWeight: FontWeight.bold,
+                          //             )),
+                          //     TextSpan(
+                          //         text: detail.longDescription,
+                          //         style:
+                          //             Theme.of(context).textTheme.titleSmall),
+                          //   ]),
+                          // ),
                         ),
                       )
                     ],
                   ),
                   gapH16,
-                  AddToCartWidget(product: detail),
+                  AddToCartWidget(item: detail),
                   gapH16,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -203,10 +212,14 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                     child: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: tabController,
-                        children: const [
-                          ItemDescription(),
-                          Text('delivery'),
-                          Text('reviews'),
+                        children: [
+                          ItemDescription(
+                            detail: detail,
+                          ),
+                          const Text('delivery'),
+                          HealthTipsWidget(
+                            detail: detail,
+                          ),
                         ]),
                   )
                 ],

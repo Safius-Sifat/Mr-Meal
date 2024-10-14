@@ -33,6 +33,30 @@ class WalletRepository {
     );
     return Balance.fromJson(response.data['balance'] as Map<String, dynamic>);
   }
+
+  Future<String> rechargeBalance({
+    required String token,
+    required int amount,
+  }) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: rechargeUrl,
+    );
+
+    final response = await client.postUri(uri,
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          'amount': '$amount',
+        });
+
+    return response.data['payment_url'] as String;
+  }
 }
 
 @riverpod
@@ -42,7 +66,7 @@ WalletRepository walletRepository(WalletRepositoryRef ref) {
 }
 
 @riverpod
-Future<Balance> fetchProfile(FetchProfileRef ref) {
+Future<Balance> fetchBalance(FetchBalanceRef ref) {
   final user = ref.read(authRepositoryProvider).currentUser;
   if (user == null) {
     throw UserNotAuthenticated();

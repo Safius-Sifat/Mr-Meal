@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../domain/category.dart';
-import '../widgets/photo.dart';
 
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer({super.key, required this.category});
@@ -18,10 +17,11 @@ class CategoryContainer extends StatelessWidget {
           color: tertiaryColor, borderRadius: BorderRadius.circular(8)),
       child: Row(
         children: [
-          Photo(category.image),
+          // Photo(category.image),
           gapW8,
           Text(
-            category.title,
+            'kl',
+            // category.title,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,

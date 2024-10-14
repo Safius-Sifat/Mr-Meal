@@ -7,7 +7,7 @@ part of 'add_to_cart_controller.dart';
 // **************************************************************************
 
 String _$addToCartControllerHash() =>
-    r'278a8d2af382b0135c0efdaaac844450a41970f7';
+    r'ba95767f0a59bd77f44b97d694d9dd3f993b78c9';
 
 /// See also [AddToCartController].
 @ProviderFor(AddToCartController)

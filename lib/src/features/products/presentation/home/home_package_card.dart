@@ -1,25 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../utils/async_value_ui.dart';
+import '../../../cart/domain/online_cart.dart';
+import '../../../cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import '../../domain/packages.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
 
-class HomePackageCard extends StatelessWidget {
+class HomePackageCard extends ConsumerStatefulWidget {
   const HomePackageCard({
     super.key,
     required this.data,
   });
 
   final Datum data;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomePackageCardState();
+}
+
+class _HomePackageCardState extends ConsumerState<HomePackageCard> {
+  Datum get data => widget.data;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<dynamic>>(
+      addToCartControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(addToCartControllerProvider);
     return Container(
-      width: 100,
+      width: 110,
       padding: const EdgeInsets.all(Sizes.p4),
       decoration: BoxDecoration(
         color: neutralColor,
@@ -27,8 +47,8 @@ class HomePackageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.p8),
       ),
       child: Column(
-        // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Stack(
             children: [
@@ -76,17 +96,19 @@ class HomePackageCard extends StatelessWidget {
             ),
           ),
           gapH4,
-          Text(
-            'This is a package description',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleSmall,
+          HtmlWidget(
+            data.shortDescription,
+            customStylesBuilder: (element) {
+              return {'text-align': 'center'};
+            },
           ),
+
           gapH8,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '৳${data.discountPrice}',
+                '৳${NumberFormat('', 'bn').format(data.discountPrice)}',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       decoration: TextDecoration.lineThrough,
                       fontSize: Sizes.p12,
@@ -94,7 +116,7 @@ class HomePackageCard extends StatelessWidget {
               ),
               gapW4,
               Text(
-                '৳${data.packagePrice}',
+                '৳${NumberFormat('', 'bn').format(data.packagePrice)}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: primaryColor,
                       fontSize: Sizes.p12,
@@ -105,7 +127,44 @@ class HomePackageCard extends StatelessWidget {
           gapH8,
           SecondaryButton(id: data.id),
           gapH8,
-          const PrimaryButton(),
+          PackageButton(
+            isLoading: isLoading,
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              await ref
+                  .read(addToCartControllerProvider.notifier)
+                  .addItem(CartModel.empty().copyWith(
+                    packageId: data.id,
+                    packageName: data.packageName,
+                    packagePrice: data.packagePrice,
+                    packageDiscountPrice: data.discountPrice,
+                    packageImage: data.image,
+                  ));
+              setState(() {
+                isLoading = false;
+              });
+            },
+          ),
+          // PackageButton(
+          //   isLoading: isLoading,
+          //   onPressed: onAddToCart,
+          // ),
+          // PackageButton(
+          //   isLoading: state.isLoading,
+          //   onPressed: () async {
+          //     await ref
+          //         .read(addToCartControllerProvider.notifier)
+          //         .addItem(CartModel.empty().copyWith(
+          //           packageId: data.id,
+          //           packageName: data.packageName,
+          //           packagePrice: data.packagePrice,
+          //           packageDiscountPrice: data.discountPrice,
+          //           packageImage: data.image,
+          //         ));
+          //   },
+          // ),
           gapH8,
         ],
       ),

@@ -264,7 +264,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
-                        prefixIcon: const Icon(Icons.password_rounded),
+                        prefixIcon: const Icon(Icons.key_sharp),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),
@@ -299,7 +299,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen>
                           color: textFieldHint,
                           fontSize: Sizes.p16,
                         ),
-                        prefixIcon: const Icon(Icons.password_rounded),
+                        prefixIcon: const Icon(Icons.key_sharp),
                         enabled: !state.isLoading,
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(color: textFieldColor),

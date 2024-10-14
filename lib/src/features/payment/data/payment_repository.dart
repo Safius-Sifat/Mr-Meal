@@ -50,10 +50,8 @@ class PaymentRepository {
       Uri.parse(url),
     );
     return response.data['success'] as int == 200;
-    // return (response.data['success'] as List)
-    //     .map((e) => Announcement.fromJson(e as Map<String, dynamic>))
-    //     .toList();
   }
+
 }
 
 @riverpod
