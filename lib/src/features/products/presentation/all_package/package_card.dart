@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -7,9 +8,12 @@ import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../utils/toastification.dart';
 import '../../../cart/domain/online_cart.dart';
 import '../../../cart/presentation/add_to_cart/add_to_cart_controller.dart';
-import '../../domain/package_by_category.dart';
+import '../../../favourite/data/favrourite_repository.dart';
+import '../../../favourite/presentation/favourite_controller.dart';
+import '../../domain/packages.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
 
@@ -46,7 +50,7 @@ class _PackageCardState extends ConsumerState<PackageCard> {
               InkWell(
                 onTap: () {
                   context.goNamed(AppRoute.packageDetail.name,
-                      pathParameters: {'id': '${data.packageId}'});
+                      pathParameters: {'id': '${data.id}'});
                 },
                 child: AspectRatio(
                   aspectRatio: 1.5,
@@ -59,16 +63,27 @@ class _PackageCardState extends ConsumerState<PackageCard> {
               Positioned(
                 top: Sizes.p4,
                 right: Sizes.p4,
-                child: Container(
-                  padding: const EdgeInsets.all(Sizes.p4),
-                  decoration: const BoxDecoration(
-                    color: tertiaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
-                  ),
-                  child: const Icon(
-                    Icons.favorite_outline,
-                    color: Colors.black,
-                    size: Sizes.p12,
+                child: InkWell(
+                  onTap: () async {
+                    final success = await ref
+                        .read(addToFavouriteProvider.notifier)
+                        .addToFavourite(data.id, 'package');
+                    if (success) {
+                      ref.invalidate(fetchFavouriteProvider);
+                      successToast(ctx: context, title: 'Added to Favourites');
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(Sizes.p4),
+                    decoration: const BoxDecoration(
+                      color: tertiaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
+                    ),
+                    child: const Icon(
+                      Icons.favorite_outline,
+                      color: Colors.black,
+                      size: Sizes.p12,
+                    ),
                   ),
                 ),
               ),
@@ -78,7 +93,7 @@ class _PackageCardState extends ConsumerState<PackageCard> {
           InkWell(
             onTap: () {
               context.goNamed(AppRoute.packageDetail.name,
-                  pathParameters: {'id': '${data.packageId}'});
+                  pathParameters: {'id': '${data.id}'});
             },
             child: Text(
               data.packageName,
@@ -87,10 +102,11 @@ class _PackageCardState extends ConsumerState<PackageCard> {
             ),
           ),
           gapH4,
-          Text(
-            'This is a package description',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleSmall,
+          HtmlWidget(
+            data.shortDescription,
+            customStylesBuilder: (element) {
+              return {'text-align': 'center'};
+            },
           ),
           gapH8,
           Row(
@@ -114,7 +130,7 @@ class _PackageCardState extends ConsumerState<PackageCard> {
             ],
           ),
           gapH8,
-          SecondaryButton(id: data.packageId),
+          SecondaryButton(id: data.id),
           gapH8,
           PackageButton(
             isLoading: isLoading,
@@ -125,7 +141,7 @@ class _PackageCardState extends ConsumerState<PackageCard> {
               await ref
                   .read(addToCartControllerProvider.notifier)
                   .addItem(CartModel.empty().copyWith(
-                    packageId: data.packageId,
+                    packageId: data.id,
                     packageName: data.packageName,
                     packagePrice: data.packagePrice,
                     packageDiscountPrice: data.discountPrice,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
@@ -38,13 +38,16 @@ class CartTotalWithCTA extends ConsumerWidget {
             ),
             Column(
               children: [
-                Text(selectedItem.toString(), style: boldText),
+                Text(NumberFormat('', 'bn').format(selectedItem),
+                    style: boldText),
                 gapH4,
-                total.when(
-                  data: (value) => Text('৳$value', style: boldText),
-                  loading: () => const Skeletonizer(child: Text('100')),
-                  error: (error, _) => Text(error.toString(), style: boldText),
-                ),
+                Text('৳${NumberFormat('', 'bn').format(total)}',
+                    style: boldText),
+                // total.when(
+                //   data: (value) => ,
+                //   loading: () => const Skeletonizer(child: Text('100')),
+                //   error: (error, _) => Text(error.toString(), style: boldText),
+                // ),
                 gapH4,
               ],
             ),
@@ -136,10 +139,10 @@ class CartTotalWithCTA extends ConsumerWidget {
             Column(
               children: [
                 gapH4,
-                Text('৳0'.hardcoded,
+                Text('৳${NumberFormat('', 'bn').format(0)}',
                     style: boldText.copyWith(color: primaryColor)),
                 gapH4,
-                Text('৳120'.hardcoded, style: boldText),
+                Text('৳${NumberFormat('', 'bn').format(0)}', style: boldText),
               ],
             ),
             const Spacer(),
@@ -165,7 +168,7 @@ class CartTotalWithCTA extends ConsumerWidget {
             ),
             Column(
               children: [
-                Text('120'.hardcoded,
+                Text('৳${NumberFormat('', 'bn').format(total)}',
                     style: boldText.copyWith(color: primaryColor)),
               ],
             ),

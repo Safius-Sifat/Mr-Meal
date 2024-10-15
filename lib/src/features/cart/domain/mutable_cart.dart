@@ -15,16 +15,17 @@ extension MutableCart on RemoteCart {
     if (index == -1) {
       return RemoteCart(carts: copy);
     }
-    late final CartModel oldItem;
-    if (item.itemId == null) {
-      oldItem = carts.firstWhere((elem) => elem.packageId == elem.packageId,
-          orElse: () => item);
-    } else {
-      oldItem = carts.firstWhere((elem) => elem.itemId == item.itemId,
-          orElse: () => item);
-    }
-    print('oldItem: $oldItem');
-    copy[index] = oldItem.copyWith(quantity: item.quantity);
+    // late final CartModel oldItem;
+    // if (item.itemId == null) {
+    //   oldItem = carts.firstWhere((elem) => elem.packageId == elem.packageId,
+    //       orElse: () => item);
+    // } else {
+    //   oldItem = carts.firstWhere((elem) => elem.itemId == item.itemId,
+    //       orElse: () => item);
+    // }
+    // print('oldItem: $oldItem');
+    // copy[index] = oldItem.copyWith(quantity: item.quantity);
+    copy[index] = item;
     return RemoteCart(carts: copy);
   }
 

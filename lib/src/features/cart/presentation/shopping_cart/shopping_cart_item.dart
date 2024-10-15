@@ -2,12 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common_widgets/item_quantity_selector.dart';
 import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
+import '../../../../utils/toastification.dart';
 import '../../domain/online_cart.dart';
 import 'shopping_cart_screen_controller.dart';
 
@@ -98,14 +100,14 @@ class ShoppingCartItemContents extends ConsumerWidget {
                           fontSize: 14,
                         )),
                 gapH4,
-                // const Text('This is wide range of'),
+                // Text('This is wide range of ${item.id}'),
                 // const Text(
                 //   'Date: Today 1:30 pm',
                 // ),
                 Row(
                   children: [
                     Text(
-                      '৳${item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice}',
+                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.bold,
@@ -114,7 +116,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ),
                     gapW8,
                     Text(
-                      '৳${item.itemId != null ? item.itemPrice : item.packagePrice}',
+                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: primaryColor,
                             fontWeight: FontWeight.bold,
@@ -123,24 +125,6 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     const Icon(Icons.star, color: primaryColor, size: 16),
-                // Text(
-                //   '4.99',
-                //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                //         fontSize: Sizes.p8,
-                //       ),
-                // ),
-                // gapW4,
-                // Text(
-                //   '15 Reviews',
-                //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                //         fontSize: Sizes.p8,
-                //       ),
-                // ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -227,9 +211,14 @@ class EditOrRemoveItemWidget extends ConsumerWidget {
           ),
           IconButton(
             onPressed: () async {
-              await ref
+              final success = await ref
                   .read(shoppingCartScreenControllerProvider.notifier)
                   .removeItemById(item);
+
+              print('removed ${item.id}');
+              if (success && context.mounted) {
+                successToast(ctx: context, title: 'Item removed');
+              }
             },
             icon: const Icon(
               Icons.delete_outline_rounded,

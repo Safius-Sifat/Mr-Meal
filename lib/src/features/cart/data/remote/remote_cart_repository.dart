@@ -54,7 +54,10 @@ class RemoteCartRepository {
   }
 
   Future<void> addItemToCart(
-      {required String token, required int id, required String type}) async {
+      {required String token,
+      required int id,
+      required String type,
+      required int quantity}) async {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
@@ -67,7 +70,9 @@ class RemoteCartRepository {
             'Authorization': 'Bearer $token',
           },
         ),
-        data: type == 'package' ? {'package_id': '$id'} : {'item_id': '$id'});
+        data: type == 'package'
+            ? {'package_id': '$id', 'quantity': '$quantity'}
+            : {'item_id': '$id', 'quantity': '$quantity'});
   }
 
   Future<void> setCart(Cart cart) async {

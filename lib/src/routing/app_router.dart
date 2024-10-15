@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../common_widgets/coming_soon_screen.dart';
 import '../features/address/presentation/select_location_screen.dart';
 import '../features/announcement/presentation/announcement_screen.dart';
 import '../features/authentication/data/auth_repository.dart';
@@ -68,6 +69,7 @@ enum AppRoute {
   inputAmount,
   rechargeHistory,
   mealHistory,
+  comingSoon,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -174,6 +176,13 @@ GoRouter goRouter(GoRouterRef ref) {
                         child: ItemDetailScreen(
                           id: int.parse(state.pathParameters['id']!),
                         ),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'comingSoon',
+                      name: AppRoute.comingSoon.name,
+                      pageBuilder: (context, state) => const NoTransitionPage(
+                        child: ComingSoonScreen(),
                       ),
                     ),
                     GoRoute(

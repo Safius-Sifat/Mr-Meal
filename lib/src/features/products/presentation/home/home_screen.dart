@@ -129,6 +129,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     gapH32,
                     const FeatureGrid(),
+                    gapH16,
                     HomePackagesWidget(
                       packages: packages,
                     ),

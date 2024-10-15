@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../l10n/string_hardcoded.dart';
-import '../../data/package_repository.dart';
-import '../../domain/package_by_category.dart';
+import '../../domain/package_category.dart';
 import 'package_type.dart';
 
 const kPackageType = [
@@ -17,32 +15,27 @@ const kPackageType = [
 ];
 
 class PackageGrid extends ConsumerWidget {
-  const PackageGrid({super.key});
+  const PackageGrid({super.key, required this.categories});
+  final List<PackageCategory> categories;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final packagesByCategory = ref.watch(fetchPackagesByCategoryProvider);
-    return AsyncValueWidget<PackagesByCategory>(
-      value: packagesByCategory,
-      data: (value) => value.categories.isEmpty
-          ? Center(
-              child: Text(
-                'No categories found'.hardcoded,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            )
-          : ProductsLayoutGrid(
-              itemCount: value.categories.length,
-              itemBuilder: (_, index) {
-                final packageType = value.categories[index];
-                if (packageType.packages.data.isEmpty) {
-                  return Container();
-                }
-                return PackageType(
-                  type: packageType,
-                );
-              },
-            ),
+    if (categories.isEmpty) {
+      return Center(
+        child: Text(
+          'No categories found'.hardcoded,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      );
+    }
+    return ProductsLayoutGrid(
+      itemCount: categories.length,
+      itemBuilder: (_, index) {
+        final packageType = categories[index];
+        return PackageType(
+          type: packageType,
+        );
+      },
     );
   }
 }

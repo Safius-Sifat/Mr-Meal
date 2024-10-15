@@ -8,7 +8,7 @@ class History with _$History {
     @JsonKey(name: 'current_page') required int currentPage,
     @JsonKey(name: 'data') required List<HistoryData> data,
     @JsonKey(name: 'first_page_url') required String firstPageUrl,
-    @JsonKey(name: 'from') required int from,
+    @JsonKey(name: 'from') required int? from,
     @JsonKey(name: 'last_page') required int lastPage,
     @JsonKey(name: 'last_page_url') required String lastPageUrl,
     @JsonKey(name: 'links') required List<Link> links,
@@ -16,7 +16,7 @@ class History with _$History {
     @JsonKey(name: 'path') required String path,
     @JsonKey(name: 'per_page') required int perPage,
     @JsonKey(name: 'prev_page_url') required String? prevPageUrl,
-    @JsonKey(name: 'to') required int to,
+    @JsonKey(name: 'to') required int? to,
     @JsonKey(name: 'total') required int total,
   }) = _History;
 
@@ -29,8 +29,8 @@ class HistoryData with _$HistoryData {
   const factory HistoryData({
     @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'user_id') required int userId,
-    @JsonKey(name: 'item_id') required int? itemId,
-    @JsonKey(name: 'package_id') required int? packageId,
+    @JsonKey(name: 'item_id') required String? itemId,
+    @JsonKey(name: 'package_id') required String? packageId,
     @JsonKey(name: 'total_price') required int totalPrice,
     @JsonKey(name: 'status') required String status,
     @JsonKey(name: 'txn_id') required String txnId,

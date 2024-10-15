@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common_widgets/error_message_widget.dart';
 import '../../../common_widgets/primary_button.dart';
@@ -8,6 +9,7 @@ import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../../utils/async_value_ui.dart';
+import '../../../utils/time_formatter.dart';
 import '../../../utils/toastification.dart';
 import '../../delivery_schedule/data/delivery_schedule_repository.dart';
 import '../../products/data/item_repository.dart';
@@ -99,7 +101,7 @@ class _GuestMealScreenState extends ConsumerState<GuestMealScreen> {
                             return MealIncreaseContainerWidget(
                               mealTime: settings.mealName,
                               timeRange:
-                                  '${settings.startTime} - ${settings.endTime}',
+                                  '${formatTime(settings.startTime)} - ${formatTime(settings.endTime)}',
                               mealCount: mealCount[index],
                               onChanged: (quantity) {
                                 setState(() {
@@ -111,7 +113,14 @@ class _GuestMealScreenState extends ConsumerState<GuestMealScreen> {
                         );
                       },
                       error: (e, st) => ErrorMessageWidget(e),
-                      loading: () => const CircularProgressIndicator(),
+                      loading: () => Skeletonizer(
+                        child: MealIncreaseContainerWidget(
+                          mealTime: 'Loading'.hardcoded,
+                          timeRange: 'Loading'.hardcoded,
+                          mealCount: 0,
+                          onChanged: (quantity) {},
+                        ),
+                      ),
                     ),
                 gapH24,
                 PrimaryButton(

@@ -65,11 +65,16 @@ class CartService {
     if (user != null) {
       if (item.itemId == null) {
         await ref.read(remoteCartRepositoryProvider).addItemToCart(
-            token: user.token, id: item.packageId!, type: 'package');
+            token: user.token,
+            quantity: item.quantity,
+            id: item.packageId!,
+            type: 'package');
       } else {
-        await ref
-            .read(remoteCartRepositoryProvider)
-            .addItemToCart(token: user.token, id: item.itemId!, type: 'item');
+        await ref.read(remoteCartRepositoryProvider).addItemToCart(
+            token: user.token,
+            id: item.itemId!,
+            type: 'item',
+            quantity: item.quantity);
       }
       await _addCart(item);
       return;
@@ -81,16 +86,20 @@ class CartService {
   /// state
   Future<void> removeItemById(CartModel cartItem) async {
     final user = ref.read(authRepositoryProvider).currentUser;
-    if (user != null) {
+    if (user == null) {
       await _removeCart(cartItem);
-
-      await ref
-          .read(remoteCartRepositoryProvider)
-          .removeCartItem(token: user.token, id: cartItem.id);
-      return;
+    } else {
+      try {
+        await _removeCart(cartItem);
+        await ref
+            .read(remoteCartRepositoryProvider)
+            .removeCartItem(token: user.token, id: cartItem.id);
+      } catch (e) {
+        print('error: ');
+      } finally {
+        print('finally');
+      }
     }
-
-    await _removeCart(cartItem);
   }
 }
 
@@ -124,11 +133,12 @@ int cartItemsCount(CartItemsCountRef ref) {
 }
 
 @riverpod
-Future<double> cartTotal(CartTotalRef ref) async {
-  final cart = ref.watch(cartProvider).value ?? const RemoteCart(carts: []);
+double cartTotal(CartTotalRef ref) {
+  final cart =
+      ref.watch(cartProvider).valueOrNull ?? const RemoteCart(carts: []);
 
   if (cart.carts.isEmpty) {
-    return 0.0;
+    return 0;
   }
   var total = 0.0;
   for (final item in cart.carts) {

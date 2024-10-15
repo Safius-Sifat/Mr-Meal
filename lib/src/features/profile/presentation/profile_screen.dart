@@ -50,18 +50,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           const SizedBox(
                             height: 50,
                             width: 50,
-                            child: ClipOval(
-                                child:
-                                    NetworkPhoto('https://i.pravatar.cc/150')),
+                            child: ClipOval(child: NetworkPhoto(avatarDefault)),
                           ),
                           gapW12,
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(currentUser!.name),
-                              Text(currentUser.phone),
-                              Text(currentUser.email),
+                              Text(currentUser?.name ?? ''),
+                              Text(currentUser?.phone ?? ''),
+                              Text(currentUser?.email ?? ''),
                             ],
                           )
                         ],
@@ -72,7 +70,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         width: 100,
                         fontSize: 8,
                         text: 'Change Password',
-                        onPressed: () {},
+                        onPressed: () {
+                          // context.goNamed(AppRoute.changePassword.name);
+                        },
                       ),
                     ],
                   ),
@@ -98,13 +98,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         onPressed: () {},
                       ),
                       gapH8,
-                      PrimaryButton(
-                        height: 30,
-                        width: 70,
-                        fontSize: 8,
-                        text: 'Earn point',
-                        onPressed: () {},
-                      ),
+                      // PrimaryButton(
+                      //   height: 30,
+                      //   width: 70,
+                      //   fontSize: 8,
+                      //   text: 'Earn point',
+                      //   onPressed: () {},
+                      // ),
                     ],
                   ),
                 ],

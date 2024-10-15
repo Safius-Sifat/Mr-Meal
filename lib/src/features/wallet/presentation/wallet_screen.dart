@@ -10,6 +10,7 @@ import '../../../l10n/string_hardcoded.dart';
 import '../../../routing/app_router.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
+import '../data/wallet_repository.dart';
 
 class WalletScreen extends ConsumerStatefulWidget {
   const WalletScreen({super.key});
@@ -21,6 +22,7 @@ class WalletScreen extends ConsumerStatefulWidget {
 class _WalletScreenState extends ConsumerState<WalletScreen> {
   @override
   Widget build(BuildContext context) {
+    final balance = ref.watch(fetchBalanceProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -59,12 +61,18 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
                               shape: BoxShape.circle,
                               color: primaryColor.withOpacity(0.5)),
                           child: Center(
-                            child: Text(
-                              r'$230',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(color: neutralColor),
+                            child: balance.when(
+                              data: (bal) => Text(
+                                '৳${bal.balance}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      color: neutralColor,
+                                    ),
+                              ),
+                              loading: () => const Text('...'),
+                              error: (e, st) => const Text('0'),
                             ),
                           ),
                         ),

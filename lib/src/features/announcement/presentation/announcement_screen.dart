@@ -8,6 +8,7 @@ import '../../../common_widgets/error.dart';
 import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
+import '../../../constants/texts.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
@@ -71,18 +72,33 @@ class AnnouncementScreen extends ConsumerWidget {
                       },
                       loading: Skeletonizer(
                         child: Column(
-                          children: List.generate(5, (index) {
+                          children: List.generate(2, (index) {
                             return SizedBox(
-                              height: 150,
+                              height: 200,
                               width: double.infinity,
                               child: Card(
-                                color: Colors.grey.shade200,
-                                child: const Column(
-                                  children: [
-                                    Text('Hello world'),
-                                    gapH8,
-                                    Text('This is a test'),
-                                  ],
+                                color: Colors.grey.shade100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    children: [
+                                      gapH24,
+                                      const Text(
+                                        'Hello world, this is a test lorem ipsum',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      gapH16,
+                                      Text(
+                                        loremIpsum.substring(0, 100),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      gapH8,
+                                      Text(
+                                        loremIpsum.substring(0, 100),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

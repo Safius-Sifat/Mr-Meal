@@ -28,6 +28,7 @@ const String categoryUrl = 'api/user/categories';
 const String packagesUrl = 'api/user/packages';
 const String packageDetailUrl = 'api/user/package-details';
 const String packageByCategoryUrl = 'api/user/packages-by-category';
+const String packageCategoriesUrl = 'api/user/package-categories';
 const String cartItemsUrl = '/api/carts';
 const String addToCartUrl = '/api/add-to-cart';
 const String removeFromCartUrl = '/api/remove-cart';

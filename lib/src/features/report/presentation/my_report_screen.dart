@@ -52,7 +52,7 @@ class MyReportScreen extends ConsumerWidget {
                     data: (bal) => Expanded(
                       child: ReportInfoWidget(
                         title: 'Total Balance'.hardcoded,
-                        value: bal.balance.toString(),
+                        value: '৳${bal.balance}',
                       ),
                     ),
                     loading: () => Skeletonizer(

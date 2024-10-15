@@ -78,9 +78,21 @@ class ShoppingCartScreen extends ConsumerWidget {
                       ]);
                     }
                   }
-                  print(items);
-                  print(packages);
-
+                  // showDialog(
+                  //     context: context,
+                  //     builder: (context) {
+                  //       return AlertDialog(
+                  //         title: const Text('Items'),
+                  //         content: Column(
+                  //           children: [
+                  //             Text(items.toString()),
+                  //             Text(packages.toString()),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     });
+                  // print(items);
+                  // print(packages);
                   const double discount = 0;
                   final location = ref.read(fetchAddressProvider).valueOrNull;
                   if (location == null) {
@@ -102,26 +114,22 @@ class ShoppingCartScreen extends ConsumerWidget {
 
                     return;
                   }
-                  final total = ref.watch(cartTotalProvider).valueOrNull;
-                  if (total != null) {
-                    final success = await ref
-                        .read(postOrderProvider.notifier)
-                        .postOrder(
-                            amount: total,
-                            items: items,
-                            packages: packages,
-                            discount: discount,
-                            address: address);
+                  final total = ref.watch(cartTotalProvider);
+                  final success = await ref
+                      .read(postOrderProvider.notifier)
+                      .postOrder(
+                          amount: total,
+                          items: items,
+                          packages: packages,
+                          discount: discount,
+                          address: address);
 
-                    if (success) {
-                      final url = ref.read(postOrderProvider).valueOrNull;
-                      if (url != null && url.isNotEmpty) {
-                        context.goNamed(AppRoute.payment.name,
-                            pathParameters: {'url': url});
-                      }
+                  if (success) {
+                    final url = ref.read(postOrderProvider).valueOrNull;
+                    if (url != null && url.isNotEmpty) {
+                      context.goNamed(AppRoute.payment.name,
+                          pathParameters: {'url': url});
                     }
-                  } else {
-                    successToast(ctx: context, title: 'Your cart is empty');
                   }
                 },
               ),

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/breakpoints.dart';
+import '../../../../constants/constants.dart';
 import '../../../../constants/feature_list.dart';
 import '../widgets/feature_card.dart';
 
@@ -25,9 +26,7 @@ class FeatureGrid extends ConsumerWidget {
   }
 }
 
-/// Grid widget with content-sized items.
-/// See: https://codewithandrea.com/articles/flutter-layout-grid-content-sized-items/
-class ProductsLayoutGrid extends StatelessWidget {
+class ProductsLayoutGrid extends StatefulWidget {
   const ProductsLayoutGrid({
     super.key,
     required this.itemCount,
@@ -39,6 +38,13 @@ class ProductsLayoutGrid extends StatelessWidget {
 
   /// Function used to build a widget for a given index in the grid.
   final Widget Function(BuildContext, int) itemBuilder;
+  @override
+  State<ProductsLayoutGrid> createState() => _ProductsLayoutGridState();
+}
+
+class _ProductsLayoutGridState extends State<ProductsLayoutGrid> {
+  int _current = 0;
+  final CarouselSliderController _controller = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,33 +59,62 @@ class ProductsLayoutGrid extends StatelessWidget {
       // once the crossAxisCount is known, calculate the column and row sizes
       // set some flexible track sizes based on the crossAxisCount with 1.fr
       final columnSizes = List.generate(crossAxisCount, (_) => 4.fr);
-      final numRows = (itemCount / crossAxisCount).ceil();
+      final numRows = (widget.itemCount / crossAxisCount).ceil();
       // set all the row sizes to auto (self-sizing height)
       final rowSizes = List.generate(numRows, (_) => auto);
 
       return isMobile
-          ? CarouselSlider.builder(
-              options: CarouselOptions(
-                height: 250,
-                viewportFraction: 1,
-              ),
-              itemCount: 2,
-              itemBuilder: (context, index, realIndex) {
-                return LayoutGrid(
-                  columnSizes: columnSizes,
-                  rowSizes: rowSizes,
-                  rowGap: Sizes.p12, // equivalent to mainAxisSpacing
-                  columnGap: Sizes.p24, // equivalent to crossAxisSpacing
-                  children: [
-                    // render all the items with automatic child placement
-                    if (index == 0)
-                      for (var i = 0; i < 8; i++) itemBuilder(context, i),
-                    if (index == 1)
-                      for (var i = 8; i < itemCount; i++)
-                        itemBuilder(context, i),
-                  ],
-                );
-              })
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CarouselSlider.builder(
+                    options: CarouselOptions(
+                        height: 230,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                    itemCount: 2,
+                    itemBuilder: (context, index, realIndex) {
+                      return LayoutGrid(
+                        columnSizes: columnSizes,
+                        rowSizes: rowSizes,
+                        rowGap: Sizes.p12, // equivalent to mainAxisSpacing
+                        columnGap: Sizes.p20, // equivalent to crossAxisSpacing
+                        children: [
+                          // render all the items with automatic child placement
+                          if (index == 0)
+                            for (var i = 0; i < 8; i++)
+                              widget.itemBuilder(context, i),
+                          if (index == 1)
+                            for (var i = 8; i < widget.itemCount; i++)
+                              widget.itemBuilder(context, i),
+                        ],
+                      );
+                    }),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [0, 1].asMap().entries.map((entry) {
+                      return GestureDetector(
+                        onTap: () => _controller.animateToPage(entry.key),
+                        child: Container(
+                          width: 12,
+                          height: 4,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 4),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(2),
+                            color: _current == entry.key
+                                ? Colors.grey
+                                : secondaryColor,
+                          ),
+                        ),
+                      );
+                    }).toList())
+              ],
+            )
           : LayoutGrid(
               columnSizes: columnSizes,
               rowSizes: rowSizes,
@@ -87,7 +122,8 @@ class ProductsLayoutGrid extends StatelessWidget {
               columnGap: Sizes.p24, // equivalent to crossAxisSpacing
               children: [
                 // render all the items with automatic child placement
-                for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
+                for (var i = 0; i < widget.itemCount; i++)
+                  widget.itemBuilder(context, i),
               ],
             );
     });

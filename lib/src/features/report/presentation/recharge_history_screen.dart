@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
@@ -14,7 +16,7 @@ class RechargeHistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final itemsListValue =
         ref.watch(fetchHistoryProvider(page: 1, type: 'Recharge'));
-    final totalItems = itemsListValue.valueOrNull?.total;
+    final totalItems = itemsListValue.valueOrNull?.total ?? 0;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,34 +30,49 @@ class RechargeHistoryScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(Sizes.p12),
-        child: ListView.separated(
-            itemBuilder: (_, index) {
-              final page = index ~/ pageSize + 1;
-              final indexInPage = index % pageSize;
+        child: totalItems == 0
+            ? Center(
+                child: Text('No recharge history yet',
+                    style: Theme.of(context).textTheme.titleMedium),
+              )
+            : ListView.separated(
+                itemBuilder: (_, index) {
+                  final page = index ~/ pageSize + 1;
+                  final indexInPage = index % pageSize;
 
-              final itemsListValue =
-                  ref.watch(fetchHistoryProvider(page: page, type: 'Recharge'));
-              return itemsListValue.when(
-                  data: (history) {
-                    if (indexInPage >= history.data.length) {
-                      return null;
-                    }
-                    final item = history.data[indexInPage];
-                    return ListTile(
-                      title: Text(item.totalPrice.toString()),
-                      subtitle: Text(item.createdAt.toString()),
-                      trailing: Text(item.status),
-                    );
-                  },
-                  error: (e, st) => const Text(''),
-                  loading: () => const ListTile(
-                        title: Text('lasdjfl'),
-                        subtitle: Text(';laksdfjl'),
-                        trailing: Text(';laskdjf'),
-                      ));
-            },
-            separatorBuilder: (_, index) => gapH12,
-            itemCount: totalItems ?? 0),
+                  final itemsListValue = ref.watch(
+                      fetchHistoryProvider(page: page, type: 'Recharge'));
+                  return itemsListValue.when(
+                      data: (history) {
+                        if (indexInPage >= history.data.length) {
+                          return null;
+                        }
+                        final item = history.data[indexInPage];
+                        return ListTile(
+                          title: Text(
+                            '৳${NumberFormat('', 'bn').format(item.totalPrice)}',
+                          ),
+                          subtitle: Text(
+                            'Recharged at ${DateFormat('d MMM, h:mm a').format(item.createdAt)}',
+                          ),
+                          trailing: Text(item.status),
+                          shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                        );
+                      },
+                      error: (e, st) => const Text(''),
+                      loading: () => const Skeletonizer(
+                            child: ListTile(
+                              title: Text('lasdjfl'),
+                              subtitle: Text(';laksdfjl'),
+                              trailing: Text(';laskdjf'),
+                            ),
+                          ));
+                },
+                separatorBuilder: (_, index) => gapH12,
+                itemCount: totalItems),
       ),
     );
   }

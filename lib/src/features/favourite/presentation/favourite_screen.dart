@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../common_widgets/async_value_widget.dart';
-import '../../../common_widgets/primary_button.dart';
+import '../../../common_widgets/error.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
@@ -32,17 +31,11 @@ class FavouriteScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Sizes.p12, vertical: Sizes.p8),
-        child: AsyncValueWidget(
-          value: favourites,
-          errorButton: PrimaryButton(
-            width: 100,
-            height: 30,
-            text: 'Retry',
-            onPressed: () {
-              ref.invalidate(fetchFavouriteProvider);
-            },
-          ),
-          loading: const FavouriteScreenShimmer(),
+        child: favourites.when(
+          skipLoadingOnRefresh: false,
+          error: (e, st) => ErrorScreen(
+              error: e, onRetry: () => ref.refresh(fetchFavouriteProvider)),
+          loading: () => const FavouriteScreenShimmer(),
           data: (favs) {
             if (favs.favourites.isEmpty) {
               return Center(

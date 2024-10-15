@@ -8,5 +8,5 @@ class Feature {
   Feature(
       {required this.title,
       required this.image,
-      this.route = AppRoute.category});
+      this.route = AppRoute.comingSoon});
 }

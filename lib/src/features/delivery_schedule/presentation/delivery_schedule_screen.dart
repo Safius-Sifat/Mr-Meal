@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../common_widgets/error_message_widget.dart';
 import '../../../constants/api_constants.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
+import '../../../utils/time_formatter.dart';
 import '../../meal_on_off/doamin/meal_settings.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
@@ -39,10 +42,16 @@ class DeliveryScheduleScreen extends ConsumerWidget {
                 gapH12,
                 schedule.when(
                   data: (data) {
-                    return const ScheduleRowWidget();
+                    return Column(
+                      children: List.generate(data.length, (index) {
+                        return ScheduleRowWidget(
+                          meal: data[index],
+                        );
+                      }),
+                    );
                   },
-                  loading: () => const ScheduleRowWidget(),
-                  error: (error, stack) => const ScheduleRowWidget(),
+                  loading: () => const Skeletonizer(child: ScheduleRowWidget()),
+                  error: (error, stack) => ErrorMessageWidget(error),
                 ),
                 gapH20,
                 Column(
@@ -120,7 +129,9 @@ class ScheduleRowWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  meal != null ? meal!.startTime : '09:30:17 AM'.hardcoded,
+                  meal != null
+                      ? formatTime(meal!.startTime)
+                      : '09:30:17 AM'.hardcoded,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: Sizes.p16,
@@ -144,7 +155,9 @@ class ScheduleRowWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  meal != null ? meal!.endTime : '09:30:17 AM'.hardcoded,
+                  meal != null
+                      ? formatTime(meal!.endTime)
+                      : '09:30:17 AM'.hardcoded,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: Sizes.p16,

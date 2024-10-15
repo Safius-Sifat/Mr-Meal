@@ -8,7 +8,7 @@ class Packages with _$Packages {
     @JsonKey(name: 'current_page') required int currentPage,
     @JsonKey(name: 'data') required List<Datum> data,
     @JsonKey(name: 'first_page_url') required String firstPageUrl,
-    @JsonKey(name: 'from') required int from,
+    @JsonKey(name: 'from') required int? from,
     @JsonKey(name: 'last_page') required int lastPage,
     @JsonKey(name: 'last_page_url') required String lastPageUrl,
     @JsonKey(name: 'links') required List<Link> links,
@@ -16,7 +16,7 @@ class Packages with _$Packages {
     @JsonKey(name: 'path') required String path,
     @JsonKey(name: 'per_page') required int perPage,
     @JsonKey(name: 'prev_page_url') required String? prevPageUrl,
-    @JsonKey(name: 'to') required int to,
+    @JsonKey(name: 'to') required int? to,
     @JsonKey(name: 'total') required int total,
   }) = _Packages;
 

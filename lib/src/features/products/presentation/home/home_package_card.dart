@@ -9,8 +9,12 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../../../utils/toastification.dart';
+import '../../../cart/application/cart_service.dart';
 import '../../../cart/domain/online_cart.dart';
 import '../../../cart/presentation/add_to_cart/add_to_cart_controller.dart';
+import '../../../favourite/data/favrourite_repository.dart';
+import '../../../favourite/presentation/favourite_controller.dart';
 import '../../domain/packages.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
@@ -68,16 +72,27 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
               Positioned(
                 top: Sizes.p4,
                 right: Sizes.p4,
-                child: Container(
-                  padding: const EdgeInsets.all(Sizes.p4),
-                  decoration: const BoxDecoration(
-                    color: tertiaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
-                  ),
-                  child: const Icon(
-                    Icons.favorite_outline,
-                    color: Colors.black,
-                    size: Sizes.p12,
+                child: InkWell(
+                  onTap: () async {
+                    final success = await ref
+                        .read(addToFavouriteProvider.notifier)
+                        .addToFavourite(data.id, 'package');
+                    if (success) {
+                      ref.invalidate(fetchFavouriteProvider);
+                      successToast(ctx: context, title: 'Added to Favourites');
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(Sizes.p4),
+                    decoration: const BoxDecoration(
+                      color: tertiaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
+                    ),
+                    child: const Icon(
+                      Icons.favorite_outline,
+                      color: Colors.black,
+                      size: Sizes.p12,
+                    ),
                   ),
                 ),
               ),
@@ -102,7 +117,6 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
               return {'text-align': 'center'};
             },
           ),
-
           gapH8,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -145,26 +159,9 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
               setState(() {
                 isLoading = false;
               });
+              ref.invalidate(cartProvider);
             },
           ),
-          // PackageButton(
-          //   isLoading: isLoading,
-          //   onPressed: onAddToCart,
-          // ),
-          // PackageButton(
-          //   isLoading: state.isLoading,
-          //   onPressed: () async {
-          //     await ref
-          //         .read(addToCartControllerProvider.notifier)
-          //         .addItem(CartModel.empty().copyWith(
-          //           packageId: data.id,
-          //           packageName: data.packageName,
-          //           packagePrice: data.packagePrice,
-          //           packageDiscountPrice: data.discountPrice,
-          //           packageImage: data.image,
-          //         ));
-          //   },
-          // ),
           gapH8,
         ],
       ),

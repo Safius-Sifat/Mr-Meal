@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../constants/app_sizes.dart';
 import '../constants/constants.dart';
 import '../features/products/presentation/widgets/photo.dart';
+import 'error_message_widget.dart';
 import 'primary_button.dart';
 
 class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({super.key, required this.onRetry});
+  const ErrorScreen({super.key, this.error, required this.onRetry});
+  final Object? error;
   final void Function() onRetry;
 
   @override
@@ -28,13 +30,16 @@ class ErrorScreen extends StatelessWidget {
             ),
           ),
           gapH8,
-          const Text(
-            'Something went wrong! Please try again later',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
+          if (error != null)
+            ErrorMessageWidget(error!)
+          else
+            const Text(
+              'Something went wrong! Please try again later',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+              ),
             ),
-          ),
           gapH16,
           PrimaryButton(text: 'Retry', width: 160, onPressed: onRetry),
         ],

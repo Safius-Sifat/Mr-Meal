@@ -76,7 +76,7 @@ class AddToCartWidget extends ConsumerWidget {
                           packageImage: package!.image,
                         ));
                   }
-                  // ref.invalidate(cartProvider);
+                  ref.invalidate(cartProvider);
                 }
               : null,
           text: availableQuantity > 0

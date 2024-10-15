@@ -13,7 +13,7 @@ _$PackagesImpl _$$PackagesImplFromJson(Map<String, dynamic> json) =>
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstPageUrl: json['first_page_url'] as String,
-      from: (json['from'] as num).toInt(),
+      from: (json['from'] as num?)?.toInt(),
       lastPage: (json['last_page'] as num).toInt(),
       lastPageUrl: json['last_page_url'] as String,
       links: (json['links'] as List<dynamic>)
@@ -23,7 +23,7 @@ _$PackagesImpl _$$PackagesImplFromJson(Map<String, dynamic> json) =>
       path: json['path'] as String,
       perPage: (json['per_page'] as num).toInt(),
       prevPageUrl: json['prev_page_url'] as String?,
-      to: (json['to'] as num).toInt(),
+      to: (json['to'] as num?)?.toInt(),
       total: (json['total'] as num).toInt(),
     );
 
@@ -32,10 +32,6 @@ Map<String, dynamic> _$$PackagesImplToJson(_$PackagesImpl instance) {
     'current_page': instance.currentPage,
     'data': instance.data.map((e) => e.toJson()).toList(),
     'first_page_url': instance.firstPageUrl,
-    'from': instance.from,
-    'last_page': instance.lastPage,
-    'last_page_url': instance.lastPageUrl,
-    'links': instance.links.map((e) => e.toJson()).toList(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -44,11 +40,15 @@ Map<String, dynamic> _$$PackagesImplToJson(_$PackagesImpl instance) {
     }
   }
 
+  writeNotNull('from', instance.from);
+  val['last_page'] = instance.lastPage;
+  val['last_page_url'] = instance.lastPageUrl;
+  val['links'] = instance.links.map((e) => e.toJson()).toList();
   writeNotNull('next_page_url', instance.nextPageUrl);
   val['path'] = instance.path;
   val['per_page'] = instance.perPage;
   writeNotNull('prev_page_url', instance.prevPageUrl);
-  val['to'] = instance.to;
+  writeNotNull('to', instance.to);
   val['total'] = instance.total;
   return val;
 }

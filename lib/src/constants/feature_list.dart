@@ -3,7 +3,7 @@ import '../routing/app_router.dart';
 import 'constants.dart';
 
 final kfeatures = [
-  Feature(title: 'Categories', image: category),
+  Feature(title: 'Categories', image: category, route: AppRoute.category),
   Feature(
       title: 'Official Package',
       image: officialPackage,
@@ -16,7 +16,7 @@ final kfeatures = [
       title: 'Delivery Time',
       image: deliveryTime,
       route: AppRoute.deliverySchedule),
-  Feature(title: 'My Report', image: myReport),
+  Feature(title: 'My Report', image: myReport, route: AppRoute.myReport),
   Feature(title: 'My Offer', image: myOffer),
   Feature(title: 'My Meals', image: lunchTime),
   Feature(title: 'Feedback & Review', image: feedback),

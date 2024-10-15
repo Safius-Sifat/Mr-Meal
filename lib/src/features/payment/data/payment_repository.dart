@@ -36,8 +36,8 @@ class PaymentRepository {
         data: {
           'amount': '$amount',
           'address': address,
-          'items': items.toString(),
-          'packages': packages.toString(),
+          'item_id': items.toString(),
+          'package_id': packages.toString(),
           'discount': '$discount'
         });
 
@@ -51,7 +51,6 @@ class PaymentRepository {
     );
     return response.data['success'] as int == 200;
   }
-
 }
 
 @riverpod

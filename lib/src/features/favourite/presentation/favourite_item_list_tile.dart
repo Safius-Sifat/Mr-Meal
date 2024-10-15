@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../common_widgets/network_photo.dart';
 import '../../../constants/app_sizes.dart';
@@ -42,14 +43,16 @@ class FavouriteItemListTile extends ConsumerWidget {
               Expanded(
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(Sizes.p8),
-                    child: NetworkPhoto(item.itemImage)),
+                    child: NetworkPhoto(item.itemId != null
+                        ? item.itemImage
+                        : item.packageImage)),
               ),
               gapW8,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.itemName ?? '',
+                    Text(item.itemName ?? item.packageName ?? '',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontSize: 14,
                             )),
@@ -61,7 +64,7 @@ class FavouriteItemListTile extends ConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          '৳${item.itemDiscountPrice}',
+                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     decoration: TextDecoration.lineThrough,
@@ -71,7 +74,7 @@ class FavouriteItemListTile extends ConsumerWidget {
                         ),
                         gapW8,
                         Text(
-                          '৳${item.itemPrice}',
+                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: primaryColor,

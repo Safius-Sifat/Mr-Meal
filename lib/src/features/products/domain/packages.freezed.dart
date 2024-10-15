@@ -27,7 +27,7 @@ mixin _$Packages {
   @JsonKey(name: 'first_page_url')
   String get firstPageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'from')
-  int get from => throw _privateConstructorUsedError;
+  int? get from => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_page')
   int get lastPage => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_page_url')
@@ -43,7 +43,7 @@ mixin _$Packages {
   @JsonKey(name: 'prev_page_url')
   String? get prevPageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'to')
-  int get to => throw _privateConstructorUsedError;
+  int? get to => throw _privateConstructorUsedError;
   @JsonKey(name: 'total')
   int get total => throw _privateConstructorUsedError;
 
@@ -66,7 +66,7 @@ abstract class $PackagesCopyWith<$Res> {
       {@JsonKey(name: 'current_page') int currentPage,
       @JsonKey(name: 'data') List<Datum> data,
       @JsonKey(name: 'first_page_url') String firstPageUrl,
-      @JsonKey(name: 'from') int from,
+      @JsonKey(name: 'from') int? from,
       @JsonKey(name: 'last_page') int lastPage,
       @JsonKey(name: 'last_page_url') String lastPageUrl,
       @JsonKey(name: 'links') List<Link> links,
@@ -74,7 +74,7 @@ abstract class $PackagesCopyWith<$Res> {
       @JsonKey(name: 'path') String path,
       @JsonKey(name: 'per_page') int perPage,
       @JsonKey(name: 'prev_page_url') String? prevPageUrl,
-      @JsonKey(name: 'to') int to,
+      @JsonKey(name: 'to') int? to,
       @JsonKey(name: 'total') int total});
 }
 
@@ -96,7 +96,7 @@ class _$PackagesCopyWithImpl<$Res, $Val extends Packages>
     Object? currentPage = null,
     Object? data = null,
     Object? firstPageUrl = null,
-    Object? from = null,
+    Object? from = freezed,
     Object? lastPage = null,
     Object? lastPageUrl = null,
     Object? links = null,
@@ -104,7 +104,7 @@ class _$PackagesCopyWithImpl<$Res, $Val extends Packages>
     Object? path = null,
     Object? perPage = null,
     Object? prevPageUrl = freezed,
-    Object? to = null,
+    Object? to = freezed,
     Object? total = null,
   }) {
     return _then(_value.copyWith(
@@ -120,10 +120,10 @@ class _$PackagesCopyWithImpl<$Res, $Val extends Packages>
           ? _value.firstPageUrl
           : firstPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      from: null == from
+      from: freezed == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lastPage: null == lastPage
           ? _value.lastPage
           : lastPage // ignore: cast_nullable_to_non_nullable
@@ -152,10 +152,10 @@ class _$PackagesCopyWithImpl<$Res, $Val extends Packages>
           ? _value.prevPageUrl
           : prevPageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      to: null == to
+      to: freezed == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ abstract class _$$PackagesImplCopyWith<$Res>
       {@JsonKey(name: 'current_page') int currentPage,
       @JsonKey(name: 'data') List<Datum> data,
       @JsonKey(name: 'first_page_url') String firstPageUrl,
-      @JsonKey(name: 'from') int from,
+      @JsonKey(name: 'from') int? from,
       @JsonKey(name: 'last_page') int lastPage,
       @JsonKey(name: 'last_page_url') String lastPageUrl,
       @JsonKey(name: 'links') List<Link> links,
@@ -184,7 +184,7 @@ abstract class _$$PackagesImplCopyWith<$Res>
       @JsonKey(name: 'path') String path,
       @JsonKey(name: 'per_page') int perPage,
       @JsonKey(name: 'prev_page_url') String? prevPageUrl,
-      @JsonKey(name: 'to') int to,
+      @JsonKey(name: 'to') int? to,
       @JsonKey(name: 'total') int total});
 }
 
@@ -204,7 +204,7 @@ class __$$PackagesImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? data = null,
     Object? firstPageUrl = null,
-    Object? from = null,
+    Object? from = freezed,
     Object? lastPage = null,
     Object? lastPageUrl = null,
     Object? links = null,
@@ -212,7 +212,7 @@ class __$$PackagesImplCopyWithImpl<$Res>
     Object? path = null,
     Object? perPage = null,
     Object? prevPageUrl = freezed,
-    Object? to = null,
+    Object? to = freezed,
     Object? total = null,
   }) {
     return _then(_$PackagesImpl(
@@ -228,10 +228,10 @@ class __$$PackagesImplCopyWithImpl<$Res>
           ? _value.firstPageUrl
           : firstPageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      from: null == from
+      from: freezed == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       lastPage: null == lastPage
           ? _value.lastPage
           : lastPage // ignore: cast_nullable_to_non_nullable
@@ -260,10 +260,10 @@ class __$$PackagesImplCopyWithImpl<$Res>
           ? _value.prevPageUrl
           : prevPageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      to: null == to
+      to: freezed == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -312,7 +312,7 @@ class _$PackagesImpl implements _Packages {
   final String firstPageUrl;
   @override
   @JsonKey(name: 'from')
-  final int from;
+  final int? from;
   @override
   @JsonKey(name: 'last_page')
   final int lastPage;
@@ -342,7 +342,7 @@ class _$PackagesImpl implements _Packages {
   final String? prevPageUrl;
   @override
   @JsonKey(name: 'to')
-  final int to;
+  final int? to;
   @override
   @JsonKey(name: 'total')
   final int total;
@@ -417,7 +417,7 @@ abstract class _Packages implements Packages {
       {@JsonKey(name: 'current_page') required final int currentPage,
       @JsonKey(name: 'data') required final List<Datum> data,
       @JsonKey(name: 'first_page_url') required final String firstPageUrl,
-      @JsonKey(name: 'from') required final int from,
+      @JsonKey(name: 'from') required final int? from,
       @JsonKey(name: 'last_page') required final int lastPage,
       @JsonKey(name: 'last_page_url') required final String lastPageUrl,
       @JsonKey(name: 'links') required final List<Link> links,
@@ -425,7 +425,7 @@ abstract class _Packages implements Packages {
       @JsonKey(name: 'path') required final String path,
       @JsonKey(name: 'per_page') required final int perPage,
       @JsonKey(name: 'prev_page_url') required final String? prevPageUrl,
-      @JsonKey(name: 'to') required final int to,
+      @JsonKey(name: 'to') required final int? to,
       @JsonKey(name: 'total') required final int total}) = _$PackagesImpl;
 
   factory _Packages.fromJson(Map<String, dynamic> json) =
@@ -442,7 +442,7 @@ abstract class _Packages implements Packages {
   String get firstPageUrl;
   @override
   @JsonKey(name: 'from')
-  int get from;
+  int? get from;
   @override
   @JsonKey(name: 'last_page')
   int get lastPage;
@@ -466,7 +466,7 @@ abstract class _Packages implements Packages {
   String? get prevPageUrl;
   @override
   @JsonKey(name: 'to')
-  int get to;
+  int? get to;
   @override
   @JsonKey(name: 'total')
   int get total;

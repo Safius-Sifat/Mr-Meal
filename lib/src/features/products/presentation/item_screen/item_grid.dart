@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,32 +13,30 @@ import '../../data/item_repository.dart';
 import '../widgets/food_card.dart';
 
 /// A widget that displays the list of products that match the search query.
-class ItemsByCategoryGrid extends ConsumerWidget {
-  const ItemsByCategoryGrid({super.key, required this.categoryId});
-  final int categoryId;
+class ItemsGrid extends ConsumerWidget {
+  const ItemsGrid({super.key});
   static const pageSize = 10;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemsListValue = ref
-        .watch(fetchItemsByCategoryProvider(page: 1, categoryId: categoryId));
-
-    if (itemsListValue.valueOrNull?.data.isEmpty ?? true) {
-      return const Center(child: Text('No item available'));
-    }
-    final totalItems = itemsListValue.valueOrNull?.total;
+    final itemsListValue = ref.watch(fetchItemsProvider(page: 1));
+    final totalItems = itemsListValue.valueOrNull?.total ?? 0;
     return ProductsLayoutGrid(
       itemCount: totalItems,
       itemBuilder: (_, index) {
         final page = index ~/ pageSize + 1;
         final indexInPage = index % pageSize;
 
-        final itemsListValue = ref.watch(
-            fetchItemsByCategoryProvider(page: page, categoryId: categoryId));
+        final itemsListValue = ref.watch(fetchItemsProvider(page: page));
         return itemsListValue.when(
+          skipLoadingOnRefresh: false,
           data: (items) {
             if (indexInPage >= items.data.length) {
-              return null;
+              return Container();
             }
+            if (items.data.isEmpty) {
+              return const Center(child: Text('No item available'));
+            }
+
             final item = items.data[indexInPage];
 
             return FoodCard(
@@ -90,10 +89,10 @@ class ProductsLayoutGrid extends StatelessWidget {
   });
 
   /// Total number of items to display.
-  final int? itemCount;
+  final int itemCount;
 
   /// Function used to build a widget for a given index in the grid.
-  final Widget? Function(BuildContext, int) itemBuilder;
+  final Widget Function(BuildContext, int) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -102,38 +101,38 @@ class ProductsLayoutGrid extends StatelessWidget {
       final width = constraints.maxWidth;
       // 1 column for width < 500px
       // then add one more column for each 250px
-      final crossAxisCount = max(3, width ~/ 150);
+      final crossAxisCount = max(2, width ~/ 150);
       // print(crossAxisCount);
       // once the crossAxisCount is known, calculate the column and row sizes
       // set some flexible track sizes based on the crossAxisCount with 1.fr
-      // final columnSizes = List.generate(crossAxisCount, (_) => 3.fr);
-      // final numRows = (itemCount / crossAxisCount).ceil();
+      final columnSizes = List.generate(crossAxisCount, (_) => 3.fr);
+      final numRows = (itemCount / crossAxisCount).ceil();
       // set all the row sizes to auto (self-sizing height)
-      // final rowSizes = List.generate(numRows, (_) => auto);
+      final rowSizes = List.generate(numRows, (_) => auto);
       // Custom layout grid. See: https://pub.dev/packages/flutter_layout_grid
-      return GridView.builder(
-        padding: const EdgeInsets.all(Sizes.p16),
-        scrollDirection: Axis.horizontal,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: Sizes.p16,
-          crossAxisSpacing: Sizes.p16,
-          mainAxisExtent:
-              (width - Sizes.p16 * crossAxisCount - 16) / crossAxisCount,
-        ),
-        itemBuilder: itemBuilder,
-        itemCount: itemCount,
-      );
-      // return LayoutGrid(
-      //   columnSizes: columnSizes,
-      //   rowSizes: rowSizes,
-      //   rowGap: Sizes.p24, // equivalent to mainAxisSpacing
-      //   columnGap: Sizes.p24, // equivalent to crossAxisSpacing
-      //   children: [
-      //     // render all the items with automatic child placement
-      //     for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
-      //   ],
+      // return GridView.builder(
+      //   padding: const EdgeInsets.all(Sizes.p16),
+      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: crossAxisCount,
+      //       mainAxisSpacing: Sizes.p16,
+      //       crossAxisSpacing: Sizes.p16,
+      //       childAspectRatio: 9 / 16
+      //       // mainAxisExtent:
+      //       //     (width - Sizes.p16 * crossAxisCount - 16) / crossAxisCount,
+      //       ),
+      //   itemBuilder: itemBuilder,
+      //   itemCount: itemCount,
       // );
+      return LayoutGrid(
+        columnSizes: columnSizes,
+        rowSizes: rowSizes,
+        rowGap: Sizes.p24, // equivalent to mainAxisSpacing
+        columnGap: Sizes.p24, // equivalent to crossAxisSpacing
+        children: [
+          // render all the items with automatic child placement
+          for (var i = 0; i < itemCount; i++) itemBuilder(context, i),
+        ],
+      );
     });
   }
 }

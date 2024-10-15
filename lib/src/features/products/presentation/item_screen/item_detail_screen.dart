@@ -81,16 +81,10 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             gapH4,
-
                             HtmlWidget(
                               detail.shortDescription,
                               textStyle: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            // Text(detail.shortDescription.substring(0, 50)),
-                            // Text(
-                            //   'Date today 1:30 pm',
-                            //   style: Theme.of(context).textTheme.titleMedium,
-                            // ),
                             Row(
                               children: [
                                 Text(
@@ -154,23 +148,6 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                               borderRadius: BorderRadius.circular(8)),
                           padding: const EdgeInsets.all(Sizes.p8),
                           child: HtmlWidget(detail.longDescription),
-                          // child: RichText(
-                          //   text: TextSpan(children: [
-                          //     TextSpan(
-                          //         text: '${detail.itemName}\n',
-                          //         style: Theme.of(context)
-                          //             .textTheme
-                          //             .titleMedium!
-                          //             .copyWith(
-                          //               color: textColor,
-                          //               fontWeight: FontWeight.bold,
-                          //             )),
-                          //     TextSpan(
-                          //         text: detail.longDescription,
-                          //         style:
-                          //             Theme.of(context).textTheme.titleSmall),
-                          //   ]),
-                          // ),
                         ),
                       )
                     ],
