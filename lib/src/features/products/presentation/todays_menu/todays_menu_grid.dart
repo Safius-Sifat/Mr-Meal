@@ -4,35 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../data/item_repository.dart';
 import '../../domain/todays_meal.dart';
 import 'todays_menu_screen.dart';
 
 class TodaysMenuGrid extends ConsumerWidget {
-  const TodaysMenuGrid({super.key});
+  const TodaysMenuGrid({super.key, required this.menu});
+  final List<TodaysMeal> menu;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsListValue = ref.watch(fetchTodaysMealProvider);
-    return AsyncValueWidget<List<TodaysMeal>>(
-      value: productsListValue,
-      data: (products) => products.isEmpty
-          ? Center(
-              child: Text(
-                'No meal available today',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            )
-          : ProductsLayoutGrid(
-              itemCount: products.length,
-              itemBuilder: (_, index) {
-                return MenuContainer(
-                  todaysMeal: products[index],
-                );
-              },
-            ),
+    if (menu.isEmpty) {
+      return Center(
+        child: Text(
+          'No meal available today',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      );
+    }
+    return ProductsLayoutGrid(
+      itemCount: menu.length,
+      itemBuilder: (_, index) {
+        return MenuContainer(
+          todaysMeal: menu[index],
+        );
+      },
     );
   }
 }
@@ -59,11 +55,11 @@ class ProductsLayoutGrid extends StatelessWidget {
       final width = constraints.maxWidth;
       // 1 column for width < 500px
       // then add one more column for each 250px
-      final crossAxisCount = max(2, width ~/ 300);
+      final crossAxisCount = max(1, width ~/ 200);
       // print(crossAxisCount);
       // once the crossAxisCount is known, calculate the column and row sizes
       // set some flexible track sizes based on the crossAxisCount with 1.fr
-      final columnSizes = List.generate(crossAxisCount, (_) => 2.fr);
+      final columnSizes = List.generate(crossAxisCount, (_) => 1.fr);
       final numRows = (itemCount / crossAxisCount).ceil();
       // set all the row sizes to auto (self-sizing height)
       final rowSizes = List.generate(numRows, (_) => auto);

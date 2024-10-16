@@ -9,7 +9,6 @@ class ItemDetail with _$ItemDetail {
     @JsonKey(name: 'item_name') required String itemName,
     @JsonKey(name: 'image') required String image,
     @JsonKey(name: 'category_id') required int categoryId,
-    @JsonKey(name: 'sub_category_id') required int subCategoryId,
     @JsonKey(name: 'item_price') required int itemPrice,
     @JsonKey(name: 'item_qty') required int itemQty,
     @JsonKey(name: 'discount_price') required int discountPrice,
@@ -22,7 +21,6 @@ class ItemDetail with _$ItemDetail {
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @JsonKey(name: 'category_name') required String categoryName,
-    @JsonKey(name: 'subcategory_name') required String subcategoryName,
     @JsonKey(name: 'currency_symbol') required String currencySymbol,
   }) = _ItemDetail;
 

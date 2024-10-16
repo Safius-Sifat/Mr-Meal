@@ -59,7 +59,6 @@ _$DatumImpl _$$DatumImplFromJson(Map<String, dynamic> json) => _$DatumImpl(
       image: json['image'] as String,
       discountPrice: (json['discount_price'] as num).toInt(),
       categoryName: json['category_name'] as String,
-      subcategoryName: json['subcategory_name'] as String,
       currencySymbol: json['currency_symbol'] as String,
       categoryId: (json['category_id'] as num).toInt(),
     );
@@ -72,7 +71,6 @@ Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>
       'image': instance.image,
       'discount_price': instance.discountPrice,
       'category_name': instance.categoryName,
-      'subcategory_name': instance.subcategoryName,
       'currency_symbol': instance.currencySymbol,
       'category_id': instance.categoryId,
     };

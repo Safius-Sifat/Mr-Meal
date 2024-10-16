@@ -12,7 +12,6 @@ _$ItemDetailImpl _$$ItemDetailImplFromJson(Map<String, dynamic> json) =>
       itemName: json['item_name'] as String,
       image: json['image'] as String,
       categoryId: (json['category_id'] as num).toInt(),
-      subCategoryId: (json['sub_category_id'] as num).toInt(),
       itemPrice: (json['item_price'] as num).toInt(),
       itemQty: (json['item_qty'] as num).toInt(),
       discountPrice: (json['discount_price'] as num).toInt(),
@@ -25,7 +24,6 @@ _$ItemDetailImpl _$$ItemDetailImplFromJson(Map<String, dynamic> json) =>
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       categoryName: json['category_name'] as String,
-      subcategoryName: json['subcategory_name'] as String,
       currencySymbol: json['currency_symbol'] as String,
     );
 
@@ -35,7 +33,6 @@ Map<String, dynamic> _$$ItemDetailImplToJson(_$ItemDetailImpl instance) =>
       'item_name': instance.itemName,
       'image': instance.image,
       'category_id': instance.categoryId,
-      'sub_category_id': instance.subCategoryId,
       'item_price': instance.itemPrice,
       'item_qty': instance.itemQty,
       'discount_price': instance.discountPrice,
@@ -48,6 +45,5 @@ Map<String, dynamic> _$$ItemDetailImplToJson(_$ItemDetailImpl instance) =>
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'category_name': instance.categoryName,
-      'subcategory_name': instance.subcategoryName,
       'currency_symbol': instance.currencySymbol,
     };

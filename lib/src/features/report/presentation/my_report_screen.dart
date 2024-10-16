@@ -45,7 +45,7 @@ class MyReportScreen extends ConsumerWidget {
                   Expanded(
                     child: ReportInfoWidget(
                       title: 'Total Meal'.hardcoded,
-                      value: '19',
+                      value: '0',
                     ),
                   ),
                   balance.when(

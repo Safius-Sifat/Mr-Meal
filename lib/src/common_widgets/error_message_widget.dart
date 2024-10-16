@@ -16,6 +16,9 @@ class ErrorMessageWidget extends StatelessWidget {
     if (exception is DioException) {
       return ServerException(exception).message;
     }
+    if (exception is FormatException) {
+      return exception.message;
+    }
     if (exception is PlatformException) {
       return exception.message ?? exception.toString();
     }

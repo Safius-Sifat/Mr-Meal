@@ -4,8 +4,7 @@ class Feature {
   final String title;
   final String image;
   final AppRoute route;
-
-  Feature(
+  const Feature(
       {required this.title,
       required this.image,
       this.route = AppRoute.comingSoon});

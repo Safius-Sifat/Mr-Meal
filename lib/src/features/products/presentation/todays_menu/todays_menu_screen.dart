@@ -17,27 +17,25 @@ class TodaysMenuScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(fetchTodaysMealProvider);
+    final productsListValue = ref.watch(fetchTodaysMealProvider);
     final sliderState =
         ref.watch(fetchSlidersProvider(screen: todaysMenuParam));
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.p16, vertical: Sizes.p8),
-          decoration: BoxDecoration(
-              color: secondaryColor, borderRadius: BorderRadius.circular(8)),
-          child: const Text("Our Today's Menu"),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.p16, vertical: Sizes.p8),
+            decoration: BoxDecoration(
+                color: secondaryColor, borderRadius: BorderRadius.circular(8)),
+            child: const Text("Our Today's Menu"),
+          ),
+          actions: const [NotificationWidget(), gapW16],
         ),
-        actions: const [NotificationWidget(), gapW16],
-      ),
-      body: state.hasError || sliderState.hasError
-          ? ErrorScreen(onRetry: () {
-              ref.invalidate(fetchSlidersProvider(screen: todaysMenuParam));
-              ref.invalidate(fetchTodaysMealProvider);
-            })
-          : SingleChildScrollView(
+        body: productsListValue.when(
+          skipLoadingOnRefresh: false,
+          data: (data) {
+            return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(Sizes.p12),
                 child: Column(
@@ -46,12 +44,22 @@ class TodaysMenuScreen extends ConsumerWidget {
                       value: sliderState,
                     ),
                     gapH24,
-                    const TodaysMenuGrid(),
+                    TodaysMenuGrid(
+                      menu: data,
+                    ),
                   ],
                 ),
               ),
-            ),
-    );
+            );
+          },
+          error: (e, st) => ErrorScreen(
+              error: e,
+              onRetry: () {
+                ref.invalidate(fetchTodaysMealProvider);
+                ref.invalidate(fetchSlidersProvider(screen: todaysMenuParam));
+              }),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        ));
   }
 }
 
@@ -83,28 +91,51 @@ class MenuContainer extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.p12, vertical: Sizes.p8),
-          decoration: BoxDecoration(
-              color: tertiaryColor,
-              borderRadius: BorderRadius.circular(Sizes.p32)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(todaysMeal.itemName,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge),
-              gapH8,
-              HtmlWidget(
-                todaysMeal.longDescription,
-                // customStylesBuilder: (element) {
-                //   return {'text-align': 'center'};
-                // },
-              ),
-            ],
+        gapH8,
+        ExpansionTile(
+          title: Text(todaysMeal.itemName),
+          backgroundColor: tertiaryColor,
+          collapsedBackgroundColor: tertiaryColor,
+          iconColor: Colors.black,
+          childrenPadding: const EdgeInsets.all(Sizes.p8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Sizes.p20),
           ),
+          collapsedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Sizes.p20),
+          ),
+          minTileHeight: 80,
+          children: [
+            HtmlWidget(
+              todaysMeal.longDescription,
+              customStylesBuilder: (element) {
+                return {'text-align': 'justify'};
+              },
+            ),
+          ],
         ),
+        // Container(
+        //   padding: const EdgeInsets.symmetric(
+        //       horizontal: Sizes.p12, vertical: Sizes.p8),
+        //   decoration: BoxDecoration(
+        //       color: tertiaryColor,
+        //       borderRadius: BorderRadius.circular(Sizes.p32)),
+        //   child: Column(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       Text(todaysMeal.itemName,
+        //           textAlign: TextAlign.center,
+        //           style: Theme.of(context).textTheme.titleLarge),
+        //       gapH8,
+        //       HtmlWidget(
+        //         todaysMeal.longDescription,
+        //         // customStylesBuilder: (element) {
+        //         //   return {'text-align': 'center'};
+        //         // },
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

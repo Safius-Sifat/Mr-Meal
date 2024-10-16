@@ -1,13 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_picker_google/place_picker_google.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common_widgets/primary_button.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
+import '../../../constants/texts.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../../utils/async_value_ui.dart';
 import '../../../utils/toastification.dart';
@@ -77,9 +77,7 @@ class SelectLocationScreen extends ConsumerWidget {
         ),
       ),
       body: PlacePicker(
-        apiKey: Platform.isAndroid
-            ? const String.fromEnvironment('MAP')
-            : const String.fromEnvironment('MAP'),
+        apiKey: const String.fromEnvironment('MAP'),
         onPlacePicked: (LocationResult result) {
           debugPrint('Place picked: ${result.formattedAddress}');
         },
@@ -95,14 +93,53 @@ class SelectLocationScreen extends ConsumerWidget {
           foregroundColor: Colors.black87,
           bottom: 100,
         ),
-        selectedPlaceWidgetBuilder: (context, selectedPlace) {
+        selectedPlaceWidgetBuilder: (context, searchingState, selectedPlace) {
           if (selectedPlace == null) {
-            return Container();
+            return Skeletonizer(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: tertiaryColor,
+                  borderRadius: BorderRadius.circular(Sizes.p12),
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.p16, vertical: Sizes.p8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        loremIpsum.substring(0, 40),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        loremIpsum.substring(0, 25),
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.black54),
+                      ),
+                      gapH8,
+                      Align(
+                        child: PrimaryButton(
+                          width: 200,
+                          onPressed: () async {},
+                          text: 'Confirm location'.hardcoded,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
+
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: tertiaryColor,
-              borderRadius: BorderRadius.circular(Sizes.p12),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Sizes.p12),
+                  topRight: Radius.circular(Sizes.p12)),
+              boxShadow: [BoxShadow(blurRadius: 2, color: Colors.grey)],
             ),
             width: double.infinity,
             child: Padding(
@@ -120,7 +157,7 @@ class SelectLocationScreen extends ConsumerWidget {
                     selectedPlace.formattedAddress ?? '',
                     style: const TextStyle(fontSize: 16, color: Colors.black54),
                   ),
-                  gapH8,
+                  gapH12,
                   Align(
                     child: PrimaryButton(
                       width: 200,

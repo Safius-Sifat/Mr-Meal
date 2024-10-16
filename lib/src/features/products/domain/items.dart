@@ -32,7 +32,6 @@ class Datum with _$Datum {
     @JsonKey(name: 'image') required String image,
     @JsonKey(name: 'discount_price') required int discountPrice,
     @JsonKey(name: 'category_name') required String categoryName,
-    @JsonKey(name: 'subcategory_name') required String subcategoryName,
     @JsonKey(name: 'currency_symbol') required String currencySymbol,
     @JsonKey(name: 'category_id') required int categoryId,
   }) = _Datum;

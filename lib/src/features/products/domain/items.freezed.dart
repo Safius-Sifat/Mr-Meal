@@ -494,8 +494,6 @@ mixin _$Datum {
   int get discountPrice => throw _privateConstructorUsedError;
   @JsonKey(name: 'category_name')
   String get categoryName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'subcategory_name')
-  String get subcategoryName => throw _privateConstructorUsedError;
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol => throw _privateConstructorUsedError;
   @JsonKey(name: 'category_id')
@@ -522,7 +520,6 @@ abstract class $DatumCopyWith<$Res> {
       @JsonKey(name: 'image') String image,
       @JsonKey(name: 'discount_price') int discountPrice,
       @JsonKey(name: 'category_name') String categoryName,
-      @JsonKey(name: 'subcategory_name') String subcategoryName,
       @JsonKey(name: 'currency_symbol') String currencySymbol,
       @JsonKey(name: 'category_id') int categoryId});
 }
@@ -548,7 +545,6 @@ class _$DatumCopyWithImpl<$Res, $Val extends Datum>
     Object? image = null,
     Object? discountPrice = null,
     Object? categoryName = null,
-    Object? subcategoryName = null,
     Object? currencySymbol = null,
     Object? categoryId = null,
   }) {
@@ -577,10 +573,6 @@ class _$DatumCopyWithImpl<$Res, $Val extends Datum>
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
               as String,
-      subcategoryName: null == subcategoryName
-          ? _value.subcategoryName
-          : subcategoryName // ignore: cast_nullable_to_non_nullable
-              as String,
       currencySymbol: null == currencySymbol
           ? _value.currencySymbol
           : currencySymbol // ignore: cast_nullable_to_non_nullable
@@ -607,7 +599,6 @@ abstract class _$$DatumImplCopyWith<$Res> implements $DatumCopyWith<$Res> {
       @JsonKey(name: 'image') String image,
       @JsonKey(name: 'discount_price') int discountPrice,
       @JsonKey(name: 'category_name') String categoryName,
-      @JsonKey(name: 'subcategory_name') String subcategoryName,
       @JsonKey(name: 'currency_symbol') String currencySymbol,
       @JsonKey(name: 'category_id') int categoryId});
 }
@@ -631,7 +622,6 @@ class __$$DatumImplCopyWithImpl<$Res>
     Object? image = null,
     Object? discountPrice = null,
     Object? categoryName = null,
-    Object? subcategoryName = null,
     Object? currencySymbol = null,
     Object? categoryId = null,
   }) {
@@ -660,10 +650,6 @@ class __$$DatumImplCopyWithImpl<$Res>
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
               as String,
-      subcategoryName: null == subcategoryName
-          ? _value.subcategoryName
-          : subcategoryName // ignore: cast_nullable_to_non_nullable
-              as String,
       currencySymbol: null == currencySymbol
           ? _value.currencySymbol
           : currencySymbol // ignore: cast_nullable_to_non_nullable
@@ -686,7 +672,6 @@ class _$DatumImpl implements _Datum {
       @JsonKey(name: 'image') required this.image,
       @JsonKey(name: 'discount_price') required this.discountPrice,
       @JsonKey(name: 'category_name') required this.categoryName,
-      @JsonKey(name: 'subcategory_name') required this.subcategoryName,
       @JsonKey(name: 'currency_symbol') required this.currencySymbol,
       @JsonKey(name: 'category_id') required this.categoryId});
 
@@ -712,9 +697,6 @@ class _$DatumImpl implements _Datum {
   @JsonKey(name: 'category_name')
   final String categoryName;
   @override
-  @JsonKey(name: 'subcategory_name')
-  final String subcategoryName;
-  @override
   @JsonKey(name: 'currency_symbol')
   final String currencySymbol;
   @override
@@ -723,7 +705,7 @@ class _$DatumImpl implements _Datum {
 
   @override
   String toString() {
-    return 'Datum(id: $id, itemName: $itemName, itemPrice: $itemPrice, image: $image, discountPrice: $discountPrice, categoryName: $categoryName, subcategoryName: $subcategoryName, currencySymbol: $currencySymbol, categoryId: $categoryId)';
+    return 'Datum(id: $id, itemName: $itemName, itemPrice: $itemPrice, image: $image, discountPrice: $discountPrice, categoryName: $categoryName, currencySymbol: $currencySymbol, categoryId: $categoryId)';
   }
 
   @override
@@ -741,8 +723,6 @@ class _$DatumImpl implements _Datum {
                 other.discountPrice == discountPrice) &&
             (identical(other.categoryName, categoryName) ||
                 other.categoryName == categoryName) &&
-            (identical(other.subcategoryName, subcategoryName) ||
-                other.subcategoryName == subcategoryName) &&
             (identical(other.currencySymbol, currencySymbol) ||
                 other.currencySymbol == currencySymbol) &&
             (identical(other.categoryId, categoryId) ||
@@ -752,7 +732,7 @@ class _$DatumImpl implements _Datum {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, itemName, itemPrice, image,
-      discountPrice, categoryName, subcategoryName, currencySymbol, categoryId);
+      discountPrice, categoryName, currencySymbol, categoryId);
 
   /// Create a copy of Datum
   /// with the given fields replaced by the non-null parameter values.
@@ -778,7 +758,6 @@ abstract class _Datum implements Datum {
       @JsonKey(name: 'image') required final String image,
       @JsonKey(name: 'discount_price') required final int discountPrice,
       @JsonKey(name: 'category_name') required final String categoryName,
-      @JsonKey(name: 'subcategory_name') required final String subcategoryName,
       @JsonKey(name: 'currency_symbol') required final String currencySymbol,
       @JsonKey(name: 'category_id')
       required final int categoryId}) = _$DatumImpl;
@@ -803,9 +782,6 @@ abstract class _Datum implements Datum {
   @override
   @JsonKey(name: 'category_name')
   String get categoryName;
-  @override
-  @JsonKey(name: 'subcategory_name')
-  String get subcategoryName;
   @override
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol;

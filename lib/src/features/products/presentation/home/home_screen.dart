@@ -34,9 +34,9 @@ class HomeScreen extends ConsumerWidget {
     final packages = ref.watch(fetchPackagesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           children: [
-            SetLocationWidget(),
+            const SetLocationWidget(),
             gapW8,
             Expanded(
               child: SearchField(),
@@ -45,12 +45,19 @@ class HomeScreen extends ConsumerWidget {
         ),
         actions: const [NotificationWidget(), gapW16],
       ),
-      body: itemsListValue.hasError || sliders.hasError || packages.hasError
-          ? ErrorScreen(onRetry: () {
-              ref.invalidate(fetchItemsProvider(page: 1));
-              ref.invalidate(fetchSlidersProvider(screen: homeParam));
-              ref.invalidate(fetchPackagesProvider);
-            })
+      body: (itemsListValue.hasError ||
+                  sliders.hasError ||
+                  packages.hasError) &&
+              (!packages.isRefreshing &&
+                  !itemsListValue.isRefreshing &&
+                  !sliders.isRefreshing)
+          ? ErrorScreen(
+              error: itemsListValue.error,
+              onRetry: () {
+                ref.invalidate(fetchItemsProvider(page: 1));
+                ref.invalidate(fetchSlidersProvider(screen: homeParam));
+                ref.invalidate(fetchPackagesProvider);
+              })
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),

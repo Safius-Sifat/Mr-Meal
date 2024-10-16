@@ -28,8 +28,6 @@ mixin _$ItemDetail {
   String get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'sub_category_id')
-  int get subCategoryId => throw _privateConstructorUsedError;
   @JsonKey(name: 'item_price')
   int get itemPrice => throw _privateConstructorUsedError;
   @JsonKey(name: 'item_qty')
@@ -54,8 +52,6 @@ mixin _$ItemDetail {
   DateTime get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'category_name')
   String get categoryName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'subcategory_name')
-  String get subcategoryName => throw _privateConstructorUsedError;
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol => throw _privateConstructorUsedError;
 
@@ -80,7 +76,6 @@ abstract class $ItemDetailCopyWith<$Res> {
       @JsonKey(name: 'item_name') String itemName,
       @JsonKey(name: 'image') String image,
       @JsonKey(name: 'category_id') int categoryId,
-      @JsonKey(name: 'sub_category_id') int subCategoryId,
       @JsonKey(name: 'item_price') int itemPrice,
       @JsonKey(name: 'item_qty') int itemQty,
       @JsonKey(name: 'discount_price') int discountPrice,
@@ -93,7 +88,6 @@ abstract class $ItemDetailCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'category_name') String categoryName,
-      @JsonKey(name: 'subcategory_name') String subcategoryName,
       @JsonKey(name: 'currency_symbol') String currencySymbol});
 }
 
@@ -116,7 +110,6 @@ class _$ItemDetailCopyWithImpl<$Res, $Val extends ItemDetail>
     Object? itemName = null,
     Object? image = null,
     Object? categoryId = null,
-    Object? subCategoryId = null,
     Object? itemPrice = null,
     Object? itemQty = null,
     Object? discountPrice = null,
@@ -129,7 +122,6 @@ class _$ItemDetailCopyWithImpl<$Res, $Val extends ItemDetail>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? categoryName = null,
-    Object? subcategoryName = null,
     Object? currencySymbol = null,
   }) {
     return _then(_value.copyWith(
@@ -148,10 +140,6 @@ class _$ItemDetailCopyWithImpl<$Res, $Val extends ItemDetail>
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as int,
-      subCategoryId: null == subCategoryId
-          ? _value.subCategoryId
-          : subCategoryId // ignore: cast_nullable_to_non_nullable
               as int,
       itemPrice: null == itemPrice
           ? _value.itemPrice
@@ -200,10 +188,6 @@ class _$ItemDetailCopyWithImpl<$Res, $Val extends ItemDetail>
       categoryName: null == categoryName
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
-              as String,
-      subcategoryName: null == subcategoryName
-          ? _value.subcategoryName
-          : subcategoryName // ignore: cast_nullable_to_non_nullable
               as String,
       currencySymbol: null == currencySymbol
           ? _value.currencySymbol
@@ -226,7 +210,6 @@ abstract class _$$ItemDetailImplCopyWith<$Res>
       @JsonKey(name: 'item_name') String itemName,
       @JsonKey(name: 'image') String image,
       @JsonKey(name: 'category_id') int categoryId,
-      @JsonKey(name: 'sub_category_id') int subCategoryId,
       @JsonKey(name: 'item_price') int itemPrice,
       @JsonKey(name: 'item_qty') int itemQty,
       @JsonKey(name: 'discount_price') int discountPrice,
@@ -239,7 +222,6 @@ abstract class _$$ItemDetailImplCopyWith<$Res>
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'category_name') String categoryName,
-      @JsonKey(name: 'subcategory_name') String subcategoryName,
       @JsonKey(name: 'currency_symbol') String currencySymbol});
 }
 
@@ -260,7 +242,6 @@ class __$$ItemDetailImplCopyWithImpl<$Res>
     Object? itemName = null,
     Object? image = null,
     Object? categoryId = null,
-    Object? subCategoryId = null,
     Object? itemPrice = null,
     Object? itemQty = null,
     Object? discountPrice = null,
@@ -273,7 +254,6 @@ class __$$ItemDetailImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? categoryName = null,
-    Object? subcategoryName = null,
     Object? currencySymbol = null,
   }) {
     return _then(_$ItemDetailImpl(
@@ -292,10 +272,6 @@ class __$$ItemDetailImplCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as int,
-      subCategoryId: null == subCategoryId
-          ? _value.subCategoryId
-          : subCategoryId // ignore: cast_nullable_to_non_nullable
               as int,
       itemPrice: null == itemPrice
           ? _value.itemPrice
@@ -345,10 +321,6 @@ class __$$ItemDetailImplCopyWithImpl<$Res>
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
               as String,
-      subcategoryName: null == subcategoryName
-          ? _value.subcategoryName
-          : subcategoryName // ignore: cast_nullable_to_non_nullable
-              as String,
       currencySymbol: null == currencySymbol
           ? _value.currencySymbol
           : currencySymbol // ignore: cast_nullable_to_non_nullable
@@ -365,7 +337,6 @@ class _$ItemDetailImpl implements _ItemDetail {
       @JsonKey(name: 'item_name') required this.itemName,
       @JsonKey(name: 'image') required this.image,
       @JsonKey(name: 'category_id') required this.categoryId,
-      @JsonKey(name: 'sub_category_id') required this.subCategoryId,
       @JsonKey(name: 'item_price') required this.itemPrice,
       @JsonKey(name: 'item_qty') required this.itemQty,
       @JsonKey(name: 'discount_price') required this.discountPrice,
@@ -378,7 +349,6 @@ class _$ItemDetailImpl implements _ItemDetail {
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'category_name') required this.categoryName,
-      @JsonKey(name: 'subcategory_name') required this.subcategoryName,
       @JsonKey(name: 'currency_symbol') required this.currencySymbol});
 
   factory _$ItemDetailImpl.fromJson(Map<String, dynamic> json) =>
@@ -396,9 +366,6 @@ class _$ItemDetailImpl implements _ItemDetail {
   @override
   @JsonKey(name: 'category_id')
   final int categoryId;
-  @override
-  @JsonKey(name: 'sub_category_id')
-  final int subCategoryId;
   @override
   @JsonKey(name: 'item_price')
   final int itemPrice;
@@ -436,15 +403,12 @@ class _$ItemDetailImpl implements _ItemDetail {
   @JsonKey(name: 'category_name')
   final String categoryName;
   @override
-  @JsonKey(name: 'subcategory_name')
-  final String subcategoryName;
-  @override
   @JsonKey(name: 'currency_symbol')
   final String currencySymbol;
 
   @override
   String toString() {
-    return 'ItemDetail(id: $id, itemName: $itemName, image: $image, categoryId: $categoryId, subCategoryId: $subCategoryId, itemPrice: $itemPrice, itemQty: $itemQty, discountPrice: $discountPrice, shortDescription: $shortDescription, longDescription: $longDescription, healthTips: $healthTips, currencyId: $currencyId, status: $status, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, categoryName: $categoryName, subcategoryName: $subcategoryName, currencySymbol: $currencySymbol)';
+    return 'ItemDetail(id: $id, itemName: $itemName, image: $image, categoryId: $categoryId, itemPrice: $itemPrice, itemQty: $itemQty, discountPrice: $discountPrice, shortDescription: $shortDescription, longDescription: $longDescription, healthTips: $healthTips, currencyId: $currencyId, status: $status, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt, categoryName: $categoryName, currencySymbol: $currencySymbol)';
   }
 
   @override
@@ -458,8 +422,6 @@ class _$ItemDetailImpl implements _ItemDetail {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
-            (identical(other.subCategoryId, subCategoryId) ||
-                other.subCategoryId == subCategoryId) &&
             (identical(other.itemPrice, itemPrice) ||
                 other.itemPrice == itemPrice) &&
             (identical(other.itemQty, itemQty) || other.itemQty == itemQty) &&
@@ -482,36 +444,31 @@ class _$ItemDetailImpl implements _ItemDetail {
                 other.updatedAt == updatedAt) &&
             (identical(other.categoryName, categoryName) ||
                 other.categoryName == categoryName) &&
-            (identical(other.subcategoryName, subcategoryName) ||
-                other.subcategoryName == subcategoryName) &&
             (identical(other.currencySymbol, currencySymbol) ||
                 other.currencySymbol == currencySymbol));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        itemName,
-        image,
-        categoryId,
-        subCategoryId,
-        itemPrice,
-        itemQty,
-        discountPrice,
-        shortDescription,
-        longDescription,
-        healthTips,
-        currencyId,
-        status,
-        isDeleted,
-        createdAt,
-        updatedAt,
-        categoryName,
-        subcategoryName,
-        currencySymbol
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      itemName,
+      image,
+      categoryId,
+      itemPrice,
+      itemQty,
+      discountPrice,
+      shortDescription,
+      longDescription,
+      healthTips,
+      currencyId,
+      status,
+      isDeleted,
+      createdAt,
+      updatedAt,
+      categoryName,
+      currencySymbol);
 
   /// Create a copy of ItemDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -535,7 +492,6 @@ abstract class _ItemDetail implements ItemDetail {
       @JsonKey(name: 'item_name') required final String itemName,
       @JsonKey(name: 'image') required final String image,
       @JsonKey(name: 'category_id') required final int categoryId,
-      @JsonKey(name: 'sub_category_id') required final int subCategoryId,
       @JsonKey(name: 'item_price') required final int itemPrice,
       @JsonKey(name: 'item_qty') required final int itemQty,
       @JsonKey(name: 'discount_price') required final int discountPrice,
@@ -549,7 +505,6 @@ abstract class _ItemDetail implements ItemDetail {
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'updated_at') required final DateTime updatedAt,
       @JsonKey(name: 'category_name') required final String categoryName,
-      @JsonKey(name: 'subcategory_name') required final String subcategoryName,
       @JsonKey(name: 'currency_symbol')
       required final String currencySymbol}) = _$ItemDetailImpl;
 
@@ -568,9 +523,6 @@ abstract class _ItemDetail implements ItemDetail {
   @override
   @JsonKey(name: 'category_id')
   int get categoryId;
-  @override
-  @JsonKey(name: 'sub_category_id')
-  int get subCategoryId;
   @override
   @JsonKey(name: 'item_price')
   int get itemPrice;
@@ -607,9 +559,6 @@ abstract class _ItemDetail implements ItemDetail {
   @override
   @JsonKey(name: 'category_name')
   String get categoryName;
-  @override
-  @JsonKey(name: 'subcategory_name')
-  String get subcategoryName;
   @override
   @JsonKey(name: 'currency_symbol')
   String get currencySymbol;

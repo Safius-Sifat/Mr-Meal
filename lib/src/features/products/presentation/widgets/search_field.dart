@@ -5,15 +5,17 @@ import '../../../../constants/constants.dart';
 import 'photo.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({
+  SearchField({
     super.key,
   });
 
+  final FocusNode _focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: _focusNode,
       onTapOutside: (event) {
-        FocusScope.of(context).unfocus();
+        _focusNode.unfocus();
       },
       decoration: InputDecoration(
         hintText: 'Search',
