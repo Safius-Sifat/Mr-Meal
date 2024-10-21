@@ -13,41 +13,6 @@ import '../../../../utils/toastification.dart';
 import '../../domain/online_cart.dart';
 import 'shopping_cart_screen_controller.dart';
 
-/// Shows a shopping cart item (or loading/error UI if needed)
-// class ShoppingCartItem extends ConsumerWidget {
-//   const ShoppingCartItem({
-//     super.key,
-//     required this.item,
-//     required this.itemIndex,
-//     this.isEditable = true,
-//   });
-//   final CartModel item;
-//   final int itemIndex;
-//
-//   /// if true, an [ItemQuantitySelector] and a delete button will be shown
-//   /// if false, the quantity will be shown as a read-only label (used in the
-//   /// [PaymentPage])
-//   final bool isEditable;
-//
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final productValue = ref.watch(getItemDetailProvider(id: item.productId));
-//     return AsyncValueWidget<ItemDetail>(
-//       value: productValue,
-//       loading: const ShoppingCartItemShimmer(),
-//       data: (product) => Padding(
-//         padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-//         child: ShoppingCartItemContents(
-//           product: product,
-//           item: item,
-//           itemIndex: itemIndex,
-//           isEditable: isEditable,
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
 /// Shows a shopping cart item for a given product
 class ShoppingCartItemContents extends ConsumerWidget {
   const ShoppingCartItemContents({
@@ -100,14 +65,10 @@ class ShoppingCartItemContents extends ConsumerWidget {
                           fontSize: 14,
                         )),
                 gapH4,
-                // Text('This is wide range of ${item.id}'),
-                // const Text(
-                //   'Date: Today 1:30 pm',
-                // ),
                 Row(
                   children: [
                     Text(
-                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
+                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.bold,
@@ -116,7 +77,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ),
                     gapW8,
                     Text(
-                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
+                      '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: primaryColor,
                             fontWeight: FontWeight.bold,
@@ -143,37 +104,6 @@ class ShoppingCartItemContents extends ConsumerWidget {
         ],
       ),
     );
-    // return ResponsiveTwoColumnLayout(
-    //   endFlex: 2,
-    //   breakpoint: 320,
-    //   startContent: NetworkPhoto(product.image),
-    //   spacing: Sizes.p24,
-    //   endContent: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.stretch,
-    //     children: [
-    //       Text(product.itemName,
-    //           style: Theme.of(context).textTheme.headlineSmall),
-    //       gapH24,
-    //       Text(priceFormatted,
-    //           style: Theme.of(context).textTheme.headlineSmall),
-    //       gapH24,
-    //       isEditable
-    //           // show the quantity selector and a delete button
-    //           ? EditOrRemoveItemWidget(
-    //               product: product,
-    //               item: item,
-    //               itemIndex: itemIndex,
-    //             )
-    //           // else, show the quantity as a read-only label
-    //           : Padding(
-    //               padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-    //               child: Text(
-    //                 'Quantity: ${item.quantity}'.hardcoded,
-    //               ),
-    //             ),
-    //     ],
-    //   ),
-    // );
   }
 }
 

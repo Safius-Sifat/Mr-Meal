@@ -39,7 +39,11 @@ class FavouriteScreen extends ConsumerWidget {
           data: (favs) {
             if (favs.favourites.isEmpty) {
               return Center(
-                child: Text('No favourite items found'.hardcoded),
+                child: Text(
+                  "You haven't added any favourites yet".hardcoded,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               );
             }
             return ListView.builder(

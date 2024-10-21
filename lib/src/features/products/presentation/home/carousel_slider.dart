@@ -1,13 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../common_widgets/error_message_widget.dart';
+import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import '../../../../utils/size_config.dart';
 import '../../domain/slider.dart';
 
 class CustomCarouselSlider extends ConsumerStatefulWidget {
@@ -37,7 +36,7 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
             CarouselSlider.builder(
                 carouselController: _controller,
                 options: CarouselOptions(
-                    height: SizeConfig.screenHeight * 0.2,
+                    // height: SizeConfig.screenHeight * 0.2,
                     viewportFraction: 1,
                     autoPlay: true,
                     onPageChanged: (index, reason) {
@@ -53,26 +52,9 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(Sizes.p12),
-                          child: CachedNetworkImage(
-                            height: SizeConfig.screenHeight * 0.2,
-                            width: double.infinity,
-                            imageUrl: sliderList[index].image,
-                            fit: BoxFit.cover,
-                            placeholder: (_, __) => Shimmer.fromColors(
-                              baseColor: Colors.black26,
-                              highlightColor: Colors.black12,
-                              child: Container(
-                                width: double.infinity,
-                                height: SizeConfig.screenHeight * 0.2,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
+                          child: SizedBox(
+                              width: double.infinity,
+                              child: NetworkPhoto(sliderList[index].image)),
                         ),
                         Positioned(
                           left: Sizes.p8,
@@ -121,16 +103,23 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
           ],
         );
       },
-      loading: () => Shimmer.fromColors(
-        baseColor: Colors.black26,
-        highlightColor: Colors.black12,
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.black,
-          ),
+      loading: () => Skeletonizer(
+        child: Column(
+          children: [
+            Skeleton.leaf(
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+            gapH16,
+          ],
         ),
       ),
       error: (error, stackTrace) {

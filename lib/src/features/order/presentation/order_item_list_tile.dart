@@ -44,13 +44,13 @@ class OrderItemListTile extends ConsumerWidget {
                                   )),
                       gapH4,
                       // const Text('This is wide range of'),
-                      const Text(
-                        'Date: Today 1:30 pm',
-                      ),
+                      // const Text(
+                      //   'Date: Today 1:30 pm',
+                      // ),
                       Row(
                         children: [
                           Text(
-                            '৳${product.discountPrice}',
+                            '৳${product.itemPrice}',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -62,7 +62,7 @@ class OrderItemListTile extends ConsumerWidget {
                           ),
                           gapW8,
                           Text(
-                            '৳${product.itemPrice}',
+                            '৳${product.discountPrice}',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -97,7 +97,8 @@ class OrderItemListTile extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Text('Order Confirmed', style: TextStyle(color: Colors.green))
+                const Text('Order Confirmed',
+                    style: TextStyle(color: Colors.green))
               ],
             ),
           )),

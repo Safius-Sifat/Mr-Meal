@@ -55,7 +55,6 @@ class CartService {
   Future<void> setItem(CartModel item) async {
     final cart = await ref.read(localCartRepositoryProvider).fetchCart();
     final updated = cart.setItem(item);
-    print('updated: $updated');
     await ref.read(localCartRepositoryProvider).setCart(updated);
   }
 
@@ -143,9 +142,9 @@ double cartTotal(CartTotalRef ref) {
   var total = 0.0;
   for (final item in cart.carts) {
     if (item.itemId == null) {
-      total += item.packagePrice! * item.quantity;
+      total += item.packageDiscountPrice! * item.quantity;
     } else {
-      total += item.itemPrice! * item.quantity;
+      total += item.itemDiscountPrice! * item.quantity;
     }
   }
   return total;

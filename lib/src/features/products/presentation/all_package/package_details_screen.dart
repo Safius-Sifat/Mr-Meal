@@ -92,7 +92,7 @@ class PackageDetailScreen extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
+                                    '৳${NumberFormat('', 'bn').format(detail.packagePrice)}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -104,7 +104,7 @@ class PackageDetailScreen extends ConsumerWidget {
                                   ),
                                   gapW12,
                                   Text(
-                                    '৳${NumberFormat('', 'bn').format(detail.packagePrice)}',
+                                    '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!

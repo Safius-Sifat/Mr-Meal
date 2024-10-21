@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common_widgets/error_message_widget.dart';
 import '../../../constants/app_sizes.dart';
@@ -45,29 +45,34 @@ class FoodsGrid extends ConsumerWidget {
                       pathParameters: {'id': '${item.id}'});
                 });
           },
-          loading: () => Shimmer.fromColors(
-            baseColor: Colors.black26,
-            highlightColor: Colors.black12,
+          loading: () => Skeletonizer(
             child: Column(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.black,
+                  flex: 7,
+                  child: Skeleton.leaf(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  width: 100,
-                  height: 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.black,
+                Expanded(
+                  flex: 3,
+                  child: Skeleton.leaf(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
+                gapH4,
               ],
             ),
           ),
@@ -110,14 +115,14 @@ class ProductsLayoutGrid extends StatelessWidget {
       // final rowSizes = List.generate(numRows, (_) => auto);
       // Custom layout grid. See: https://pub.dev/packages/flutter_layout_grid
       return GridView.builder(
-        padding: const EdgeInsets.all(Sizes.p16),
+        padding: const EdgeInsets.all(Sizes.p12),
         scrollDirection: Axis.horizontal,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: Sizes.p16,
-          crossAxisSpacing: Sizes.p16,
+          mainAxisSpacing: Sizes.p12,
+          crossAxisSpacing: Sizes.p12,
           mainAxisExtent:
-              (width - Sizes.p16 * crossAxisCount - 16) / crossAxisCount,
+              (width - Sizes.p12 * crossAxisCount - 12) / crossAxisCount,
         ),
         itemBuilder: itemBuilder,
         itemCount: itemCount,

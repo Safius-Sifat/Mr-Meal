@@ -64,7 +64,7 @@ class FavouriteItemListTile extends ConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
+                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     decoration: TextDecoration.lineThrough,
@@ -74,7 +74,7 @@ class FavouriteItemListTile extends ConsumerWidget {
                         ),
                         gapW8,
                         Text(
-                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemPrice : item.packagePrice)}',
+                          '৳${NumberFormat('', 'bn').format(item.itemId != null ? item.itemDiscountPrice : item.packageDiscountPrice)}',
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: primaryColor,

@@ -87,7 +87,7 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                           Row(
                             children: [
                               Text(
-                                '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
+                                '৳${NumberFormat('', 'bn').format(detail.itemPrice)}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
@@ -99,7 +99,7 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                               ),
                               gapW8,
                               Text(
-                                '৳${NumberFormat('', 'bn').format(detail.itemPrice)}',
+                                '৳${NumberFormat('', 'bn').format(detail.discountPrice)}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!

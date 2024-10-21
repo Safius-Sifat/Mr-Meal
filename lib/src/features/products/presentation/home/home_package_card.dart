@@ -122,7 +122,7 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '৳${NumberFormat('', 'bn').format(data.discountPrice)}',
+                '৳${NumberFormat('', 'bn').format(data.packagePrice)}',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       decoration: TextDecoration.lineThrough,
                       fontSize: Sizes.p12,
@@ -130,7 +130,7 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
               ),
               gapW4,
               Text(
-                '৳${NumberFormat('', 'bn').format(data.packagePrice)}',
+                '৳${NumberFormat('', 'bn').format(data.discountPrice)}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: primaryColor,
                       fontSize: Sizes.p12,

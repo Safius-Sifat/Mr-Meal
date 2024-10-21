@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NetworkPhoto extends StatelessWidget {
   const NetworkPhoto(this.image, {super.key});
@@ -12,13 +12,13 @@ class NetworkPhoto extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: image,
       fit: BoxFit.cover,
-      placeholder: (_, __) => Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.grey.shade300,
+      placeholder: (_, __) => Skeletonizer(
+        child: Skeleton.leaf(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.shade300,
+            ),
           ),
         ),
       ),
