@@ -23,7 +23,7 @@ class HomePackagesWidget extends ConsumerWidget {
       value: packages,
       data: (packs) {
         return Container(
-          height: 290,
+          height: 320,
           width: double.infinity,
           padding: const EdgeInsets.all(Sizes.p8),
           decoration: const BoxDecoration(

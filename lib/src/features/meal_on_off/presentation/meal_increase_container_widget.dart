@@ -12,17 +12,18 @@ class MealIncreaseContainerWidget extends StatelessWidget {
     required this.timeRange,
     required this.onChanged,
   });
-  final String timeRange;
+  final String? timeRange;
   final String mealTime;
   final int mealCount;
-  final void Function(int) onChanged;
+  final void Function(int)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(timeRange, style: const TextStyle(fontSize: Sizes.p12)),
+        if (timeRange != null)
+          Text(timeRange!, style: const TextStyle(fontSize: Sizes.p12)),
         gapH8,
         Container(
           height: Sizes.p48,

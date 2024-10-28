@@ -12,7 +12,6 @@ import '../../../cart/presentation/add_to_cart/add_to_cart_widget.dart';
 import '../../data/item_repository.dart';
 import '../widgets/notification_widget.dart';
 import 'health_tips_widget.dart';
-import 'item_description.dart';
 import 'tab_bar.dart';
 
 class ItemDetailScreen extends ConsumerStatefulWidget {
@@ -34,7 +33,10 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -158,45 +160,29 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TabButton(
-                      title: 'Item Description'.hardcoded,
+                      title: 'Review & Feedback'.hardcoded,
                       onTap: () {
                         tabController.animateTo(0);
-                        setState(() {});
                       },
                       isSelected: tabController.index == 0,
                     ),
                     TabButton(
-                      title: 'Review & Feedback'.hardcoded,
-                      onTap: () {
-                        tabController.animateTo(1);
-                        setState(() {});
-                      },
-                      isSelected: tabController.index == 1,
-                    ),
-                    TabButton(
                       title: 'Health Tips'.hardcoded,
                       onTap: () {
-                        tabController.animateTo(2);
-                        setState(() {});
+                        tabController.animateTo(1);
                       },
-                      isSelected: tabController.index == 2,
+                      isSelected: tabController.index == 1,
                     ),
                   ],
                 ),
                 gapH16,
                 Expanded(
-                  child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: tabController,
-                      children: [
-                        ItemDescription(
-                          detail: detail,
-                        ),
-                        const Text('delivery'),
-                        HealthTipsWidget(
-                          detail: detail,
-                        ),
-                      ]),
+                  child: TabBarView(controller: tabController, children: [
+                    const Text('delivery'),
+                    HealthTipsWidget(
+                      detail: detail,
+                    ),
+                  ]),
                 )
               ],
             ),

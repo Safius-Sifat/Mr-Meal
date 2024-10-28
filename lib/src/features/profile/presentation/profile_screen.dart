@@ -8,7 +8,11 @@ import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../../routing/app_router.dart';
+import '../../../utils/async_value_ui.dart';
 import '../../authentication/data/auth_repository.dart';
+import '../data/profile_repository.dart';
+import 'profile_controller.dart';
+import 'profile_image_modal_sheet.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -21,6 +25,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(authRepositoryProvider).currentUser;
+    final profile = ref.watch(fetchProfileProvider).valueOrNull;
+
+    ref.listen<AsyncValue<dynamic>>(
+      profileControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,10 +57,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: ClipOval(child: NetworkPhoto(avatarDefault)),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(50),
+                            onTap: () async {
+                              await setProfileImage(context, ref);
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: ClipOval(
+                                      child: NetworkPhoto(profile?.image == null
+                                          ? avatarDefault
+                                          : profile!.image ?? avatarDefault)),
+                                ),
+                                Positioned(
+                                  right: 3,
+                                  bottom: 3,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: primaryColor,
+                                    ),
+                                    child: const Icon(
+                                      Icons.edit,
+                                      size: 10,
+                                      color: neutralColor,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           gapW12,
                           Column(
@@ -71,7 +111,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         fontSize: 8,
                         text: 'Change Password',
                         onPressed: () {
-                          // context.goNamed(AppRoute.changePassword.name);
+                          context.goNamed(AppRoute.changePassword.name);
                         },
                       ),
                     ],

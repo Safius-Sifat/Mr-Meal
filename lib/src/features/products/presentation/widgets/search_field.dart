@@ -45,7 +45,7 @@ class SearchField extends StatelessWidget {
         ),
         filled: true,
         isCollapsed: true,
-        fillColor: secondaryColor,
+        fillColor: neutralColor,
       ),
     );
   }

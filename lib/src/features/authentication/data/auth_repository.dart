@@ -182,6 +182,32 @@ class AuthRepository {
     }
   }
 
+  Future<void> changePassword({
+    required String token,
+    required String newPassword,
+    required String oldPassword,
+  }) async {
+    final uri = Uri(
+      scheme: 'https',
+      host: baseUrl,
+      path: changePasswordUrl,
+    );
+    await client.postUri(
+      uri,
+      options: Options(
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      ),
+      data: {
+        'old_password': oldPassword,
+        'new_password': newPassword,
+        'password_confirmation': newPassword,
+      },
+    );
+  }
+
   void dispose() => _authState.close();
   Future<void> _saveUser(AppUser user) {
     return secureStorage.write(key: userKey, value: user.toJson());

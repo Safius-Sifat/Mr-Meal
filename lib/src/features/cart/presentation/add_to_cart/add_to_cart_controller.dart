@@ -8,11 +8,11 @@ part 'add_to_cart_controller.g.dart';
 @riverpod
 class AddToCartController extends _$AddToCartController {
   @override
-  FutureOr<void> build() {
+  FutureOr<void> build(int id) {
     // nothing to do
   }
 
-  Future<void> addItem(CartModel item) async {
+  Future<bool> addItem(CartModel item) async {
     final cartService = ref.read(cartServiceProvider);
     final quantity = ref.read(itemQuantityControllerProvider);
     state = const AsyncLoading<void>();
@@ -21,6 +21,7 @@ class AddToCartController extends _$AddToCartController {
     if (!state.hasError) {
       ref.read(itemQuantityControllerProvider.notifier).updateQuantity(1);
     }
+    return !state.hasError;
   }
 }
 

@@ -23,12 +23,13 @@ class AddToCartWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue<dynamic>>(
-      addToCartControllerProvider,
+      addToCartControllerProvider(item?.id ?? package?.id ?? -1),
       (_, state) => state.showAlertDialogOnError(context),
     );
     final availableQuantity =
         ref.watch(itemAvailableQuantityProvider(item, package));
-    final state = ref.watch(addToCartControllerProvider);
+    final state =
+        ref.watch(addToCartControllerProvider(item?.id ?? package?.id ?? -1));
     final quantity = ref.watch(itemQuantityControllerProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +58,7 @@ class AddToCartWidget extends ConsumerWidget {
               ? () async {
                   if (item != null) {
                     await ref
-                        .read(addToCartControllerProvider.notifier)
+                        .read(addToCartControllerProvider(item!.id).notifier)
                         .addItem(CartModel.empty().copyWith(
                           itemId: item!.id,
                           itemName: item!.itemName,
@@ -67,7 +68,7 @@ class AddToCartWidget extends ConsumerWidget {
                         ));
                   } else {
                     await ref
-                        .read(addToCartControllerProvider.notifier)
+                        .read(addToCartControllerProvider(package!.id).notifier)
                         .addItem(CartModel.empty().copyWith(
                           packageId: package!.id,
                           packageName: package!.packageName,

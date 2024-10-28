@@ -48,3 +48,4 @@ const String changePasswordUrl = '/api/change-password';
 const String orderUrl = '/api/order-now';
 const String rechargeUrl = '/api/user-recharge-now';
 const String orderHistoryUrl = '/api/order-history';
+const String updateProfileUrl = '/api/update-profile';

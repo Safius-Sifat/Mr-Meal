@@ -19,7 +19,7 @@ import '../../domain/packages.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
 
-class HomePackageCard extends ConsumerStatefulWidget {
+class HomePackageCard extends ConsumerWidget {
   const HomePackageCard({
     super.key,
     required this.data,
@@ -28,20 +28,12 @@ class HomePackageCard extends ConsumerStatefulWidget {
   final Datum data;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _HomePackageCardState();
-}
-
-class _HomePackageCardState extends ConsumerState<HomePackageCard> {
-  Datum get data => widget.data;
-  bool isLoading = false;
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue<dynamic>>(
-      addToCartControllerProvider,
+      addToCartControllerProvider(data.id),
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(addToCartControllerProvider);
+    final state = ref.watch(addToCartControllerProvider(data.id));
     return Container(
       width: 110,
       padding: const EdgeInsets.all(Sizes.p4),
@@ -62,7 +54,7 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
                       pathParameters: {'id': '${data.id}'});
                 },
                 child: AspectRatio(
-                  aspectRatio: 1.5,
+                  aspectRatio: 1.3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(Sizes.p8),
                     child: NetworkPhoto(data.image),
@@ -113,6 +105,10 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
           gapH4,
           HtmlWidget(
             data.shortDescription,
+            textStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.p12,
+            ),
             customStylesBuilder: (element) {
               return {'text-align': 'center'};
             },
@@ -133,7 +129,7 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
                 '৳${NumberFormat('', 'bn').format(data.discountPrice)}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: primaryColor,
-                      fontSize: Sizes.p12,
+                      fontSize: Sizes.p16,
                     ),
               ),
             ],
@@ -142,13 +138,10 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
           SecondaryButton(id: data.id),
           gapH8,
           PackageButton(
-            isLoading: isLoading,
+            isLoading: state.isLoading,
             onPressed: () async {
-              setState(() {
-                isLoading = true;
-              });
-              await ref
-                  .read(addToCartControllerProvider.notifier)
+              final success = await ref
+                  .read(addToCartControllerProvider(data.id).notifier)
                   .addItem(CartModel.empty().copyWith(
                     packageId: data.id,
                     packageName: data.packageName,
@@ -156,9 +149,9 @@ class _HomePackageCardState extends ConsumerState<HomePackageCard> {
                     packageDiscountPrice: data.discountPrice,
                     packageImage: data.image,
                   ));
-              setState(() {
-                isLoading = false;
-              });
+              if (success) {
+                successToast(ctx: context, title: 'Added to Cart');
+              }
               ref.invalidate(cartProvider);
             },
           ),

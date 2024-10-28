@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../constants/api_constants.dart';
@@ -11,9 +13,10 @@ import '../domain/profile.dart';
 part 'profile_repository.g.dart';
 
 class ProfileRepository {
-  ProfileRepository(this.client);
+  ProfileRepository(this.client, this.imagePicker);
 
   final Dio client;
+  final ImagePicker imagePicker;
 
   Future<Profile> fetchProfile(
       {required String token, CancelToken? cancelToken}) async {
@@ -34,37 +37,48 @@ class ProfileRepository {
     return Profile.fromJson(response.data['profile'] as Map<String, dynamic>);
   }
 
-  Future<void> changePassword({
-    required String token,
-    required String newPassword,
-    required String oldPassword,
-  }) async {
+  Future<void> uploadImage(
+      {required String token, required String imagePath}) async {
     final uri = Uri(
       scheme: 'https',
       host: baseUrl,
-      path: changePasswordUrl,
+      path: updateProfileUrl,
     );
+
     await client.postUri(
       uri,
+      data: FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          imagePath,
+          filename: imagePath.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        ),
+      }),
       options: Options(
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       ),
-      data: {
-        'old_password': oldPassword,
-        'new_password': newPassword,
-        'password_confirmation': newPassword,
-      },
     );
+  }
+
+  Future<String?> pickImage(ImageSource source) async {
+    final XFile? image = await imagePicker.pickImage(
+      source: source,
+      imageQuality: 50,
+      maxWidth: 500,
+      maxHeight: 500,
+    );
+    return image?.path;
   }
 }
 
 @riverpod
 ProfileRepository profileRepository(ProfileRepositoryRef ref) {
   final dio = ref.watch(dioProvider);
-  return ProfileRepository(dio);
+  final imagePicker = ref.watch(imagePickerProvider);
+  return ProfileRepository(dio, imagePicker);
 }
 
 @riverpod
@@ -92,4 +106,9 @@ Future<Profile> fetchProfile(FetchProfileRef ref) {
     }
   });
   return repo.fetchProfile(token: user.token, cancelToken: cancelToken);
+}
+
+@riverpod
+ImagePicker imagePicker(ImagePickerRef ref) {
+  return ImagePicker();
 }

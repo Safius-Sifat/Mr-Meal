@@ -34,7 +34,7 @@ class SecondaryButton extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(fontWeight: FontWeight.w400, fontSize: Sizes.p12),
+              .copyWith(fontWeight: FontWeight.bold, fontSize: Sizes.p12),
         ),
       ),
     );

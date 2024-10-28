@@ -23,11 +23,9 @@ class SetLocationWidget extends ConsumerWidget {
         late final String thikana;
         try {
           if (address.primaryLocation != null) {
-            final arr = address.primaryLocation!.split(',');
-            thikana = '${arr[arr.length - 2]}, ${arr.last}';
+            thikana = address.primaryLocation!.split(',').skip(1).join(',');
           } else if (address.secondaryLocation != null) {
-            final arr = address.secondaryLocation!.split(',');
-            thikana = '${arr[arr.length - 2]}, ${arr.last}';
+            thikana = address.secondaryLocation!.split(',').skip(1).join(',');
           } else {
             thikana = 'Select Location';
           }
@@ -37,26 +35,51 @@ class SetLocationWidget extends ConsumerWidget {
               'Select Location';
         }
         return InkWell(
+          highlightColor: primaryColor.withOpacity(0.2),
+          splashColor: primaryColor.withOpacity(0.4),
           onTap: () async {
             await setLocation(context, address);
           },
           borderRadius: BorderRadius.circular(Sizes.p8),
           child: SizedBox(
-            height: 30,
-            child: Row(
+            height: 50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(
-                  height: Sizes.p16,
-                  width: Sizes.p16,
-                  child: Photo(
-                    location,
-                  ),
+                gapH4,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: Sizes.p16,
+                      width: Sizes.p16,
+                      child: Photo(
+                        location,
+                      ),
+                    ),
+                    gapW8,
+                    Text(
+                      'Your Location',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: neutralColor),
+                    )
+                  ],
                 ),
-                gapW4,
-                Text(
-                  thikana,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                gapH4,
+                SizedBox(
+                  width: 250,
+                  child: Text(
+                    '$thikana ▼',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: neutralColor, fontSize: 11),
+                  ),
                 ),
               ],
             ),
@@ -80,7 +103,10 @@ class SetLocationWidget extends ConsumerWidget {
             gapW4,
             Text(
               'Select Location',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: neutralColor),
             ),
           ],
         ),

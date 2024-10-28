@@ -40,7 +40,6 @@ class MyReportScreen extends ConsumerWidget {
               ),
               gapH12,
               Row(
-                // alignment: WrapAlignment.center,
                 children: [
                   Expanded(
                     child: ReportInfoWidget(

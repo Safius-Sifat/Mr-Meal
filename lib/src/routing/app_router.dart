@@ -6,6 +6,7 @@ import '../common_widgets/coming_soon_screen.dart';
 import '../features/address/presentation/select_location_screen.dart';
 import '../features/announcement/presentation/announcement_screen.dart';
 import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/presentation/change_password/change_password_screen.dart';
 import '../features/authentication/presentation/forgot_password/ask_email_screen.dart';
 import '../features/authentication/presentation/forgot_password/forgot_password_screen.dart';
 import '../features/authentication/presentation/login/login_screen.dart';
@@ -108,28 +109,28 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
           path: '/welcome',
           name: AppRoute.welcome.name,
-          pageBuilder: (context, state) => const NoTransitionPage(
+          pageBuilder: (context, state) => const MaterialPage(
                 child: WelcomeScreen(),
               ),
           routes: [
             GoRoute(
                 path: 'login',
                 name: AppRoute.login.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
+                pageBuilder: (context, state) => const MaterialPage(
                       child: LoginScreen(),
                     ),
                 routes: [
                   GoRoute(
                     path: 'askEmail',
                     name: AppRoute.askEmail.name,
-                    pageBuilder: (context, state) => const NoTransitionPage(
+                    pageBuilder: (context, state) => const MaterialPage(
                       child: AskEmailScreen(),
                     ),
                   ),
                   GoRoute(
                     path: 'verifyEmail',
                     name: AppRoute.verifyEmail.name,
-                    pageBuilder: (context, state) => const NoTransitionPage(
+                    pageBuilder: (context, state) => const MaterialPage(
                       child: VerificationScreen(
                         // email: state.pathParameters['email']!,
                         email: 'safiussifat@gmail.com',
@@ -139,7 +140,7 @@ GoRouter goRouter(GoRouterRef ref) {
                   GoRoute(
                     path: 'forgotPassword',
                     name: AppRoute.forgotPassword.name,
-                    pageBuilder: (context, state) => NoTransitionPage(
+                    pageBuilder: (context, state) => MaterialPage(
                       child: ForgotPasswordScreen(
                         email: state.pathParameters['email']!,
                       ),
@@ -149,13 +150,13 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: 'register',
               name: AppRoute.register.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => const MaterialPage(
                 child: RegisterScreen(),
               ),
             ),
           ]),
       StatefulShellRoute.indexedStack(
-        pageBuilder: (context, state, navigationShell) => NoTransitionPage(
+        pageBuilder: (context, state, navigationShell) => MaterialPage(
           child: ScaffoldWithNestedNavigation(navigationShell: navigationShell),
         ),
         branches: [
@@ -165,14 +166,14 @@ GoRouter goRouter(GoRouterRef ref) {
               GoRoute(
                   path: '/',
                   name: AppRoute.home.name,
-                  pageBuilder: (context, state) => NoTransitionPage(
+                  pageBuilder: (context, state) => MaterialPage(
                         child: HomeScreen(),
                       ),
                   routes: [
                     GoRoute(
                       path: 'itemDetail/:id',
                       name: AppRoute.itemDetail.name,
-                      pageBuilder: (context, state) => NoTransitionPage(
+                      pageBuilder: (context, state) => MaterialPage(
                         child: ItemDetailScreen(
                           id: int.parse(state.pathParameters['id']!),
                         ),
@@ -181,14 +182,15 @@ GoRouter goRouter(GoRouterRef ref) {
                     GoRoute(
                       path: 'comingSoon',
                       name: AppRoute.comingSoon.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      // builder: (context, state) => const ComingSoonScreen(),
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: ComingSoonScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'location/:locationType',
                       name: AppRoute.location.name,
-                      pageBuilder: (context, state) => NoTransitionPage(
+                      pageBuilder: (context, state) => MaterialPage(
                         key: _locationKey,
                         child: SelectLocationScreen(
                           locationType: state.pathParameters['locationType']!,
@@ -198,49 +200,49 @@ GoRouter goRouter(GoRouterRef ref) {
                     GoRoute(
                       path: 'mealOnOff',
                       name: AppRoute.mealOnOff.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: MealOnOffScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'guestMeal',
                       name: AppRoute.guestMeal.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: GuestMealScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'deliverySchedule',
                       name: AppRoute.deliverySchedule.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: DeliveryScheduleScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'items',
                       name: AppRoute.items.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: ItemScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'category',
                       name: AppRoute.category.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: CategoryScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'package',
                       name: AppRoute.package.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: AllPackageScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'packageDetail/:id',
                       name: AppRoute.packageDetail.name,
-                      pageBuilder: (context, state) => NoTransitionPage(
+                      pageBuilder: (context, state) => MaterialPage(
                         child: PackageDetailScreen(
                           id: int.parse(state.pathParameters['id']!),
                         ),
@@ -249,21 +251,21 @@ GoRouter goRouter(GoRouterRef ref) {
                     GoRoute(
                       path: 'todaysMenu',
                       name: AppRoute.todaysMenu.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                         child: TodaysMenuScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'notification',
                       name: AppRoute.notification.name,
-                      pageBuilder: (context, state) => NoTransitionPage(
+                      pageBuilder: (context, state) => MaterialPage(
                         child: NotificationScreen(),
                       ),
                     ),
                     GoRoute(
                       path: 'payment/:url',
                       name: AppRoute.payment.name,
-                      pageBuilder: (context, state) => NoTransitionPage(
+                      pageBuilder: (context, state) => MaterialPage(
                         child: PaymentScreen(
                           paymentUrl: state.pathParameters['url']!,
                         ),
@@ -277,7 +279,7 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: '/announcement',
               name: AppRoute.announcement.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => const MaterialPage(
                 child: AnnouncementScreen(),
               ),
             ),
@@ -286,7 +288,7 @@ GoRouter goRouter(GoRouterRef ref) {
           //   GoRoute(
           //     path: '/order',
           //     name: AppRoute.order.name,
-          //     pageBuilder: (context, state) => NoTransitionPage(
+          //     pageBuilder: (context, state) => MaterialPage(
           //       child: OrderScreen(),
           //     ),
           //   ),
@@ -295,7 +297,7 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: '/cart',
               name: AppRoute.cart.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => const MaterialPage(
                 child: ShoppingCartScreen(),
               ),
             ),
@@ -304,7 +306,7 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
               path: '/favourite',
               name: AppRoute.favourite.name,
-              pageBuilder: (context, state) => const NoTransitionPage(
+              pageBuilder: (context, state) => const MaterialPage(
                 child: FavouriteScreen(),
               ),
             ),
@@ -313,14 +315,14 @@ GoRouter goRouter(GoRouterRef ref) {
             GoRoute(
                 path: '/profile',
                 name: AppRoute.profile.name,
-                pageBuilder: (context, state) => const NoTransitionPage(
+                pageBuilder: (context, state) => const MaterialPage(
                       child: ProfileScreen(),
                     ),
                 routes: [
                   GoRoute(
                       path: 'wallet',
                       name: AppRoute.wallet.name,
-                      pageBuilder: (context, state) => const NoTransitionPage(
+                      pageBuilder: (context, state) => const MaterialPage(
                             child: WalletScreen(),
                           ),
                       routes: [
@@ -334,23 +336,30 @@ GoRouter goRouter(GoRouterRef ref) {
                         ),
                       ]),
                   GoRoute(
+                    path: 'changePassword',
+                    name: AppRoute.changePassword.name,
+                    pageBuilder: (context, state) => const MaterialPage(
+                      child: ChangePasswordScreen(),
+                    ),
+                  ),
+                  GoRoute(
                     path: 'myReport',
                     name: AppRoute.myReport.name,
-                    pageBuilder: (context, state) => const NoTransitionPage(
+                    pageBuilder: (context, state) => const MaterialPage(
                       child: MyReportScreen(),
                     ),
                     routes: [
                       GoRoute(
                         path: 'rechargeHistory',
                         name: AppRoute.rechargeHistory.name,
-                        pageBuilder: (context, state) => const NoTransitionPage(
+                        pageBuilder: (context, state) => const MaterialPage(
                           child: RechargeHistoryScreen(),
                         ),
                       ),
                       GoRoute(
                         path: 'mealHistory',
                         name: AppRoute.mealHistory.name,
-                        pageBuilder: (context, state) => const NoTransitionPage(
+                        pageBuilder: (context, state) => const MaterialPage(
                           child: MealHistoryScreen(),
                         ),
                       ),
@@ -361,7 +370,7 @@ GoRouter goRouter(GoRouterRef ref) {
         ],
       )
     ],
-    errorPageBuilder: (context, state) => const NoTransitionPage(
+    errorPageBuilder: (context, state) => const MaterialPage(
       child: NotFoundScreen(),
     ),
   );

@@ -9,7 +9,7 @@ import '../../../common_widgets/error_message_widget.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../routing/app_router.dart';
 import '../data/item_repository.dart';
-import 'widgets/food_card.dart';
+import 'widgets/item_card.dart';
 
 /// A widget that displays the list of products that match the search query.
 class FoodsGrid extends ConsumerWidget {
@@ -38,7 +38,7 @@ class FoodsGrid extends ConsumerWidget {
 
             final item = items.data[indexInPage];
 
-            return FoodCard(
+            return ItemCard(
                 food: item,
                 onPressed: () {
                   context.goNamed(AppRoute.itemDetail.name,

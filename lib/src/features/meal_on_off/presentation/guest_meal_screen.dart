@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../common_widgets/error_message_widget.dart';
 import '../../../common_widgets/primary_button.dart';
@@ -113,13 +112,11 @@ class _GuestMealScreenState extends ConsumerState<GuestMealScreen> {
                         );
                       },
                       error: (e, st) => ErrorMessageWidget(e),
-                      loading: () => Skeletonizer(
-                        child: MealIncreaseContainerWidget(
-                          mealTime: 'Loading'.hardcoded,
-                          timeRange: 'Loading'.hardcoded,
-                          mealCount: 0,
-                          onChanged: (quantity) {},
-                        ),
+                      loading: () => MealIncreaseContainerWidget(
+                        mealTime: 'Loading'.hardcoded,
+                        timeRange: 'Loading'.hardcoded,
+                        mealCount: 0,
+                        onChanged: (quantity) {},
                       ),
                     ),
                 gapH24,

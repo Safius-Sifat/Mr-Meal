@@ -8,14 +8,13 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/size_config.dart';
-import '../../../cart/application/cart_service.dart';
 import '../../data/item_repository.dart';
 import '../../data/package_repository.dart';
-import '../food_grid.dart';
-import '../widgets/notification_widget.dart';
+import '../item_grid.dart';
 import '../widgets/search_field.dart';
 import 'carousel_slider.dart';
 import 'feature_grid.dart';
+import 'home_notification_widget.dart';
 import 'home_packages_widget.dart';
 import 'set_location.dart';
 
@@ -26,43 +25,70 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig().init(context);
-    ref.watch(cartProvider).valueOrNull;
+    // ref.watch(cartProvider).valueOrNull;
 
     final itemsListValue = ref.watch(fetchItemsProvider(page: 1));
     final sliders = ref.watch(fetchSlidersProvider(screen: homeParam));
 
     final packages = ref.watch(fetchPackagesProvider);
+    final bool isLoaded =
+        (itemsListValue.hasError || sliders.hasError || packages.hasError) &&
+            (!packages.isRefreshing &&
+                !itemsListValue.isRefreshing &&
+                !sliders.isRefreshing);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const SetLocationWidget(),
-            gapW8,
-            Expanded(
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          toolbarHeight: 0,
+          pinned: true,
+          expandedHeight: 110,
+          backgroundColor: primaryColor,
+          flexibleSpace: FlexibleSpaceBar(
+            expandedTitleScale: 1,
+            background: SafeArea(
+              child: Container(
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
+                decoration: const BoxDecoration(
+                  color: primaryColor,
+                ),
+                child: const Row(
+                  children: [
+                    SetLocationWidget(),
+                    Spacer(),
+                    HomeNotificationWidget()
+                  ],
+                ),
+              ),
+            ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.p12, vertical: Sizes.p8),
               child: SearchField(),
             ),
-          ],
+          ),
         ),
-        actions: const [NotificationWidget(), gapW16],
-      ),
-      body: (itemsListValue.hasError ||
-                  sliders.hasError ||
-                  packages.hasError) &&
-              (!packages.isRefreshing &&
-                  !itemsListValue.isRefreshing &&
-                  !sliders.isRefreshing)
-          ? ErrorScreen(
+        if (isLoaded)
+          ErrorScreen(
               error: itemsListValue.error,
               onRetry: () {
                 ref.invalidate(fetchItemsProvider(page: 1));
                 ref.invalidate(fetchSlidersProvider(screen: homeParam));
                 ref.invalidate(fetchPackagesProvider);
               })
-          : SingleChildScrollView(
-              child: Padding(
+        else
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.p12),
                 child: Column(
                   children: [
+                    gapH12,
                     CustomCarouselSlider(
                       value: sliders,
                     ),
@@ -144,7 +170,9 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-            ),
-    );
+            ]),
+          ),
+      ],
+    ));
   }
 }

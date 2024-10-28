@@ -24,7 +24,8 @@ void successToast({
   toastification.show(
     context: ctx,
     title: Text(title,
-        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        style:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
     alignment: Alignment.bottomCenter,
     type: ToastificationType.success,
     style: ToastificationStyle.simple,

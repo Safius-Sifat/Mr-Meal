@@ -8,7 +8,9 @@ import '../../../../common_widgets/network_photo.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toastification.dart';
+import '../../../cart/application/cart_service.dart';
 import '../../../cart/domain/online_cart.dart';
 import '../../../cart/presentation/add_to_cart/add_to_cart_controller.dart';
 import '../../../favourite/data/favrourite_repository.dart';
@@ -17,7 +19,7 @@ import '../../domain/packages.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/secondary_button.dart';
 
-class PackageCard extends ConsumerStatefulWidget {
+class PackageCard extends ConsumerWidget {
   const PackageCard({
     super.key,
     required this.data,
@@ -25,14 +27,12 @@ class PackageCard extends ConsumerStatefulWidget {
 
   final Datum data;
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PackageCardState();
-}
-
-class _PackageCardState extends ConsumerState<PackageCard> {
-  Datum get data => widget.data;
-  bool isLoading = false;
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<dynamic>>(
+      addToCartControllerProvider(data.id),
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(addToCartControllerProvider(data.id));
     return Container(
       width: 110,
       padding: const EdgeInsets.all(Sizes.p4),
@@ -133,13 +133,10 @@ class _PackageCardState extends ConsumerState<PackageCard> {
           SecondaryButton(id: data.id),
           gapH8,
           PackageButton(
-            isLoading: isLoading,
+            isLoading: state.isLoading,
             onPressed: () async {
-              setState(() {
-                isLoading = true;
-              });
-              await ref
-                  .read(addToCartControllerProvider.notifier)
+              final success = await ref
+                  .read(addToCartControllerProvider(data.id).notifier)
                   .addItem(CartModel.empty().copyWith(
                     packageId: data.id,
                     packageName: data.packageName,
@@ -147,9 +144,11 @@ class _PackageCardState extends ConsumerState<PackageCard> {
                     packageDiscountPrice: data.discountPrice,
                     packageImage: data.image,
                   ));
-              setState(() {
-                isLoading = false;
-              });
+
+              if (success) {
+                successToast(ctx: context, title: 'Added to Cart');
+              }
+              ref.invalidate(cartProvider);
             },
           ),
           gapH8,

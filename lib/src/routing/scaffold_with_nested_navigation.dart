@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constants/app_sizes.dart';
 import '../constants/constants.dart';
+import '../features/cart/application/cart_service.dart' hide cart;
 import '../features/products/presentation/widgets/photo.dart';
 
 // Stateful navigation based on:
@@ -35,7 +37,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   }
 }
 
-class NavBar extends StatelessWidget {
+class NavBar extends ConsumerWidget {
   final int pageIndex;
   final void Function(int) onTap;
 
@@ -46,10 +48,12 @@ class NavBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartCount = ref.watch(cartItemsCountProvider);
     return BottomAppBar(
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.p4),
       color: secondaryColor,
-      elevation: 0,
+      // elevation: 0,
       child: SizedBox(
         width: double.infinity,
         child: Row(
@@ -60,6 +64,7 @@ class NavBar extends StatelessWidget {
                 home,
                 'Home',
                 pageIndex == 0,
+                false,
                 onTap: () => onTap(0),
               ),
             ),
@@ -68,6 +73,7 @@ class NavBar extends StatelessWidget {
                 announcement,
                 'Announce',
                 pageIndex == 1,
+                false,
                 onTap: () => onTap(1),
               ),
             ),
@@ -76,7 +82,9 @@ class NavBar extends StatelessWidget {
                 cart,
                 'Cart',
                 pageIndex == 2,
+                cartCount > 0,
                 onTap: () => onTap(2),
+                count: cartCount,
               ),
             ),
             Expanded(
@@ -84,6 +92,7 @@ class NavBar extends StatelessWidget {
                 favourite,
                 'Favourite',
                 pageIndex == 3,
+                false,
                 onTap: () => onTap(3),
               ),
             ),
@@ -92,6 +101,7 @@ class NavBar extends StatelessWidget {
                 profile,
                 'Profile',
                 pageIndex == 4,
+                false,
                 onTap: () => onTap(4),
               ),
             ),
@@ -101,8 +111,8 @@ class NavBar extends StatelessWidget {
     );
   }
 
-  Widget navItem(String icon, String name, bool selected,
-      {void Function()? onTap}) {
+  Widget navItem(String icon, String name, bool selected, bool isBadgeVisible,
+      {void Function()? onTap, int count = 0}) {
     return AnimatedSlide(
       duration: const Duration(milliseconds: 250),
       offset: selected ? const Offset(0, -0.25) : Offset.zero,
@@ -122,18 +132,25 @@ class NavBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: Sizes.p24,
-                width: Sizes.p24,
-                child: selected
-                    ? DecoratedBox(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        )),
-                        child: Photo(icon))
-                    : Photo(icon),
+              Badge.count(
+                offset: const Offset(10, -10),
+                count: count,
+                backgroundColor: selected ? neutralColor : null,
+                textColor: selected ? primaryColor : null,
+                isLabelVisible: isBadgeVisible,
+                child: SizedBox(
+                  height: Sizes.p24,
+                  width: Sizes.p24,
+                  child: selected
+                      ? DecoratedBox(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          )),
+                          child: Photo(icon))
+                      : Photo(icon),
+                ),
               ),
               gapH4,
               Text(name,
