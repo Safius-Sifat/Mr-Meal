@@ -186,12 +186,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Icons.person,
               ),
               title: Text('Complain & Feedback'.hardcoded),
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(
                 Icons.rule_folder,
               ),
               title: Text('Refer & Earn'.hardcoded),
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(

@@ -146,7 +146,7 @@ class PackageCard extends ConsumerWidget {
                   ));
 
               if (success) {
-                successToast(ctx: context, title: 'Added to Cart');
+                successToast(ctx: context, title: 'Package added to Cart');
               }
               ref.invalidate(cartProvider);
             },

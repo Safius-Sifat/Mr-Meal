@@ -34,6 +34,7 @@ class SetLocationWidget extends ConsumerWidget {
               address.secondaryLocation ??
               'Select Location';
         }
+
         return InkWell(
           highlightColor: primaryColor.withOpacity(0.2),
           splashColor: primaryColor.withOpacity(0.4),
@@ -112,22 +113,42 @@ class SetLocationWidget extends ConsumerWidget {
         ),
       ),
       loading: () => Skeletonizer(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: Sizes.p16,
-              width: Sizes.p16,
-              child: Photo(
-                location,
+        effect: ShimmerEffect(
+            baseColor: Colors.red.shade300,
+            highlightColor: Colors.red.shade100),
+        child: SizedBox(
+          height: 50,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              gapH4,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: Sizes.p16,
+                    width: Sizes.p16,
+                    child: Photo(
+                      location,
+                    ),
+                  ),
+                  gapW8,
+                  Text(
+                    'Your Location',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
               ),
-            ),
-            gapW4,
-            Text(
-              'Dhaka, Bangladesh',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
+              Text(
+                '24/b Mirpur road, Dhaka, Bangladesh',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontSize: 11),
+              ),
+            ],
+          ),
         ),
       ),
     );

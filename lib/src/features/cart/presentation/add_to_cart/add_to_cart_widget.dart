@@ -8,6 +8,7 @@ import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../l10n/string_hardcoded.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../../../utils/toastification.dart';
 import '../../../products/domain/item_detail.dart';
 import '../../../products/domain/package_detail.dart';
 import '../../application/cart_service.dart';
@@ -56,8 +57,9 @@ class AddToCartWidget extends ConsumerWidget {
           // only enable the button if there is enough stock
           onPressed: availableQuantity > 0
               ? () async {
+                  late final bool success;
                   if (item != null) {
-                    await ref
+                    success = await ref
                         .read(addToCartControllerProvider(item!.id).notifier)
                         .addItem(CartModel.empty().copyWith(
                           itemId: item!.id,
@@ -66,8 +68,12 @@ class AddToCartWidget extends ConsumerWidget {
                           itemDiscountPrice: item!.discountPrice,
                           itemImage: item!.image,
                         ));
+
+                    if (success) {
+                      successToast(ctx: context, title: 'Item added to cart');
+                    }
                   } else {
-                    await ref
+                    success = await ref
                         .read(addToCartControllerProvider(package!.id).notifier)
                         .addItem(CartModel.empty().copyWith(
                           packageId: package!.id,
@@ -76,6 +82,11 @@ class AddToCartWidget extends ConsumerWidget {
                           packageDiscountPrice: package!.discountPrice,
                           packageImage: package!.image,
                         ));
+
+                    if (success) {
+                      successToast(
+                          ctx: context, title: 'Package added to cart');
+                    }
                   }
                   ref.invalidate(cartProvider);
                 }

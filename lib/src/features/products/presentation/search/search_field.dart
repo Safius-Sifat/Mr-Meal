@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
-import 'photo.dart';
+import '../../../../routing/app_router.dart';
+import '../widgets/photo.dart';
 
 class SearchField extends StatelessWidget {
-  SearchField({
+  const SearchField({
     super.key,
   });
 
-  final FocusNode _focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode: _focusNode,
-      onTapOutside: (event) {
-        _focusNode.unfocus();
+      readOnly: true,
+      onTap: () {
+        context.goNamed(AppRoute.searchScreen.name);
       },
       decoration: InputDecoration(
         hintText: 'Search',

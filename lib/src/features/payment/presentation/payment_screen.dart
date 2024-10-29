@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../common_widgets/overlay_loader.dart';
+import '../../../routing/app_router.dart';
 import '../../../utils/toastification.dart';
 import '../../cart/application/cart_service.dart';
 import '../data/payment_repository.dart';
@@ -27,10 +28,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
           .fetchPaymentStatus(url: url);
 
       context.pop();
-      context.pop();
       if (success) {
         ref.invalidate(cartProvider);
-        successToast(ctx: context, title: 'Payment Successful');
+        context.goNamed(AppRoute.paymentSuccess.name);
+      } else {
+        context.goNamed(AppRoute.paymentFailure.name);
       }
     } catch (e) {
       context.pop();
@@ -73,7 +75,6 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
         onUrlChange: (change) async {
           setState(() {
             currentUrl = change.url ?? 'Payment';
-            print('Current URL: $currentUrl');
           });
         },
       ));

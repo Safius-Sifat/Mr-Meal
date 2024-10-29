@@ -150,7 +150,7 @@ class HomePackageCard extends ConsumerWidget {
                     packageImage: data.image,
                   ));
               if (success) {
-                successToast(ctx: context, title: 'Added to Cart');
+                successToast(ctx: context, title: 'Package added to Cart');
               }
               ref.invalidate(cartProvider);
             },

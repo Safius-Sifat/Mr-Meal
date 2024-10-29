@@ -11,7 +11,7 @@ import '../../../../utils/size_config.dart';
 import '../../data/item_repository.dart';
 import '../../data/package_repository.dart';
 import '../item_grid.dart';
-import '../widgets/search_field.dart';
+import '../search/search_field.dart';
 import 'carousel_slider.dart';
 import 'feature_grid.dart';
 import 'home_notification_widget.dart';

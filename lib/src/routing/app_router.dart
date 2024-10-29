@@ -19,13 +19,16 @@ import '../features/favourite/presentation/favourite_screen.dart';
 import '../features/meal_on_off/presentation/guest_meal_screen.dart';
 import '../features/meal_on_off/presentation/meal_on_off_screen.dart';
 import '../features/notification/presentation/notification_screen.dart';
+import '../features/payment/presentation/payment_failure_screen.dart';
 import '../features/payment/presentation/payment_screen.dart';
+import '../features/payment/presentation/payment_successful_screen.dart';
 import '../features/products/presentation/all_package/package_details_screen.dart';
 import '../features/products/presentation/all_package/package_screen.dart';
 import '../features/products/presentation/category/category_screen.dart';
 import '../features/products/presentation/home/home_screen.dart';
 import '../features/products/presentation/item_screen/item_detail_screen.dart';
 import '../features/products/presentation/item_screen/item_screen.dart';
+import '../features/products/presentation/search/search_screen.dart';
 import '../features/products/presentation/todays_menu/todays_menu_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/report/presentation/meal_history_screen.dart';
@@ -67,10 +70,13 @@ enum AppRoute {
   wallet,
   myReport,
   payment,
+  paymentFailure,
+  paymentSuccess,
   inputAmount,
   rechargeHistory,
   mealHistory,
   comingSoon,
+  searchScreen,
 }
 
 final _cartNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'cart');
@@ -182,9 +188,15 @@ GoRouter goRouter(GoRouterRef ref) {
                     GoRoute(
                       path: 'comingSoon',
                       name: AppRoute.comingSoon.name,
-                      // builder: (context, state) => const ComingSoonScreen(),
                       pageBuilder: (context, state) => const MaterialPage(
                         child: ComingSoonScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'searchScreen',
+                      name: AppRoute.searchScreen.name,
+                      pageBuilder: (context, state) => MaterialPage(
+                        child: SearchScreen(),
                       ),
                     ),
                     GoRoute(
@@ -262,15 +274,6 @@ GoRouter goRouter(GoRouterRef ref) {
                         child: NotificationScreen(),
                       ),
                     ),
-                    GoRoute(
-                      path: 'payment/:url',
-                      name: AppRoute.payment.name,
-                      pageBuilder: (context, state) => MaterialPage(
-                        child: PaymentScreen(
-                          paymentUrl: state.pathParameters['url']!,
-                        ),
-                      ),
-                    ),
                   ]),
             ],
           ),
@@ -295,12 +298,38 @@ GoRouter goRouter(GoRouterRef ref) {
           // ]),
           StatefulShellBranch(navigatorKey: _cartNavigatorKey, routes: [
             GoRoute(
-              path: '/cart',
-              name: AppRoute.cart.name,
-              pageBuilder: (context, state) => const MaterialPage(
-                child: ShoppingCartScreen(),
-              ),
-            ),
+                path: '/cart',
+                name: AppRoute.cart.name,
+                pageBuilder: (context, state) => const MaterialPage(
+                      child: ShoppingCartScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'paymentFailure',
+                    name: AppRoute.paymentFailure.name,
+                    parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) => const MaterialPage(
+                      child: PaymentFailureScreen(),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'paymentSuccess',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: AppRoute.paymentSuccess.name,
+                    pageBuilder: (context, state) => const MaterialPage(
+                      child: PaymentSuccessfulScreen(),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'payment/:url',
+                    name: AppRoute.payment.name,
+                    pageBuilder: (context, state) => MaterialPage(
+                      child: PaymentScreen(
+                        paymentUrl: state.pathParameters['url']!,
+                      ),
+                    ),
+                  ),
+                ]),
           ]),
           StatefulShellBranch(navigatorKey: _favouriteNavigatorKey, routes: [
             GoRoute(

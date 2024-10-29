@@ -54,6 +54,9 @@ const String guest = 'assets/guest_star.png';
 
 // verification screen
 const String letter = 'assets/letter.png';
+//payment screen
+const String paymentSuccess = 'assets/payment_success.png';
+const String paymentFailed = 'assets/payment_failed.png';
 // colors
 const Color primaryColor = Color(0xFFED1E24);
 const Color secondaryColor = Color(0xFFE7E7E7);
