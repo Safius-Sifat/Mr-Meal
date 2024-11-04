@@ -53,7 +53,7 @@ class UserNotFoundException extends AppException {
 class UserNotAuthenticated extends AppException {
   UserNotAuthenticated()
       : super('user-not-authenticated',
-            'You are not authenticatd, please log in'.hardcoded);
+            'You are not authenticated, please log in'.hardcoded);
 }
 
 /// Select Location

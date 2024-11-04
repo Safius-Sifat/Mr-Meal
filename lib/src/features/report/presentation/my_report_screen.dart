@@ -9,6 +9,7 @@ import '../../../constants/app_sizes.dart';
 import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../../routing/app_router.dart';
+import '../../../utils/size_config.dart';
 import '../../products/data/item_repository.dart';
 import '../../products/presentation/home/carousel_slider.dart';
 import '../../wallet/data/wallet_repository.dart';
@@ -19,6 +20,7 @@ class MyReportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final balance = ref.watch(fetchBalanceProvider);
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -40,83 +42,76 @@ class MyReportScreen extends ConsumerWidget {
               ),
               gapH12,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: ReportInfoWidget(
-                      title: 'Total Meal'.hardcoded,
-                      value: '0',
-                    ),
+                  ReportInfoWidget(
+                    title: 'Total Meal'.hardcoded,
+                    value: '0',
                   ),
                   balance.when(
-                    data: (bal) => Expanded(
-                      child: ReportInfoWidget(
-                        title: 'Total Balance'.hardcoded,
-                        value: '৳${bal.balance}',
-                      ),
+                    data: (bal) => ReportInfoWidget(
+                      title: 'Total Balance'.hardcoded,
+                      value: '৳${bal.balance}',
                     ),
                     loading: () => Skeletonizer(
-                      child: Expanded(
-                        child: ReportInfoWidget(
-                          title: 'Total Balance'.hardcoded,
-                          value: '1000',
-                        ),
-                      ),
-                    ),
-                    error: (e, st) => Expanded(
                       child: ReportInfoWidget(
                         title: 'Total Balance'.hardcoded,
-                        value: '-1',
+                        value: '1000',
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ReportInfoWidget(
-                      title: 'Pending Complain'.hardcoded,
+                    error: (e, st) => ReportInfoWidget(
+                      title: 'Total Balance'.hardcoded,
                       value: '0',
                     ),
                   ),
+                  ReportInfoWidget(
+                    title: 'Pending Complain'.hardcoded,
+                    value: '0',
+                  ),
                 ],
               ),
               gapH64,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                      child: PrimaryButton(
-                          text: 'View Meal History'.hardcoded,
-                          fontSize: 10,
-                          onPressed: () {
-                            context.goNamed(AppRoute.mealHistory.name);
-                          })),
+                  PrimaryButton(
+                      width: SizeConfig.screenWidth / 3.5,
+                      text: 'View Meal History'.hardcoded,
+                      fontSize: 10,
+                      onPressed: () {
+                        context.goNamed(AppRoute.mealHistory.name);
+                      }),
                   gapW8,
-                  Expanded(
-                      child: PrimaryButton(
-                          text: 'View Recharge History'.hardcoded,
-                          fontSize: 10,
-                          onPressed: () {
-                            context.goNamed(AppRoute.rechargeHistory.name);
-                          })),
+                  PrimaryButton(
+                      width: SizeConfig.screenWidth / 3.5,
+                      text: 'View Recharge History'.hardcoded,
+                      fontSize: 10,
+                      onPressed: () {
+                        context.goNamed(AppRoute.rechargeHistory.name);
+                      }),
                   gapW8,
-                  Expanded(
-                      child: PrimaryButton(
-                          text: 'View Complain History'.hardcoded,
-                          fontSize: 10,
-                          onPressed: () {})),
+                  PrimaryButton(
+                      width: SizeConfig.screenWidth / 3.5,
+                      text: 'View Complain History'.hardcoded,
+                      fontSize: 10,
+                      onPressed: () {}),
                 ],
               ),
               gapH64,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                      child: PrimaryButton(
-                          text: 'Download Meal History'.hardcoded,
-                          fontSize: 12,
-                          onPressed: () {})),
+                  PrimaryButton(
+                      width: SizeConfig.screenWidth / 2.3,
+                      text: 'Download Meal History'.hardcoded,
+                      fontSize: 12,
+                      onPressed: () {}),
                   gapW8,
-                  Expanded(
-                      child: PrimaryButton(
-                          text: 'Download Balance History'.hardcoded,
-                          fontSize: 12,
-                          onPressed: () {})),
+                  PrimaryButton(
+                      width: SizeConfig.screenWidth / 2.3,
+                      text: 'Download Balance History'.hardcoded,
+                      fontSize: 12,
+                      onPressed: () {}),
                 ],
               ),
               gapH16,
@@ -171,7 +166,8 @@ class ReportInfoWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.all(Sizes.p24),
+          height: SizeConfig.isMobile ? Sizes.p64 : Sizes.p80,
+          width: SizeConfig.isMobile ? Sizes.p64 : Sizes.p80,
           decoration: BoxDecoration(
               shape: BoxShape.circle, color: primaryColor.withOpacity(0.5)),
           child: Center(
@@ -187,8 +183,8 @@ class ReportInfoWidget extends StatelessWidget {
         gapH8,
         Container(
           height: Sizes.p40,
-          constraints: const BoxConstraints(
-            maxWidth: 120,
+          constraints: BoxConstraints(
+            maxWidth: SizeConfig.screenWidth / 3.8,
           ),
           margin: const EdgeInsets.symmetric(
             horizontal: Sizes.p8,

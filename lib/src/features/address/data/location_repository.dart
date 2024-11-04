@@ -25,7 +25,6 @@ class LocationRepository {
       options: Options(headers: {'Authorization': 'Bearer $token'}),
       cancelToken: cancelToken,
     );
-    print(response.data);
     return Address.fromJson(response.data['location'] as Map<String, dynamic>);
   }
 
@@ -43,8 +42,6 @@ class LocationRepository {
       host: baseUrl,
       path: postUserLocationUrl,
     );
-    // print(
-    //     'primaryLocation: $primaryLocation, secondaryLocation: $secondaryLocation, primaryLocLongitude: $primaryLocLongitude, primaryLocLattitude: $primaryLocLattitude, secondaryLocLattitude: $secondaryLocLattitude, secondaryLocLongitude: $secondaryLocLongitude');
     final response = await client.postUri(
       uri,
       options: Options(headers: {'Authorization': 'Bearer $token'}),
@@ -58,20 +55,6 @@ class LocationRepository {
       },
     );
   }
-
-  // final Location location;
-  // const LocationRepository(this.location);
-  // Future<LocationData> getCurrentLocation() async {
-  //   final permissionGranted = await location.requestPermission();
-  //   if (permissionGranted != PermissionStatus.granted) {
-  //     throw LocationPermissionDeniedException();
-  //   }
-  //   final serviceEnabled = await location.serviceEnabled();
-  //   if (!serviceEnabled) {
-  //     await location.requestService();
-  //   }
-  //   return location.getLocation();
-  // }
 }
 
 @riverpod
@@ -97,7 +80,7 @@ FutureOr<Address> fetchAddress(FetchAddressRef ref) {
         timer?.cancel();
       });
       ref.onCancel(() {
-        timer = Timer(const Duration(seconds: 60), link.close);
+        timer = Timer(const Duration(seconds: 30), link.close);
       });
       ref.onResume(() {
         timer?.cancel();

@@ -52,7 +52,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         email,
         password,
       );
-      if (context.mounted && success) {
+      if (mounted && success) {
         widget.onSignedIn?.call();
         context.pushReplacementNamed(AppRoute.home.name);
       }

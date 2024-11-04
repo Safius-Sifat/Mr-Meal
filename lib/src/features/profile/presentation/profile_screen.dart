@@ -9,6 +9,7 @@ import '../../../constants/constants.dart';
 import '../../../l10n/string_hardcoded.dart';
 import '../../../routing/app_router.dart';
 import '../../../utils/async_value_ui.dart';
+import '../../address/data/location_repository.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../data/profile_repository.dart';
 import 'profile_controller.dart';
@@ -213,6 +214,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               title: Text('Logout'.hardcoded),
               onTap: () async {
+                ref.invalidate(fetchAddressProvider);
                 await ref.read(authRepositoryProvider).signOut();
               },
             ),

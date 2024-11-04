@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_picker_google/place_picker_google.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -34,8 +35,8 @@ class SelectLocationScreen extends ConsumerWidget {
                 primaryLocLongitude: selectedPlace.latLng?.longitude.toString(),
                 primaryLocLattitude: selectedPlace.latLng?.latitude.toString(),
               );
-      if (success) {
-        Navigator.of(context).pop();
+      if (success && context.mounted) {
+        context.pop();
         successToast(ctx: context, title: 'Primary location set successfully');
 
         ref.invalidate(fetchAddressProvider);
@@ -49,7 +50,7 @@ class SelectLocationScreen extends ConsumerWidget {
             secondaryLocLongitude: selectedPlace.latLng?.longitude.toString(),
             secondaryLocLattitude: selectedPlace.latLng?.latitude.toString(),
           );
-      if (success) {
+      if (success && context.mounted) {
         Navigator.of(context).pop();
         successToast(
             ctx: context, title: 'Secondary location set successfully');

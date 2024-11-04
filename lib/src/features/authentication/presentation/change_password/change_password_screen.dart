@@ -39,7 +39,7 @@ class _ChangePasswordState extends ConsumerState<ChangePasswordScreen>
         oldPassword: oldPassword,
       );
 
-      if (context.mounted && success) {
+      if (mounted && success) {
         successToast(
             ctx: context,
             title: 'Password changed successfully, please login again');

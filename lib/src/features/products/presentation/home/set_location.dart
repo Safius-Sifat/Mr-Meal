@@ -19,6 +19,7 @@ class SetLocationWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(fetchAddressProvider);
     return state.when(
+      skipLoadingOnRefresh: false,
       data: (address) {
         late final String thikana;
         try {
@@ -91,24 +92,31 @@ class SetLocationWidget extends ConsumerWidget {
         onTap: () {
           ref.invalidate(fetchAddressProvider);
         },
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
-              height: Sizes.p16,
-              width: Sizes.p16,
-              child: Photo(
-                location,
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: Sizes.p16,
+                  width: Sizes.p16,
+                  child: Photo(
+                    location,
+                  ),
+                ),
+                gapW4,
+                Text(
+                  'Select Location',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: neutralColor),
+                ),
+              ],
             ),
-            gapW4,
-            Text(
-              'Select Location',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: neutralColor),
-            ),
+            const Text(''),
           ],
         ),
       ),

@@ -54,6 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                       )),
               const Spacer(),
               PrimaryButton(
+                height: 48,
                 text: "Let's start with us".hardcoded,
                 onPressed: () {
                   context.goNamed(AppRoute.login.name);

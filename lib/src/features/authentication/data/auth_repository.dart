@@ -33,10 +33,8 @@ class AuthRepository {
     );
 
     final first = await _isFirstTime();
-    print('First time: $first');
     if (first) {
       await secure.deleteAll();
-      print('Deleted all skibidi');
     }
     final value = await secure.read(key: userKey);
     final AppUser? user = value == null ? null : AppUser.fromJson(value);
@@ -166,7 +164,7 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    await secureStorage.delete(key: userKey);
+    await secureStorage.deleteAll();
     _authState.value = null;
   }
 

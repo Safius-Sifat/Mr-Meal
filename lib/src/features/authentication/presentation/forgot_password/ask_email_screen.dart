@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/constants.dart';
 import '../../../../l10n/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../utils/async_value_ui.dart';
+import '../../../../utils/toastification.dart';
 import '../email_password_validators.dart';
 import '../string_validators.dart';
 import 'forgot_password_controller.dart';
@@ -38,15 +39,9 @@ class _AskEmailState extends ConsumerState<AskEmailScreen>
       final controller = ref.read(sendOtpControllerProvider.notifier);
       final success = await controller.sendOtp(email);
 
-      if (context.mounted && success) {
-        toastification.show(
-          context: context,
-          title:
-              const Text('The verification code has been sent to your email'),
-          type: ToastificationType.success,
-          style: ToastificationStyle.simple,
-          autoCloseDuration: const Duration(seconds: 5),
-        );
+      if (mounted && success) {
+        successToast(
+            ctx: context, title: 'Verification code sent successfully');
         await context.pushNamed(AppRoute.forgotPassword.name,
             pathParameters: {'email': email});
       }
@@ -55,19 +50,11 @@ class _AskEmailState extends ConsumerState<AskEmailScreen>
 
   @override
   Widget build(BuildContext context) {
-    // final state = ref.watch(authControllerProvider);
-    // ref.listen(authControllerProvider, (_, state) {
-    //   if (state.hasError) {
-    //     final error = state.error! as AuthFailure;
-    //     error.when(unKnown: () {
-    //       return showSnackBar(l10n.unknownError);
-    //     }, server: (code, message) {
-    //       return showSnackBar(l10n.resetPasswordError);
-    //     }, noConnection: () {
-    //       return showSnackBar(l10n.noConnectionError);
-    //     });
-    //   }
-    // });
+    final state = ref.watch(sendOtpControllerProvider);
+    ref.listen<AsyncValue<dynamic>>(
+      sendOtpControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -138,10 +125,10 @@ class _AskEmailState extends ConsumerState<AskEmailScreen>
                   Expanded(
                     flex: 9,
                     child: PrimaryButton(
-                        text: 'Confirm'.hardcoded,
-                        // isLoading: state.isLoading,
-                        // onPressed: state.isLoading ? null : _submit,
-                        onPressed: () {}),
+                      text: 'Confirm'.hardcoded,
+                      isLoading: state.isLoading,
+                      onPressed: state.isLoading ? null : _submit,
+                    ),
                   ),
                   const Spacer(),
                 ],
