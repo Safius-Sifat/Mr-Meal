@@ -7,6 +7,6 @@ Here is the apk download link for the Flutter project:
 
 ## Preview
 
-[![presentation](https://img.youtube.com/shorts/R8E0uFohTGM/0.jpg)(https://youtube.com/shorts/R8E0uFohTGM)
+[![presentation](https://img.youtube.com/vi/R8E0uFohTGM/0.jpg)](https://youtube.com/watch?v=R8E0uFohTGM)
 
 Thanks for letting me have the opportunity. Looking forward to hear from you again.
